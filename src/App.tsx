@@ -8,6 +8,7 @@ import ExamManage from './pages/exammanage'
 import PoolManage from './pages/poolmanage'
 import AdminHome from './pages/adminhome'
 import RoomManage from './pages/roommanage'
+import ChargeManage from './pages/chargemanage'
 function App() {
   return (
     <MyLayout>
@@ -18,6 +19,7 @@ function App() {
         <Route path='examination' element={<ExamManage />} />
         <Route path='pool' element={<PoolManage />} />
         <Route path='room' element={<RoomManage />} />
+        <Route path='charge' element={<ChargeManage />} />
       </Routes>
     </MyLayout>
       

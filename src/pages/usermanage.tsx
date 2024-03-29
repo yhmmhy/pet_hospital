@@ -1,10 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, LockOutlined, UserOutlined, MailOutlined, PhoneOutlined, WarningOutlined } from '@ant-design/icons';
 import type { GetRef, TableColumnsType, TableColumnType, RadioChangeEvent } from 'antd';
-import { Button, Card, Input, Space, Table, Form, Modal, Radio,ConfigProvider } from 'antd';
+import { Button, Card, Input, Space, Table, Form, Modal, Radio, ConfigProvider } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 import { useForm } from 'antd/es/form/Form';
+import axios from 'axios'
+import { Md5 } from 'ts-md5'
 
 type InputRef = GetRef<typeof Input>;
 
@@ -14,7 +16,6 @@ interface DataType {
   role: string;
   phone: string;
   mail: string;
-  pwd: string;
 }
 
 type DataIndex = keyof DataType;
@@ -23,98 +24,9 @@ const data: DataType[] = [
   {
     key: 1,
     name: 'John Brown',
+    mail: '1234567891@qq.com',
     role: '实习生',
     phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 2,
-    name: 'Joe Black',
-    role: '管理员',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 3,
-    name: 'Jim Green',
-    role: '管理员',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 4,
-    name: 'Jim Red',
-    role: '实习生',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 5,
-    name: 'Jim Red',
-    role: '实习生',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 6,
-    name: 'Jim Red',
-    role: '实习生',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 7,
-    name: 'Jim Red',
-    role: '实习生',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 8,
-    name: 'Jim Red',
-    role: '实习生',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 9,
-    name: 'Jim Red',
-    role: '实习生',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 10,
-    name: 'Jim Red',
-    role: '实习生',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 11,
-    name: 'Jim Red',
-    role: '实习生',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
-  },
-  {
-    key: 12,
-    name: 'Jim Red',
-    role: '实习生',
-    phone: '13112345678',
-    mail: '1234567891@qq.com',
-    pwd: '123456'
   },
 ];
 
@@ -137,8 +49,20 @@ const UserManage: React.FC = () => {
     role: '实习生',
     phone: '13112345678',
     mail: '1234567891@qq.com',
-    pwd: '123456'
   })
+  axios.defaults.baseURL = 'http://localhost:3007';
+  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+  useEffect(() => {
+    axios.get('/User/UserListGet/').then((res) => {
+      setDatasource(res.data.data)
+    })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [])
+
+
   const RadioChange1 = (e) => {
     setRadioValue1(e.target.value)
     form1.setFieldsValue({ "role": e.target.value });
@@ -155,44 +79,99 @@ const UserManage: React.FC = () => {
     setIsModal2Open(false);
     setIsModal3Open(false)
   };
+  const handleValidator = (rule, value, callback) => {
+    if (!value) {
+      callback();
+    }
+    const pwd = form1.getFieldValue('pwd')
+    let validateResult = value == pwd;  // 自定义规则
+    if (!validateResult) {
+      callback('两次密码不一致！');
+    }
+    callback();
+  }
+  const handleValidator2 = (rule, value, callback) => {
+    if (!value) {
+      callback();
+    }
+    const pwd = form3.getFieldValue('pwd')
+    let validateResult = value == pwd;  // 自定义规则
+    if (!validateResult) {
+      callback('两次密码不一致！');
+    }
+    callback();
+  }
 
 
   const AddFormFinish = (value) => {
     if (confirm("确定要添加这个用户吗") === true) {
-      datasource.push(value)
-      console.log(datasource)
-      setDatasource([...datasource])
-      setIsModal1Open(false)
-      form1.resetFields()
+      const md5 = Md5.hashStr(value.pwd);
+      axios.post('/Login/Register', {
+        'name': value.name,
+        'role': value.role,
+        'pwd': md5,
+        'phone': value.phone,
+        'mail': value.mail
+      }).then(res => {
+        if (res.data.message == '注册成功') {
+          alert('添加成功');
+          datasource.push(value)
+          // console.log(datasource)
+          setDatasource([...datasource])
+          setIsModal1Open(false)
+          form1.resetFields()
+        }
+      }, error => {
+        console.log('错误', error.message)
+      })
+
     }
 
   }
   const ModifyFormFinish = (value) => {
     if (confirm("确定要将这个用户的信息修改成如下信息吗") === true) {
-      setDatasource(
-        datasource.map(p => p.key === rec.key ? {
-          ...p,
-          'name': value.name,
-          'pwd': value.pwd === '' ? rec.pwd : value.pwd,
-          'mail': value.mail,
-          'phone': value.phone,
-          'role': value.role
-        } : p)
-      )
-      setIsModal2Open(false);
+      axios.post('/User/UserModify', {
+        'key': rec.key,
+        'name': value.name,
+        'mail': value.mail,
+        'phone': value.phone,
+        'role': value.role
+      }).then(res => {
+        alert(res.data.message);
+        if (res.data.message == '编辑成功') {
+          setDatasource(
+            datasource.map(p => p.key === rec.key ? {
+              ...p,
+              'name': value.name,
+              'mail': value.mail,
+              'phone': value.phone,
+              'role': value.role
+            } : p)
+          )
+          setIsModal2Open(false);
+        }
+      }, error => {
+        console.log('错误', error.message)
+      })
     }
   }
 
   const PwdFormFinish = (value) => {
     if (confirm("确定要修改密码吗") === true) {
-      setDatasource(
-        datasource.map(p => p.key === rec.key ? {
-          ...p,
-          'pwd': value.pwd,
-        } : p)
-      )
-      setIsModal3Open(false);
-      form3.resetFields()
+      const md5 = Md5.hashStr(value.pwd);
+      axios.post('/User/PwdModify', {
+        'key': rec.key,
+        'pwd': md5,
+      }).then(res => {
+        console.log(res.data.message);
+        if (res.data.message == '修改成功') {
+          alert('修改成功');
+          setIsModal3Open(false);
+          form3.resetFields()
+        }
+      }, error => {
+        console.log('错误', error.message)
+      })
     }
   }
 
@@ -348,19 +327,21 @@ const UserManage: React.FC = () => {
             setRec(record);
           }}>编辑用户</Button>
           <Button type="primary" style={{ backgroundColor: 'black' }} icon={<WarningOutlined />} onClick={() => {
-              setIsModal3Open(true);
-              setRec(record);
-            }}>修改密码</Button>
+            setIsModal3Open(true);
+            setRec(record);
+          }}>修改密码</Button>
           <Button type="primary" style={{ backgroundColor: 'red' }} onClick={() => {
             if (confirm("确定要删除这条用户数据吗")) {
-              // console.log("删除");
-              datasource.forEach(function (item, index) {
-                if (item.key === record.key) {
-                  datasource.splice(index, 1)
+              axios.post('/User/UserDelete', {
+                'key': record.key,
+              }).then(res => {
+                alert(res.data.message);
+                if (res.data.message == '删除成功') {
+                  setDatasource(res.data.data);
                 }
+              }, error => {
+                console.log('错误', error.message)
               })
-              // console.log(datasource)
-              setDatasource([...datasource])
             }
           }} icon={<DeleteOutlined />}>删除用户</Button>
         </Space>
@@ -408,8 +389,21 @@ const UserManage: React.FC = () => {
             />
           </Form.Item>
           <Form.Item
+            name="pwd2"
+            rules={[{ required: true, message: '请再次确认密码' }, { validator: (rules, value, callback) => { handleValidator(rules, value, callback) } }]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="确认密码"
+            />
+          </Form.Item>
+          <Form.Item
             name="mail"
-            rules={[{ required: true, message: '请输入邮箱' }]}
+            rules={[{ required: true, message: '请输入邮箱' }, {
+              pattern: new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, 'g'
+              ), message: '请输入正确的邮箱地址'
+            }]}
           >
             <Input
               prefix={<MailOutlined className="site-form-item-icon" />}
@@ -419,12 +413,15 @@ const UserManage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="phone"
-            rules={[{ required: true, message: '请输入电话' }]}
+            rules={[{ required: true, message: '请输入手机号码' }, {
+              pattern: new RegExp(/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/, 'g'
+              ), message: '请输入正确的手机号码'
+            }]}
           >
             <Input
               prefix={<PhoneOutlined className="site-form-item-icon" />}
               type="tel"
-              placeholder="电话"
+              placeholder="手机号码"
             />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }} name="role">
@@ -454,12 +451,6 @@ const UserManage: React.FC = () => {
           onFinish={ModifyFormFinish}
         >
           <Form.Item
-            name="key"
-            style={{ display: 'none' }}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
             name="name"
             rules={[{ required: true, message: '请输入用户名' }]}
           >
@@ -467,7 +458,10 @@ const UserManage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="mail"
-            rules={[{ required: true, message: '请输入邮箱' }]}
+            rules={[{ required: true, message: '请输入邮箱' }, {
+              pattern: new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, 'g'
+              ), message: '请输入正确的邮箱地址'
+            }]}
           >
             <Input
               prefix={<MailOutlined className="site-form-item-icon" />}
@@ -477,12 +471,15 @@ const UserManage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="phone"
-            rules={[{ required: true, message: '请输入电话' }]}
+            rules={[{ required: true, message: '请输入手机号码' }, {
+              pattern: new RegExp(/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/, 'g'
+              ), message: '请输入正确的手机号码'
+            }]}
           >
             <Input
               prefix={<PhoneOutlined className="site-form-item-icon" />}
               type="tel"
-              placeholder="电话"
+              placeholder="手机号码"
             />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }} name="role">
@@ -512,12 +509,6 @@ const UserManage: React.FC = () => {
           form={form3}
         >
           <Form.Item
-            name="key"
-            style={{ display: 'none' }}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
             name="pwd"
             rules={[{ required: true, message: '请输入新密码' }]}
           >
@@ -525,6 +516,16 @@ const UserManage: React.FC = () => {
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="新密码"
+            />
+          </Form.Item>
+          <Form.Item
+            name="pwd2"
+            rules={[{ required: true, message: '请再次确认密码' }, { validator: (rules, value, callback) => { handleValidator2(rules, value, callback) } }]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="确认密码"
             />
           </Form.Item>
           <Form.Item>
@@ -546,7 +547,7 @@ const UserManage: React.FC = () => {
           </>
         }
       >
-        <Table columns={columns} dataSource={datasource} pagination={{defaultPageSize:8}}/>
+        <Table columns={columns} dataSource={datasource} pagination={{ defaultPageSize: 8 }} />
       </Card>
     </div >
   );

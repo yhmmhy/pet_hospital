@@ -1,10 +1,13 @@
 import { Row, Col, Card, Form, Button, message, Input, Radio, Modal } from 'antd'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import logo from '../assets/1.ico'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { loginAPI } from '../services/auth';
-import { UserOutlined, LockOutlined,PhoneOutlined,MailOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, PhoneOutlined, MailOutlined } from '@ant-design/icons';
+import axios from 'axios'
+import { Md5 } from 'ts-md5'
+import cookie from 'react-cookies'
 
 function Login() {
     const navigate = useNavigate();
@@ -13,23 +16,89 @@ function Login() {
     const [form1] = Form.useForm();
     const [radioValue1, setRadioValue1] = useState('实习生');
     const [isModal1Open, setIsModal1Open] = useState(false);
+    const [pageRadio, setPageRadio] = useState('后台')
+    const [radioStyle,setRadioStyle] = useState('none')
+    axios.defaults.baseURL = 'http://localhost:3007';
+    axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
     const AddFormFinish = (value) => {
-        console.log(value)
-        window.location.reload()
+        const md5 = Md5.hashStr(value.pwd);
+        axios.post('/Login/Register', {
+            'name': value.name,
+            'role': value.role,
+            'pwd': md5,
+            'phone': value.phone,
+            'mail': value.mail
+        }).then(res => {
+            alert(res.data.message);
+            if (res.data.message == '注册成功') {
+                close();
+                form1.resetFields();
+            }
+        }, error => {
+            console.log('错误', error.message)
+        })
     }
+
+    const handleValidator = (rule, value, callback) => {
+        if (!value) {
+            callback('');
+        }
+        const pwd = form1.getFieldValue('pwd')
+        let validateResult = value == pwd;  // 自定义规则
+        if (!validateResult) {
+            callback('两次密码不一致！');
+        }
+        callback();
+    }
+
+    const LoginFormFinish = (value) => {
+        const md5 = Md5.hashStr(value.pwd);
+        axios.post('/Login/Login', {
+            'name': value.name,
+            'role': value.role,
+            'pwd': md5,
+            'phone': value.phone,
+            'mail': value.mail
+        }).then(res => {
+            alert(res.data.message)
+            if (res.data.message == "登录成功") {
+                cookie.save('token', res.data.token, { path: '/' });
+                cookie.save('username', value.name, { path: '/' })
+                if (value.role == "实习生") {
+                    navigate('/fore')
+                } else if(value.page=='前台'){
+                    navigate('/fore')
+                }else navigate('/index')
+            }
+
+        }, error => {
+            console.log('错误', error.message)
+        })
+
+    }
+
     const close = () => {
         setIsModal1Open(false);
-      };
+    };
 
     const onChange = (e: RadioChangeEvent) => {
         setRadioValue(e.target.value)
         form.setFieldsValue({ "role": e.target.value });
+        if(e.target.value=='管理员'){
+            setRadioStyle('block')
+        }else{
+            setRadioStyle('none')
+        }
+    };
+    const pageChange = (e: RadioChangeEvent) => {
+        setPageRadio(e.target.value)
+        form.setFieldsValue({ "page": e.target.value });
     };
     const RadioChange1 = (e) => {
         setRadioValue1(e.target.value)
         form1.setFieldsValue({ "role": e.target.value });
-      };
+    };
     return (
         <Row>
             <Col
@@ -79,8 +148,21 @@ function Login() {
                             />
                         </Form.Item>
                         <Form.Item
+                            name="pwd2"
+                            rules={[{ required: true, message: '请再次输入密码' }, { validator: (rules, value, callback) => { handleValidator(rules, value, callback) } }]}
+                        >
+                            <Input.Password
+                                prefix={<LockOutlined className="site-form-item-icon" />}
+                                type="password"
+                                placeholder="确认密码"
+                            />
+                        </Form.Item>
+                        <Form.Item
                             name="mail"
-                            rules={[{ required: true, message: '请输入邮箱' }]}
+                            rules={[{ required: true, message: '请输入邮箱' }, {
+                                pattern: new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, 'g'
+                                ), message: '请输入正确的邮箱地址'
+                            }]}
                         >
                             <Input
                                 prefix={<MailOutlined className="site-form-item-icon" />}
@@ -90,12 +172,15 @@ function Login() {
                         </Form.Item>
                         <Form.Item
                             name="phone"
-                            rules={[{ required: true, message: '请输入电话' }]}
+                            rules={[{ required: true, message: '请输入手机号码' }, {
+                                pattern: new RegExp(/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/, 'g'
+                                ), message: '请输入正确的手机号码'
+                            }]}
                         >
                             <Input
                                 prefix={<PhoneOutlined className="site-form-item-icon" />}
                                 type="tel"
-                                placeholder="电话"
+                                placeholder="手机号码"
                             />
                         </Form.Item>
                         <Form.Item wrapperCol={{ offset: 8, span: 16 }} name="role">
@@ -113,7 +198,7 @@ function Login() {
                         </Form.Item>
                     </Form>
                 </Modal>
-                <Card title='虚拟宠物医院后台管理系统'>
+                <Card title='虚拟宠物医院学习系统'>
                     <Form
                         labelCol={{
                             md: {
@@ -122,18 +207,9 @@ function Login() {
                         }}
                         initialValues={{
                             'role': '实习生',
+                            'page': '后台'
                         }}
-                        onFinish={(value) => {
-                            // const res =await loginAPI(v)
-                            console.log(value)
-                            // message.success('登录成功')
-                            if (value.role == "实习生") {
-                                navigate('/fore')
-                            } else {
-                                navigate('/index')
-                            }
-
-                        }}
+                        onFinish={LoginFormFinish}
                     >
                         <Form.Item
                             name="name"
@@ -157,12 +233,18 @@ function Login() {
                                 <Radio.Button value="管理员">管理员</Radio.Button>
                             </Radio.Group>
                         </Form.Item>
-                        <Button htmlType='submit' type='primary' style={{
-                                display: 'block',
-                                margin: '8px auto',
-                                width: '20vw',
-                            }}
-                            onClick={()=>{
+                        <Form.Item wrapperCol={{ offset: 6, span: 16 }} name='page' style={{display:radioStyle}}>
+                            <Radio.Group defaultValue="后台" onChange={pageChange} value={pageRadio}>
+                                <Radio.Button value="前台">前台学习系统</Radio.Button>
+                                <Radio.Button value="后台">后台管理系统</Radio.Button>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Button type='primary' style={{
+                            display: 'block',
+                            margin: '8px auto',
+                            width: '20vw',
+                        }}
+                            onClick={() => {
                                 setIsModal1Open(true)
                             }}>没有账号？点此注册</Button>
                         <Form.Item>
