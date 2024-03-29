@@ -14,16 +14,16 @@ import '../index.css'
 import { useNavigate } from 'react-router-dom';
 const { Header, Sider, Content } = Layout;
 
-const MyLayout = ({children}: any) => {
+const MyLayout = ({ children }: any) => {
   const [collapsed, setCollapsed] = useState(false);
-  const navigate =useNavigate()
+  const navigate = useNavigate()
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  
+
   return (
-    <Layout style={{width: '100vw',height: '100vh'}}
-            id='layout'
+    <Layout style={{ width: '100vw', height: '100vh' }}
+      id='layout'
     >
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
@@ -32,8 +32,8 @@ const MyLayout = ({children}: any) => {
         <Menu
           theme="dark"
           mode="inline"
-          onClick={({key})=>{
-             navigate(key);
+          onClick={({ key }) => {
+            navigate(key);
           }}
           items={[
             {
@@ -84,23 +84,23 @@ const MyLayout = ({children}: any) => {
           <span className='app-title'>虚拟宠物医院后台管理系统</span>
           <Dropdown overlay={<Menu items={
             [{
-                label:'个人中心',
-                key:'userCenter',
-            },{
-              label:'退出',
-              key:'exit',
-          },]
-          } onClick={({key})=>{
-            if(key==='exit'){
+              label: '个人中心',
+              key: 'userCenter',
+            }, {
+              label: '退出',
+              key: 'exit',
+            },]
+          } onClick={({ key }) => {
+            if (key === 'exit') {
               navigate('/');
             }
-          }}/>}>
+          }} />}>
             <img src={logo} style={{
-              width:'30px',
-              borderRadius:'50%',
-              float:'right',
-              marginTop:'16px',
-              marginRight:'20px',
+              width: '30px',
+              borderRadius: '50%',
+              float: 'right',
+              marginTop: '16px',
+              marginRight: '20px',
             }} />
           </Dropdown>
         </Header>
