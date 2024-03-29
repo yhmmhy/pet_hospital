@@ -3,15 +3,21 @@ import {Component} from "react";
 import { Button, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Radio } from 'antd'
-import 'antd/dist/reset.css'
 import './login.css'
 
 export default class Login extends Component{
     render() {
+        const onFinish = (values) => {
+            console.log('Success:', values);
+        };
+        const onFinishFailed = (errorInfo) => {
+            console.log('Failed:', errorInfo);
+        };
+
         return (
             <div className={"login"}>
                 <header className={"login-header"}>
-                    <h1 className={"head"}>
+                    <h1 className={"title"}>
                         虚拟宠物医院学习系统
                     </h1>
                 </header>
@@ -20,10 +26,12 @@ export default class Login extends Component{
                         用户登录
                     </h2>
                     <Form
-                        name="normal_login"
+                        name="login"
                         className="login-form"
                         labelCol={{ span: 8 }}
                         wrapperCol={{ span: 20,offset:2 }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
                     >
                         <Form.Item
                             name="username"
@@ -47,7 +55,6 @@ export default class Login extends Component{
                                 <Radio.Button value="admin">管理员</Radio.Button>
                             </Radio.Group>
                         </Form.Item>
-
                         <Form.Item
                             wrapperCol={{ offset: 10}}
                         >
