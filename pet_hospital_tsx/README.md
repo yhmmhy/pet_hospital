@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -38,6 +37,3 @@ npm i react-router-dom axios nprogress antd @ant-design/icons
 ```bash
 npm run dev
 ```
-=======
-# pet_hospital
->>>>>>> 5b24e3c55c19be9c544e5316c023b6a8cefaeee8
