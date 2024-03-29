@@ -6,28 +6,21 @@ import {
   UserOutlined,
   VideoCameraOutlined,
   HomeOutlined,
-  PayCircleOutlined,
+  UnorderedListOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Dropdown } from 'antd';
 import logo from '../assets/1.ico'
 import '../index.css'
 import { useNavigate } from 'react-router-dom';
-import Login from '../pages/login'
-import cookie from 'react-cookies'
-
 const { Header, Sider, Content } = Layout;
 
 const MyLayout = ({ children }: any) => {
-  
-
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate()
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  if(cookie.load('token')==null){
-      return <Login/>
-  }
+
   return (
     <Layout style={{ width: '100vw', height: '100vh' }}
       id='layout'
@@ -54,11 +47,6 @@ const MyLayout = ({ children }: any) => {
               label: '用户管理',
             },
             {
-              key: '/index/charge',
-              icon: <PayCircleOutlined />,
-              label: '收费管理',
-            },
-            {
               key: '/index/case',
               icon: <VideoCameraOutlined />,
               label: '病例管理',
@@ -72,6 +60,11 @@ const MyLayout = ({ children }: any) => {
               key: '/index/examination',
               icon: <UploadOutlined />,
               label: '试卷管理',
+            },
+            {
+              key: '/index/room',
+              icon: <UnorderedListOutlined />,
+              label: '科室管理',
             },
           ]}
         />
@@ -89,16 +82,27 @@ const MyLayout = ({ children }: any) => {
             }}
           />
           <span className='app-title'>虚拟宠物医院后台管理系统</span>
-          <Button style={{
-            float: 'right',
-            marginTop: '16px',
-            marginRight: '50px',
-          }} onClick={() => {
-            cookie.remove('token',{path:'/'})
-            navigate('/');
-          }}>
-            退出登录
-          </Button>
+          <Dropdown overlay={<Menu items={
+            [{
+              label: '个人中心',
+              key: 'userCenter',
+            }, {
+              label: '退出',
+              key: 'exit',
+            },]
+          } onClick={({ key }) => {
+            if (key === 'exit') {
+              navigate('/');
+            }
+          }} />}>
+            <img src={logo} style={{
+              width: '30px',
+              borderRadius: '50%',
+              float: 'right',
+              marginTop: '16px',
+              marginRight: '20px',
+            }} />
+          </Dropdown>
         </Header>
         <Content
           style={{

@@ -1,5 +1,5 @@
 import React,{Children, useState} from 'react';
-import { Breadcrumb, Layout, Menu, theme,Button } from 'antd';
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import {
     UserOutlined,
     HomeOutlined,
@@ -8,12 +8,10 @@ import {
     SolutionOutlined
   } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import Login from '../pages/login'
-import cookie from 'react-cookies'
+
 const { Header, Content, Footer } = Layout;
 
 const ForeLayout = ({children}: any) =>{
-  
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -21,9 +19,6 @@ const ForeLayout = ({children}: any) =>{
   const menuClick = (e:{key:string}) =>{
     navigate(e.key)
 }
-  if(!cookie.load('token')){
-    return <Login/> 
-  }
   return (
     <Layout style={{width: '100vw',height: '100vh'}}
     id='layout'>
@@ -74,15 +69,6 @@ const ForeLayout = ({children}: any) =>{
           ]}
           style={{ flex: 1, minWidth: 0 }}
         />
-        <Button style={{
-            float: 'right',
-          }} onClick={() => {
-            console.log(cookie.load('token'))
-            cookie.remove('token',{path:'/'})
-            navigate('/');
-          }}>
-            退出登录
-          </Button>
       </Header>
       <Content style={{ margin: '24px 48px',
             minHeight: 750,

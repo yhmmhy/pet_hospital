@@ -7,7 +7,7 @@ import UserManage from './pages/usermanage'
 import ExamManage from './pages/exammanage'
 import PoolManage from './pages/poolmanage'
 import AdminHome from './pages/adminhome'
-import ChargeManage from './pages/chargemanage'
+import RoomManage from './pages/roommanage'
 function App() {
   return (
     <MyLayout>
@@ -17,7 +17,7 @@ function App() {
         <Route path='user' element={<UserManage />} />
         <Route path='examination' element={<ExamManage />} />
         <Route path='pool' element={<PoolManage />} />
-        <Route path='charge' element={<ChargeManage />} />
+        <Route path='room' element={<RoomManage />} />
       </Routes>
     </MyLayout>
       

@@ -1,11 +1,11 @@
 import React from 'react'
-
+import TestLayout from '../components/Examination/TestLayout'
 function Examination() {
   return (
     <div>
-        测试
+      <TestLayout />
     </div>
-      
+
   )
 }
 

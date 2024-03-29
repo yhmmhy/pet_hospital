@@ -1,4 +1,4 @@
-export const serverUrl ='http://localhost:3000';
+export const serverUrl ='http://localhost:3007';
 
 export const setToken =(token:string)=> sessionStorage.setItem('token',token)
 
