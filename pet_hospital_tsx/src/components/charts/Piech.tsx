@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Pie } from '@ant-design/plots';
+import axios from "axios";
+
 
 const Piech = () => {
+  axios.defaults.baseURL = 'http://localhost:3007';
+  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+  const [datasource, setDatasource] = useState([
+    { role: '实习生', sold: 0.45 },
+    { role: '管理员', sold: 0.55 },
+  ])
+  useEffect(() => {
+    axios.get('/Home/Statistics').then((res) => {
+      const source = [
+        { role: '实习生', sold: res.data.data.stunum / res.data.data.usernum },
+        { role: '管理员', sold: res.data.data.adminnum / res.data.data.usernum },
+      ]
+      setDatasource(source)
+    })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [])
   const config = {
-    data: [
-      { role: '实习生', sold: 0.45 },
-      { role: '管理员', sold: 0.55 },
-    ],
+    data: datasource,
     angleField: 'sold',
     colorField: 'role',
     legend: false,
