@@ -20,7 +20,8 @@ import { Button, Card, Input, Space, Table, Form, Modal, Radio, ConfigProvider, 
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 import { useForm } from 'antd/es/form/Form';
-import Upload2 from '../components/Upload2';
+import { message, Upload } from 'antd';
+import type { GetProp, UploadProps } from 'antd';
 type InputRef = GetRef<typeof Input>;
 
 interface DataType {
@@ -28,20 +29,26 @@ interface DataType {
   name: string;
   type: string;
   description: string;
-  img: Array<string>; //url
+  img: string; //url
   price: number;
 
 }
 
 type DataIndex = keyof DataType;
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
+const getBase64 = (img: FileType, callback: (url: string) => void) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result as string));
+  reader.readAsDataURL(img);
+};
 const data: DataType[] = [
   {
     key: 1,
     name: '药品1',
     type: '疫苗',
-    description: '文字描述\n第二条',
-    img: ['https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'], //url
+    description: '文字描述第二条',
+    img: 'https://tse1-mm.cn.bing.net/th/id/OIP-C.FJ5s0RqVLUGvE3J4czTVKAHaE8?w=302&h=201&c=7&r=0&o=5&dpr=1.5&pid=1.7', //url
     price: 11.1
   },
   {
@@ -49,7 +56,7 @@ const data: DataType[] = [
     name: '药品1',
     type: '药品',
     description: '文字描述',
-    img: ['https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'], //url
+    img: 'https://tse4-mm.cn.bing.net/th/id/OIP-C.Ht_C01DY_6E7e22teNhLsgHaE8?w=302&h=201&c=7&r=0&o=5&dpr=1.5&pid=1.7', //url
     price: 11.1
   },
 ];
@@ -63,25 +70,66 @@ const ChargeManage: React.FC = () => {
   const [isModal2Open, setIsModal2Open] = useState(false);
   const [form1] = Form.useForm();
   const [form2] = Form.useForm();
-  const [uploadValue, setUploadValue] = useState<string>()
   const [rec, setRec] = useState({
     key: 6,
     name: '药品1',
     type: '药品',
     description: '文字描述',
-    img: ['url1'], //url
+    img: 'url1', //url
     price: 11.1
   })
+  const [imageUrl, setImageUrl] = useState<string>();
+  const uploadButton = (
+    <button style={{ border: 0, background: 'none' }} type="button">
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>项目图片</div>
+    </button>
+  );
+  const beforeUpload = (file: FileType) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
 
+    if (isJpgOrPng && isLt2M) {
+      getBase64(file as FileType, (url) => {
+        setImageUrl(url);
+        form1.setFieldValue('img', url);
+      });
+    }
+    return false;
+  };
+  const beforeUpload2 = (file: FileType) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+
+    if (isJpgOrPng && isLt2M) {
+      getBase64(file as FileType, (url) => {
+        setImageUrl(url);
+        form2.setFieldValue('img', url)
+      });
+    }
+    return false;
+  };
 
   const close = () => {
     setIsModal1Open(false);
     setIsModal2Open(false);
   };
   const AddFormFinish = (value) => {
-    if (confirm("确定要添加这个用户吗") === true) {
+    if (confirm("确定要添加这个收费项目吗") === true) {
+      alert('添加成功')
       datasource.push(value)
-      console.log(datasource)
       setDatasource([...datasource])
       setIsModal1Open(false)
       form1.resetFields()
@@ -89,19 +137,19 @@ const ChargeManage: React.FC = () => {
 
   }
   const ModifyFormFinish = (value) => {
-    // if (confirm("确定要将这个用户的信息修改成如下信息吗") === true) {
-    //   setDatasource(
-    //     datasource.map(p => p.key === rec.key ? {
-    //       ...p,
-    //       'name': value.name,
-    //       'pwd': value.pwd === '' ? rec.pwd : value.pwd,
-    //       'mail': value.mail,
-    //       'phone': value.phone,
-    //       'role': value.role
-    //     } : p)
-    //   )
-    //   setIsModal2Open(false);
-    // }
+    if (confirm("确定要将这个项目的信息修改成如下信息吗") === true) {
+      setDatasource(
+        datasource.map(p => p.key === rec.key ? {
+          ...p,
+          'name': value.name,
+          'type': value.type,
+          'description': value.description,
+          'img': value.img,
+          'price': value.price
+        } : p)
+      )
+      setIsModal2Open(false)
+    }
   }
   const handleSearch = (
     selectedKeys: string[],
@@ -223,9 +271,21 @@ const ChargeManage: React.FC = () => {
           title: '简述',
           dataIndex: 'description',
           key: 'description',
-          width: '45%',
-
+          width: '30%',
+          ellipsis: false,
           ...getColumnSearchProps('description'),
+        },
+        {
+          title: '图片',
+          dataIndex: 'img',
+          key: 'img',
+          width: '15%',
+          render: (_, record) => {
+            return <Image
+              src={record.img}
+              style={{ maxWidth: '100%' }}
+            />
+          }
         },
         {
           title: '价格',
@@ -233,6 +293,8 @@ const ChargeManage: React.FC = () => {
           key: 'price',
           width: '10%',
           ...getColumnSearchProps('price'),
+          sorter: (a, b) => a.price - b.price,
+          sortDirections: ['descend', 'ascend'],
         }
       ],
     },
@@ -242,9 +304,6 @@ const ChargeManage: React.FC = () => {
       width: '20%',
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" icon={<SearchOutlined />} onClick={() => {
-            setIsModal2Open(true);
-          }}>查看图片</Button>
           <Button type="primary" icon={<EditOutlined />} onClick={() => {
             setIsModal2Open(true);
             form2.setFieldsValue({
@@ -255,6 +314,7 @@ const ChargeManage: React.FC = () => {
               'img': record.img,
               'price': record.price,
             });
+            setImageUrl(record.img)
             setRec(record);
           }}>编辑项目</Button>
           <Button type="primary" style={{ backgroundColor: 'red' }} onClick={() => {
@@ -329,13 +389,17 @@ const ChargeManage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="img"
-            rules={[{ required: true, message: '请输入图片url' }]}
+            rules={[{ required: true, message: '请上传图片' }]}
           >
-            <Input
-              prefix={<FileImageOutlined className="site-form-item-icon" />}
-              type="text"
-              placeholder="图片"
-            />
+            <Upload
+              name="img"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              beforeUpload={beforeUpload}
+            >
+              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>
           </Form.Item>
           <Form.Item
             name="price"
@@ -408,7 +472,15 @@ const ChargeManage: React.FC = () => {
             name="img"
             rules={[{ required: true, message: '请上传图片' }]}
           >
-            <Upload2/>
+            <Upload
+              name="img"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              beforeUpload={beforeUpload2}
+            >
+              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>
           </Form.Item>
           <Form.Item
             name="price"
@@ -434,10 +506,12 @@ const ChargeManage: React.FC = () => {
         extra={
           <>
             <Button type="primary" style={{ float: 'right' }} icon={<PlusOutlined />} onClick={() => {
+              setImageUrl('')
               setIsModal1Open(true);
             }}>添加项目</Button>
           </>
         }
+        style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}
       >
         <Table columns={columns} dataSource={datasource} pagination={{ defaultPageSize: 8 }} />
       </Card>
