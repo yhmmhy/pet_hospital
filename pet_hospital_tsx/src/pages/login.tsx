@@ -17,7 +17,7 @@ function Login() {
     const [radioValue1, setRadioValue1] = useState('实习生');
     const [isModal1Open, setIsModal1Open] = useState(false);
     const [pageRadio, setPageRadio] = useState('后台')
-    const [radioStyle,setRadioStyle] = useState('none')
+    const [radioStyle, setRadioStyle] = useState('none')
     axios.defaults.baseURL = 'http://localhost:3007';
     axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -67,9 +67,9 @@ function Login() {
                 cookie.save('username', value.name, { path: '/' })
                 if (value.role == "实习生") {
                     navigate('/fore')
-                } else if(value.page=='前台'){
+                } else if (value.page == '前台') {
                     navigate('/fore')
-                }else navigate('/index')
+                } else navigate('/index')
             }
 
         }, error => {
@@ -85,9 +85,9 @@ function Login() {
     const onChange = (e: RadioChangeEvent) => {
         setRadioValue(e.target.value)
         form.setFieldsValue({ "role": e.target.value });
-        if(e.target.value=='管理员'){
+        if (e.target.value == '管理员') {
             setRadioStyle('block')
-        }else{
+        } else {
             setRadioStyle('none')
         }
     };
@@ -133,13 +133,13 @@ function Login() {
                     >
                         <Form.Item
                             name="name"
-                            rules={[{ required: true, message: '请输入账号' }]}
+                            rules={[{ required: true, message: '请输入用户名' }, { pattern: new RegExp('^[a-zA-Z0-9_]{3,20}$', 'g'), message: '用户名长度为3-20位，允许使用字母，数字和下划线' }]}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="账号" />
+                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
                         </Form.Item>
                         <Form.Item
                             name="pwd"
-                            rules={[{ required: true, message: '请输入密码' }]}
+                            rules={[{ required: true, message: '请输入密码' }, { pattern: new RegExp('^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$'), message: '密码必须包含字母和数字，不能使用特殊字符，长度在 6-20 之间' }]}
                         >
                             <Input.Password
                                 prefix={<LockOutlined className="site-form-item-icon" />}
@@ -233,7 +233,7 @@ function Login() {
                                 <Radio.Button value="管理员">管理员</Radio.Button>
                             </Radio.Group>
                         </Form.Item>
-                        <Form.Item wrapperCol={{ offset: 6, span: 16 }} name='page' style={{display:radioStyle}}>
+                        <Form.Item wrapperCol={{ offset: 6, span: 16 }} name='page' style={{ display: radioStyle }}>
                             <Radio.Group defaultValue="后台" onChange={pageChange} value={pageRadio}>
                                 <Radio.Button value="前台">前台学习系统</Radio.Button>
                                 <Radio.Button value="后台">后台管理系统</Radio.Button>

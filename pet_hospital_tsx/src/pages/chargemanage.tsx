@@ -360,11 +360,11 @@ const ChargeManage: React.FC = () => {
             name="name"
             rules={[{ required: true, message: '请输入项目名' }]}
           >
-            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" />
+            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={20}/>
           </Form.Item>
           <Form.Item
             name="type"
-            rules={[{ required: true, message: '请输入项目类型' }]}
+            rules={[{ required: true, message: '请选择项目类型' }]}
           >
             <Select
               style={{ width: 472 }}
@@ -382,9 +382,10 @@ const ChargeManage: React.FC = () => {
             name="description"
             rules={[{ required: true, message: '请输入简述' }]}
           >
-            <Input
-              prefix={<FileTextOutlined className="site-form-item-icon" />}
+            <Input.TextArea
+              showCount
               placeholder="简述"
+              maxLength={100}
             />
           </Form.Item>
           <Form.Item
@@ -409,6 +410,7 @@ const ChargeManage: React.FC = () => {
               prefix={<PayCircleOutlined className="site-form-item-icon" />}
               type="number"
               placeholder="价格"
+              maxLength={10}
             />
           </Form.Item>
           <Form.Item>
@@ -441,11 +443,11 @@ const ChargeManage: React.FC = () => {
             name="name"
             rules={[{ required: true, message: '请输入项目名' }]}
           >
-            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" />
+            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={20} />
           </Form.Item>
           <Form.Item
             name="type"
-            rules={[{ required: true, message: '请输入项目类型' }]}
+            rules={[{ required: true, message: '请选择项目类型' }]}
           >
             <Select
               style={{ width: 472 }}
@@ -463,9 +465,10 @@ const ChargeManage: React.FC = () => {
             name="description"
             rules={[{ required: true, message: '请输入简述' }]}
           >
-            <Input
-              prefix={<FileTextOutlined className="site-form-item-icon" />}
+            <Input.TextArea
               placeholder="简述"
+              showCount
+              maxLength={100}
             />
           </Form.Item>
           <Form.Item
@@ -490,6 +493,7 @@ const ChargeManage: React.FC = () => {
               prefix={<PayCircleOutlined className="site-form-item-icon" />}
               type="number"
               placeholder="价格"
+              maxLength={10}
             />
           </Form.Item>
           <Form.Item>

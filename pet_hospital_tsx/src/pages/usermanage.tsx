@@ -374,13 +374,13 @@ const UserManage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="name"
-            rules={[{ required: true, message: '请输入账号' }]}
+            rules={[{ required: true, message: '请输入用户名' }, { pattern: new RegExp('^[a-zA-Z0-9_]{3,20}$', 'g'), message: '用户名长度为3-20位，允许使用字母，数字和下划线' }]}
           >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="账号" />
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
           </Form.Item>
           <Form.Item
             name="pwd"
-            rules={[{ required: true, message: '请输入密码' }]}
+            rules={[{ required: true, message: '请输入密码' }, { pattern: new RegExp('^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$'), message: '密码必须包含字母和数字，不能使用特殊字符，长度在 6-20 之间' }]}
           >
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -452,7 +452,7 @@ const UserManage: React.FC = () => {
         >
           <Form.Item
             name="name"
-            rules={[{ required: true, message: '请输入用户名' }]}
+            rules={[{ required: true, message: '请输入用户名' }, { pattern: new RegExp('^[a-zA-Z0-9_]{3,20}$', 'g'), message: '用户名长度为3-20位，允许使用字母，数字和下划线' }]}
           >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
           </Form.Item>
@@ -510,7 +510,7 @@ const UserManage: React.FC = () => {
         >
           <Form.Item
             name="pwd"
-            rules={[{ required: true, message: '请输入新密码' }]}
+            rules={[{ required: true, message: '请输入新密码' }, { pattern: new RegExp('^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$'), message: '密码必须包含字母和数字，不能使用特殊字符，长度在 6-20 之间' }]}
           >
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
