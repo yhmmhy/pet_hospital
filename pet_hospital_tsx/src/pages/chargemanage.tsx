@@ -139,13 +139,13 @@ const ChargeManage: React.FC = () => {
         'price': value.price
       }).then(res => {
         console.log(res.data)
-        // alert(res.data.message)
-        // if (res.data.message == '添加成功') {
-        //   datasource.push(value)
-        //   setDatasource([...datasource])
-        //   setIsModal1Open(false)
-        //   form1.resetFields()
-        // }
+        alert(res.data.message)
+        if (res.data.code == 200) {
+          datasource.push(value)
+          setDatasource([...datasource])
+          setIsModal1Open(false)
+          form1.resetFields()
+        }
       }, error => {
         console.log('错误', error.message)
       })
@@ -155,16 +155,15 @@ const ChargeManage: React.FC = () => {
   }
   const ModifyFormFinish = (value) => {
     if (confirm("确定要将这个项目的信息修改成如下信息吗") === true) {
-      axios.post('/charge/ProjectModify', {
-        'key':value.key,
-        'name': value.name,
-        'type': value.type,
-        'description': value.description,
-        'img': value.img,
-        'price': value.price
+      axios.post('/admin/fee/edit/'+value.key,{
+          'name': value.name,
+          'type': value.type,
+          'description': value.description,
+          'img': value.img,
+          'price': value.price
       }).then(res => {
         alert(res.data.message)
-        if (res.data.message == '编辑成功') {
+        if (res.data.code ==200) {
           setDatasource(
             datasource.map(p => p.key === rec.key ? {
               ...p,
@@ -351,12 +350,10 @@ const ChargeManage: React.FC = () => {
           }}>编辑项目</Button>
           <Button type="primary" style={{ backgroundColor: 'red' }} onClick={() => {
             if (confirm("确定要删除这条用户数据吗")) {
-              axios.post('/charge/ProjectDelete', {
-                'key':record.key
-              }).then(res => {
+              axios.post('/admin/fee/delete/'+record.key).then(res => {
                 alert(res.data.message);
                 if (res.data.message == '删除成功') {
-                  setDatasource(res.data.data);
+                  setDatasource(res.data.feelist);
                 }
               }, error => {
                 console.log('错误', error.message)
