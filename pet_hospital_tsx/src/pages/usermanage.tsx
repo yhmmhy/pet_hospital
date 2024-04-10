@@ -108,7 +108,7 @@ const UserManage: React.FC = () => {
           'phone': value.phone,
           'mail': value.mail
       }).then(res => {
-        res.data.code == 200
+        // res.data.code == 200
         if (res.data.message == "注册成功") {
           alert('添加成功');
           datasource.push(value)
