@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   SearchOutlined,
   PlusOutlined,
@@ -22,6 +22,9 @@ import Highlighter from 'react-highlight-words';
 import { useForm } from 'antd/es/form/Form';
 import { message, Upload } from 'antd';
 import type { GetProp, UploadProps } from 'antd';
+import axios from 'axios'
+
+
 type InputRef = GetRef<typeof Input>;
 
 interface DataType {
@@ -61,6 +64,7 @@ const data: DataType[] = [
   },
 ];
 
+
 const ChargeManage: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -79,6 +83,20 @@ const ChargeManage: React.FC = () => {
     price: 11.1
   })
   const [imageUrl, setImageUrl] = useState<string>();
+  axios.defaults.baseURL = 'http://localhost:3007';
+  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+
+  useEffect(() => {
+    axios.get('/charge/ProjectListGet/').then((res) => {
+      setDatasource(res.data.data)
+      console.log(res.data.data)
+    })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [])
+
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type="button">
       <PlusOutlined />
@@ -128,27 +146,55 @@ const ChargeManage: React.FC = () => {
   };
   const AddFormFinish = (value) => {
     if (confirm("确定要添加这个收费项目吗") === true) {
-      alert('添加成功')
-      datasource.push(value)
-      setDatasource([...datasource])
-      setIsModal1Open(false)
-      form1.resetFields()
+      axios.post('/charge/ProjectAdd', {
+        'name': value.name,
+        'type': value.type,
+        'description': value.description,
+        'img': value.img,
+        'price': value.price
+      }).then(res => {
+        alert(res.data.message)
+        if (res.data.message == '添加成功') {
+          datasource.push(value)
+          setDatasource([...datasource])
+          setIsModal1Open(false)
+          form1.resetFields()
+        }
+      }, error => {
+        console.log('错误', error.message)
+      })
+
     }
 
   }
   const ModifyFormFinish = (value) => {
     if (confirm("确定要将这个项目的信息修改成如下信息吗") === true) {
-      setDatasource(
-        datasource.map(p => p.key === rec.key ? {
-          ...p,
-          'name': value.name,
-          'type': value.type,
-          'description': value.description,
-          'img': value.img,
-          'price': value.price
-        } : p)
-      )
-      setIsModal2Open(false)
+      axios.post('/charge/ProjectModify', {
+        'key':value.key,
+        'name': value.name,
+        'type': value.type,
+        'description': value.description,
+        'img': value.img,
+        'price': value.price
+      }).then(res => {
+        alert(res.data.message)
+        if (res.data.message == '编辑成功') {
+          setDatasource(
+            datasource.map(p => p.key === rec.key ? {
+              ...p,
+              'name': value.name,
+              'type': value.type,
+              'description': value.description,
+              'img': value.img,
+              'price': value.price
+            } : p)
+          )
+          setIsModal2Open(false)
+        }
+      }, error => {
+        console.log('错误', error.message)
+      })
+
     }
   }
   const handleSearch = (
@@ -319,14 +365,18 @@ const ChargeManage: React.FC = () => {
           }}>编辑项目</Button>
           <Button type="primary" style={{ backgroundColor: 'red' }} onClick={() => {
             if (confirm("确定要删除这条用户数据吗")) {
-              // console.log("删除");
-              datasource.forEach(function (item, index) {
-                if (item.key === record.key) {
-                  datasource.splice(index, 1)
+              axios.post('/charge/ProjectDelete', {
+                'key':record.key
+              }).then(res => {
+                alert(res.data.message);
+                if (res.data.message == '删除成功') {
+                  setDatasource(res.data.data);
                 }
+              }, error => {
+                console.log('错误', error.message)
               })
-              // console.log(datasource)
-              setDatasource([...datasource])
+              // console.log("删除");
+              
             }
           }} icon={<DeleteOutlined />}>删除项目</Button>
         </Space>
@@ -360,7 +410,7 @@ const ChargeManage: React.FC = () => {
             name="name"
             rules={[{ required: true, message: '请输入项目名' }]}
           >
-            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={20}/>
+            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={20} />
           </Form.Item>
           <Form.Item
             name="type"
