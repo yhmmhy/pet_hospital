@@ -23,30 +23,31 @@ const data = [
 ];
 
 const Barch = () => {
-  axios.defaults.baseURL = 'http://localhost:3007';
+  axios.defaults.baseURL = 'http://47.102.142.153:5000';
   axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
   const [datasource, setDatasource] = useState(data)
   useEffect(() => {
-    axios.get('/Home/Statistics').then((res) => {
-      const source = [
-        {
-          labelName: '用户',
-          value: res.data.data.usernum,
-        },
-        {
-          labelName: '病例',
-          value: res.data.data.casenum,
-        },
-        {
-          labelName: '题库',
-          value: res.data.data.quesnum,
-        },
-        {
-          labelName: '试卷',
-          value: res.data.data.papernum,
-        },
-      ]
-      setDatasource(source)
+    axios.get('/Home/Statstics').then((res) => {
+      // const source = [
+      //   {
+      //     labelName: '用户',
+      //     value: res.data.data.usernum,
+      //   },
+      //   {
+      //     labelName: '病例',
+      //     value: res.data.data.casenum,
+      //   },
+      //   {
+      //     labelName: '题库',
+      //     value: res.data.data.quesnum,
+      //   },
+      //   {
+      //     labelName: '试卷',
+      //     value: res.data.data.papernum,
+      //   },
+      // ]
+      // setDatasource(source)
+      console.log(res)
     })
       .catch(error => {
         console.log(error);

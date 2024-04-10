@@ -1,4 +1,4 @@
-import { Row, Col, Card, Form, Button, message, Input, Radio, Modal } from 'antd'
+import { Row, Col, Card, Form, Button, message, Input, Radio, Modal,Alert } from 'antd'
 import React, { useEffect, useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import logo from '../assets/1.ico'
@@ -21,6 +21,7 @@ function Login() {
     axios.defaults.baseURL = 'http://localhost:3007';
     axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
+    
     const AddFormFinish = (value) => {
         const md5 = Md5.hashStr(value.pwd);
         axios.post('/Login/Register', {

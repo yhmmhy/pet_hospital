@@ -1,11 +1,12 @@
 import React,{Children, useState} from 'react';
-import { Breadcrumb, Layout, Menu, theme,Button } from 'antd';
+import { Breadcrumb, Layout, Menu, theme,Button,FloatButton, Modal } from 'antd';
 import {
     UserOutlined,
     HomeOutlined,
     ReadOutlined,
     CompassOutlined,
-    SolutionOutlined
+    SolutionOutlined,
+    QuestionCircleOutlined
   } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Login from '../pages/login'
@@ -13,7 +14,7 @@ import cookie from 'react-cookies'
 const { Header, Content, Footer } = Layout;
 
 const ForeLayout = ({children}: any) =>{
-  
+  const [modalOpen,setModalOpen] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -89,6 +90,12 @@ const ForeLayout = ({children}: any) =>{
             // background: colorBgContainer,
             borderRadius: borderRadiusLG,}}>
         {children}
+        <Modal title="智能助教" open={modalOpen} onCancel={()=>{setModalOpen(false)}} footer={[]}>
+          这里是智能助教模块
+        </Modal>
+        <FloatButton icon={<QuestionCircleOutlined />} type="primary" style={{ right: 24 }} onClick={()=>{
+          setModalOpen(true);
+        }}/>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
         ECNU SEI ©{new Date().getFullYear()}
