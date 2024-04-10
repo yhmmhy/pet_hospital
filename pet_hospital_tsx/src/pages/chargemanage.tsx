@@ -46,22 +46,7 @@ const getBase64 = (img: FileType, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 const data: DataType[] = [
-  {
-    key: 1,
-    name: '药品1',
-    type: '疫苗',
-    description: '文字描述第二条',
-    img: 'https://tse1-mm.cn.bing.net/th/id/OIP-C.FJ5s0RqVLUGvE3J4czTVKAHaE8?w=302&h=201&c=7&r=0&o=5&dpr=1.5&pid=1.7', //url
-    price: 11.1
-  },
-  {
-    key: 2,
-    name: '药品1',
-    type: '药品',
-    description: '文字描述',
-    img: 'https://tse4-mm.cn.bing.net/th/id/OIP-C.Ht_C01DY_6E7e22teNhLsgHaE8?w=302&h=201&c=7&r=0&o=5&dpr=1.5&pid=1.7', //url
-    price: 11.1
-  },
+  
 ];
 
 
@@ -69,7 +54,7 @@ const ChargeManage: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
-  const [datasource, setDatasource] = useState(data)
+  const [datasource, setDatasource] = useState<DataType[]>(data)
   const [isModal1Open, setIsModal1Open] = useState(false);
   const [isModal2Open, setIsModal2Open] = useState(false);
   const [form1] = Form.useForm();
@@ -83,14 +68,13 @@ const ChargeManage: React.FC = () => {
     price: 11.1
   })
   const [imageUrl, setImageUrl] = useState<string>();
-  axios.defaults.baseURL = 'http://localhost:3007';
-  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+  axios.defaults.baseURL = 'http://47.102.142.153:5000';
+  axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
   useEffect(() => {
-    axios.get('/charge/ProjectListGet/').then((res) => {
-      setDatasource(res.data.data)
-      console.log(res.data.data)
+    axios.get('/fee/get').then((res) => {
+      setDatasource(res.data.projectlist)
     })
       .catch(error => {
         console.log(error);
@@ -146,20 +130,22 @@ const ChargeManage: React.FC = () => {
   };
   const AddFormFinish = (value) => {
     if (confirm("确定要添加这个收费项目吗") === true) {
-      axios.post('/charge/ProjectAdd', {
+      axios.post('/admin/fee/add', {
+        'key':value.key,
         'name': value.name,
         'type': value.type,
         'description': value.description,
         'img': value.img,
         'price': value.price
       }).then(res => {
-        alert(res.data.message)
-        if (res.data.message == '添加成功') {
-          datasource.push(value)
-          setDatasource([...datasource])
-          setIsModal1Open(false)
-          form1.resetFields()
-        }
+        console.log(res.data)
+        // alert(res.data.message)
+        // if (res.data.message == '添加成功') {
+        //   datasource.push(value)
+        //   setDatasource([...datasource])
+        //   setIsModal1Open(false)
+        //   form1.resetFields()
+        // }
       }, error => {
         console.log('错误', error.message)
       })

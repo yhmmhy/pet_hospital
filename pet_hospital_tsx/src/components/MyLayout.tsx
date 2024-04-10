@@ -15,19 +15,23 @@ import '../index.css'
 import { useNavigate } from 'react-router-dom';
 import Login from '../pages/login'
 import cookie from 'react-cookies'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://47.102.142.153:5000';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const { Header, Sider, Content } = Layout;
 
 const MyLayout = ({ children }: any) => {
-  
+
 
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate()
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  if(cookie.load('token')==null){
-      return <Login/>
+  if (cookie.load('token') == null) {
+    return <Login />
   }
   return (
     <Layout style={{ width: '100vw', height: '100vh' }}
@@ -100,8 +104,15 @@ const MyLayout = ({ children }: any) => {
             marginTop: '16px',
             marginRight: '50px',
           }} onClick={() => {
-            cookie.remove('token',{path:'/'})
-            navigate('/');
+            axios.post('/user/logout').then(res => {
+              if (res.data.code == 200) {
+                cookie.remove('token', { path: '/' })
+                navigate('/');
+              }
+            }, error => {
+              console.log('错误', error.message)
+            })
+
           }}>
             退出登录
           </Button>

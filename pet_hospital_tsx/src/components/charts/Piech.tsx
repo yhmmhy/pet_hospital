@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Pie } from '@ant-design/plots';
 import axios from "axios";
-
+interface DataType {
+  role: string,
+  sold: number,
+}
 
 const Piech = () => {
   axios.defaults.baseURL = 'http://47.102.142.153:5000';
-  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-  const [datasource, setDatasource] = useState([
-    { role: '实习生', sold: 0.45 },
-    { role: '管理员', sold: 0.55 },
-  ])
+  axios.defaults.headers.post['Content-Type'] = 'application/json';
+  const [datasource, setDatasource] = useState<DataType[]>()
   useEffect(() => {
-    axios.get('/Home/Statistics').then((res) => {
-      // const source = [
-      //   { role: '实习生', sold: res.data.data.stunum / res.data.data.usernum },
-      //   { role: '管理员', sold: res.data.data.adminnum / res.data.data.usernum },
-      // ]
-      // setDatasource(source)
-      console.log(res)
+    axios.get('/admin').then((res) => {
+      const source = [
+        { role: '实习生', sold: res.data.stunum / res.data.usernum },
+        { role: '管理员', sold: res.data.adminnum / res.data.usernum },
+      ]
+      setDatasource(source)
+
     })
       .catch(error => {
         console.log(error);

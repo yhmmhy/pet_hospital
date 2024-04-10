@@ -20,21 +20,12 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-const data: DataType[] = [
-  {
-    key: 1,
-    name: 'John Brown',
-    mail: '1234567891@qq.com',
-    role: '实习生',
-    phone: '13112345678',
-  },
-];
 
 const UserManage: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
-  const [datasource, setDatasource] = useState(data)
+  const [datasource, setDatasource] = useState<DataType[]>([])
   const [isModal1Open, setIsModal1Open] = useState(false);
   const [isModal2Open, setIsModal2Open] = useState(false);
   const [isModal3Open, setIsModal3Open] = useState(false);
@@ -50,12 +41,12 @@ const UserManage: React.FC = () => {
     phone: '13112345678',
     mail: '1234567891@qq.com',
   })
-  axios.defaults.baseURL = 'http://localhost:3007';
-  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+  axios.defaults.baseURL = 'http://47.102.142.153:5000';
+  axios.defaults.headers.post['Content-Type'] = 'application/json';
 
   useEffect(() => {
-    axios.get('/User/UserListGet/').then((res) => {
-      setDatasource(res.data.data)
+    axios.get('/getuser').then((res) => {
+      setDatasource(res.data.userlist)
     })
       .catch(error => {
         console.log(error);
@@ -106,14 +97,19 @@ const UserManage: React.FC = () => {
   const AddFormFinish = (value) => {
     if (confirm("确定要添加这个用户吗") === true) {
       const md5 = Md5.hashStr(value.pwd);
-      axios.post('/Login/Register', {
-        'name': value.name,
-        'role': value.role,
-        'pwd': md5,
-        'phone': value.phone,
-        'mail': value.mail
+      var is_admin = 0;
+      if(value.role == '管理员'){
+          is_admin = 1;
+      }
+      axios.post('/register', {
+          'account': value.name,
+          'is_admin': is_admin,
+          'password': md5,
+          'phone': value.phone,
+          'mail': value.mail
       }).then(res => {
-        if (res.data.message == '注册成功') {
+        res.data.code == 200
+        if (res.data.message == "注册成功") {
           alert('添加成功');
           datasource.push(value)
           // console.log(datasource)
@@ -130,15 +126,15 @@ const UserManage: React.FC = () => {
   }
   const ModifyFormFinish = (value) => {
     if (confirm("确定要将这个用户的信息修改成如下信息吗") === true) {
-      axios.post('/User/UserModify', {
-        'key': rec.key,
-        'name': value.name,
+      axios.post('/update_user_info', {
+        'id': rec.key,
+        'account': value.name,
         'mail': value.mail,
         'phone': value.phone,
         'role': value.role
       }).then(res => {
         alert(res.data.message);
-        if (res.data.message == '编辑成功') {
+        if (res.data.code == 200) {
           setDatasource(
             datasource.map(p => p.key === rec.key ? {
               ...p,
@@ -159,13 +155,12 @@ const UserManage: React.FC = () => {
   const PwdFormFinish = (value) => {
     if (confirm("确定要修改密码吗") === true) {
       const md5 = Md5.hashStr(value.pwd);
-      axios.post('/User/PwdModify', {
-        'key': rec.key,
+      axios.post('/admin/change_password', {
+        'id': rec.key,
         'pwd': md5,
       }).then(res => {
-        console.log(res.data.message);
-        if (res.data.message == '修改成功') {
-          alert('修改成功');
+        alert(res.data.message);
+        if (res.data.code == 200) {
           setIsModal3Open(false);
           form3.resetFields()
         }
@@ -332,12 +327,13 @@ const UserManage: React.FC = () => {
           }}>修改密码</Button>
           <Button type="primary" style={{ backgroundColor: 'red' }} onClick={() => {
             if (confirm("确定要删除这条用户数据吗")) {
-              axios.post('/User/UserDelete', {
-                'key': record.key,
+              axios.post('/admin/delete_user', {
+                'id': record.key,
               }).then(res => {
                 alert(res.data.message);
-                if (res.data.message == '删除成功') {
-                  setDatasource(res.data.data);
+                if (res.data.code == 200) {
+                  // setDatasource(res.data.userlist);
+                  
                 }
               }, error => {
                 console.log('错误', error.message)

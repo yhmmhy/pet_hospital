@@ -3,51 +3,36 @@ import React,{useEffect,useState} from 'react';
 import ReactDOM from 'react-dom';
 import axios from "axios";
 
-const data = [
-  {
-    labelName: '用户',
-    value: 10,
-  },
-  {
-    labelName: '病例',
-    value: 20,
-  },
-  {
-    labelName: '题库',
-    value: 30,
-  },
-  {
-    labelName: '试卷',
-    value: 40,
-  },
-];
+interface DataType {
+  labelName: string,
+  value: number,
+}
 
 const Barch = () => {
   axios.defaults.baseURL = 'http://47.102.142.153:5000';
-  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-  const [datasource, setDatasource] = useState(data)
+  axios.defaults.headers.post['Content-Type'] = 'application/json';
+  const [datasource, setDatasource] = useState<DataType[]>()
   useEffect(() => {
-    axios.get('/Home/Statstics').then((res) => {
-      // const source = [
-      //   {
-      //     labelName: '用户',
-      //     value: res.data.data.usernum,
-      //   },
-      //   {
-      //     labelName: '病例',
-      //     value: res.data.data.casenum,
-      //   },
-      //   {
-      //     labelName: '题库',
-      //     value: res.data.data.quesnum,
-      //   },
-      //   {
-      //     labelName: '试卷',
-      //     value: res.data.data.papernum,
-      //   },
-      // ]
-      // setDatasource(source)
-      console.log(res)
+    axios.get('/admin').then((res) => {
+      const source = [
+        {
+          labelName: '用户',
+          value: res.data.usernum,
+        },
+        {
+          labelName: '病例',
+          value: res.data.casenum,
+        },
+        {
+          labelName: '题库',
+          value: res.data.quesnum,
+        },
+        {
+          labelName: '试卷',
+          value: res.data.papernum,
+        },
+      ]
+      setDatasource(source)
     })
       .catch(error => {
         console.log(error);
@@ -82,7 +67,7 @@ const Barch = () => {
     },
     scale: {
       y: {
-        domain: [0, 1000],
+        domain: [0, 100],
       },
     },
     axis: {

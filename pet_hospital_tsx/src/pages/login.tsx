@@ -18,21 +18,25 @@ function Login() {
     const [isModal1Open, setIsModal1Open] = useState(false);
     const [pageRadio, setPageRadio] = useState('后台')
     const [radioStyle, setRadioStyle] = useState('none')
-    axios.defaults.baseURL = 'http://localhost:3007';
-    axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+    axios.defaults.baseURL = 'http://47.102.142.153:5000';
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
 
     
     const AddFormFinish = (value) => {
         const md5 = Md5.hashStr(value.pwd);
-        axios.post('/Login/Register', {
-            'name': value.name,
-            'role': value.role,
-            'pwd': md5,
+        var is_admin = 0;
+        if(value.role == '管理员'){
+            is_admin = 1;
+        }
+        axios.post('/register', {
+            'account': value.name,
+            'is_admin': is_admin,
+            'password': md5,
             'phone': value.phone,
             'mail': value.mail
         }).then(res => {
             alert(res.data.message);
-            if (res.data.message == '注册成功') {
+            if (res.data.code == 200) {
                 close();
                 form1.resetFields();
             }
@@ -55,15 +59,13 @@ function Login() {
 
     const LoginFormFinish = (value) => {
         const md5 = Md5.hashStr(value.pwd);
-        axios.post('/Login/Login', {
-            'name': value.name,
+        axios.post('/login', {
+            'account': value.name,
             'role': value.role,
-            'pwd': md5,
-            'phone': value.phone,
-            'mail': value.mail
+            'password': md5,
         }).then(res => {
             alert(res.data.message)
-            if (res.data.message == "登录成功") {
+            if (res.data.code == 200) {
                 cookie.save('token', res.data.token, { path: '/' });
                 cookie.save('username', value.name, { path: '/' })
                 if (value.role == "实习生") {
