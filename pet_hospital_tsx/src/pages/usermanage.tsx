@@ -332,7 +332,7 @@ const UserManage: React.FC = () => {
               }).then(res => {
                 alert(res.data.message);
                 if (res.data.code == 200) {
-                  // setDatasource(res.data.userlist);
+                  setDatasource(res.data.userlist);
                   
                 }
               }, error => {
