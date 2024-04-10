@@ -24,7 +24,10 @@ const HomeRouter = require('./router/Home')
 app.use('/Home', HomeRouter)
 const ChargeRouter = require('./router/charge')
 app.use('/charge', ChargeRouter)
-
+const testquestionRouter = require('./router/testquestion')
+app.use('/testquestion', testquestionRouter)
+const testpaperRouter = require('./router/testpaper')
+app.use('/testpaper', testpaperRouter)
 app.listen(3007, () => {
     console.log('api server running at http://127.0.0.1:3007')
 })
