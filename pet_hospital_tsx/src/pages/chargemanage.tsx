@@ -406,6 +406,7 @@ const ChargeManage: React.FC = () => {
                 { value: '药品', label: '药品' },
                 { value: '化验项目', label: '化验项目' },
                 { value: '疫苗', label: '疫苗' },
+                { value: '收费项目', label: '收费项目' },
               ]}
               placeholder='项目类型'
               menuItemSelectedIcon={<AlignLeftOutlined />}
