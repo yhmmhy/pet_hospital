@@ -118,7 +118,7 @@ const UserManage: React.FC = () => {
           form1.resetFields()
         }
       }, error => {
-        console.log('错误', error.message)
+        alert('添加失败');
       })
 
     }
@@ -147,7 +147,7 @@ const UserManage: React.FC = () => {
           setIsModal2Open(false);
         }
       }, error => {
-        console.log('错误', error.message)
+        alert('编辑失败');
       })
     }
   }
@@ -165,7 +165,7 @@ const UserManage: React.FC = () => {
           form3.resetFields()
         }
       }, error => {
-        console.log('错误', error.message)
+        alert('修改失败');
       })
     }
   }
@@ -336,7 +336,7 @@ const UserManage: React.FC = () => {
                   
                 }
               }, error => {
-                console.log('错误', error.message)
+                alert('删除失败');
               })
             }
           }} icon={<DeleteOutlined />}>删除用户</Button>

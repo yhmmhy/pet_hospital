@@ -41,7 +41,7 @@ function Login() {
                 form1.resetFields();
             }
         }, error => {
-            console.log('错误', error.message)
+            alert('注册失败');
         })
     }
 
@@ -76,7 +76,7 @@ function Login() {
             }
 
         }, error => {
-            console.log('错误', error.message)
+            alert('登录失败');
         })
 
     }
