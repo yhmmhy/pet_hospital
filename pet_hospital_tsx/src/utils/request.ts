@@ -6,8 +6,7 @@ import { getToken, serverUrl } from './tools'
 
 const instance =axios.create({
     baseURL: serverUrl,
-    timeout: 5000,
-    withCredentials: true
+    timeout: 10000,
 })
 
 // Add a request interceptor

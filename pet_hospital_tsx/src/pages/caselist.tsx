@@ -1,42 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SearchOutlined, ZoomInOutlined } from '@ant-design/icons';
 import type { GetRef, TableColumnsType, TableColumnType } from 'antd';
-import { Button, Input, Space, Table } from 'antd';
+import { Button, Input, Space, Table, message } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 import { Navigate, useNavigate ,useLocation} from 'react-router-dom';
+import { loadDataByNameAPI } from '../services/caseManage';
 type InputRef = GetRef<typeof Input>;
 
 interface DataType {
-    key: string;
-    编号: string;
-    名称: string;
-    接诊: string;
-    病例检查: string;
-    诊断结果: string;
-    治疗方案: string;
+    id: number;
+    name: string;
+    admission: string;
+    examination: string;
+    diagnosis: string;
+    treatment_plan: string;
   }
 
 
 type DataIndex = keyof DataType;
 
-const data: DataType[] = [];
 
-for (let i = 1; i <= 50; i++) {
-  data.push({
-    key: `${i}`,
-    编号: `编号 ${i}`,
-    名称: `名称 ${i}`,
-    接诊: `接诊 ${i}`,
-    病例检查: `病例检查 ${i}`,
-    诊断结果: `诊断结果 ${i}`,
-    治疗方案: `治疗方案 ${i}`,
-  });
-}
 
 const CaseList = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [data,setData] =useState([]);
   const searchInput = useRef<InputRef>(null);
   const navigate= useNavigate();
   const location = useLocation();
@@ -45,7 +34,18 @@ const CaseList = () => {
     const caseItem = searchParams.get('caseItem');
     console.log('get caseItem',caseItem);
     // Filter the data based on the caseItem
-    
+    if(caseItem!==null){
+      loadDataByNameAPI(caseItem).then((res) => {
+        console.log(res);
+        if (res.message === '读取病例记录成功') {
+          setData(res.cases);
+          message.success('查询成功');
+        }
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+    });
+    }
   }, [location.search]);
   const handleSearch = (
     selectedKeys: string[],
@@ -141,47 +141,47 @@ const CaseList = () => {
 
   const columns: TableColumnsType<DataType> = [
     {
-      title: '编号',
-      dataIndex: '编号', 
-      key: '编号',
+      title: '',
+      dataIndex: 'id', 
+      key: 'id',
       width: '10%',
-      ...getColumnSearchProps('编号'),
+      ...getColumnSearchProps('id'),
     },
     {
       title: '名称',
-      dataIndex: '名称', 
-      key: '名称',
+      dataIndex: 'name', 
+      key: 'name',
       width: '10%',
-      ...getColumnSearchProps('名称'),
+      ...getColumnSearchProps('name'),
     },
     {
-      title: '接诊',
-      dataIndex: '接诊', 
-      key: '接诊',
+      title: 'admission',
+      dataIndex: 'admission', 
+      key: 'admission',
       width: '10%',
-      ...getColumnSearchProps('接诊'),
+      ...getColumnSearchProps('admission'),
     },
     {
-      title: '病例检查',
-      dataIndex: '病例检查', 
-      key: '病例检查',
+      title: 'examination',
+      dataIndex: 'examination', 
+      key: 'examination',
       width: '15%',
-      ...getColumnSearchProps('病例检查'),
+      ...getColumnSearchProps('examination'),
     },
     {
-      title: '诊断结果',
-      dataIndex: '诊断结果',
-      key: '诊断结果',
+      title: 'diagnosis',
+      dataIndex: 'diagnosis',
+      key: 'diagnosis',
       width: '15%',
-      ...getColumnSearchProps('诊断结果'),
+      ...getColumnSearchProps('diagnosis'),
     },
     {
-      title: '治疗方案',
-      dataIndex: '治疗方案', 
-      key: '治疗方案',
+      title: 'treatment_plan',
+      dataIndex: 'treatment_plan', 
+      key: 'treatment_plan',
       width: '20%',
-      ...getColumnSearchProps('治疗方案'),
-    //   sorter: (a, b) => a.名称.length - b.名称.length,
+      ...getColumnSearchProps('treatment_plan'),
+    //   sorter: (a, b) => a.name.length - b.name.length,
     //   sortDirections: ['descend', 'ascend'],
     },{
         title:'查看详情',
@@ -191,7 +191,7 @@ const CaseList = () => {
             return <Space>
                 <Button type='primary' icon={<ZoomInOutlined />} onClick={()=>{
                    console.log(r.key)
-                  navigate(`/fore/caselearn/caseshow?caseId=${r.key}`)
+                  navigate(`/fore/caselearn/caseshow?caseId=${r.id}`)
                 }}/>
 
                 
@@ -201,7 +201,7 @@ const CaseList = () => {
     }
   ];
 
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={data} rowKey='id'/>;
 };
 
 export default CaseList;                              
