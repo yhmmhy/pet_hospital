@@ -129,6 +129,7 @@ const ChargeManage: React.FC = () => {
     setIsModal2Open(false);
   };
   const AddFormFinish = (value) => {
+    console.log(value.key)
     if (confirm("确定要添加这个收费项目吗") === true) {
       axios.post('/admin/fee/add', {
         'key':value.key,
@@ -138,7 +139,6 @@ const ChargeManage: React.FC = () => {
         'img': value.img,
         'price': value.price
       }).then(res => {
-        console.log(res.data)
         alert(res.data.message)
         if (res.data.code == 200) {
           datasource.push(value)
@@ -379,9 +379,6 @@ const ChargeManage: React.FC = () => {
           }}
           form={form1}
           onFinish={AddFormFinish}
-          initialValues={{
-            'key': datasource.length + 1,
-          }}
         >
           <Form.Item
             name="key"
@@ -546,6 +543,7 @@ const ChargeManage: React.FC = () => {
             <Button type="primary" style={{ float: 'right' }} icon={<PlusOutlined />} onClick={() => {
               setImageUrl('')
               setIsModal1Open(true);
+              form1.setFieldValue('key',datasource.length+1)
             }}>添加项目</Button>
           </>
         }

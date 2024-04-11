@@ -358,7 +358,6 @@ const UserManage: React.FC = () => {
           form={form1}
           onFinish={AddFormFinish}
           initialValues={{
-            'key': datasource.length + 1,
             'role': '实习生'
           }}
         >
@@ -539,6 +538,7 @@ const UserManage: React.FC = () => {
           <>
             <Button type="primary" style={{ float: 'right' }} icon={<PlusOutlined />} onClick={() => {
               setIsModal1Open(true);
+              form1.setFieldValue('key',datasource.length+1)
             }}>添加用户</Button>
           </>
         }
