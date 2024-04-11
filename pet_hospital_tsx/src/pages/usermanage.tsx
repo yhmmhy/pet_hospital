@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, LockOutlined, UserOutlined, MailOutlined, PhoneOutlined, WarningOutlined } from '@ant-design/icons';
 import type { GetRef, TableColumnsType, TableColumnType, RadioChangeEvent } from 'antd';
-import { Button, Card, Input, Space, Table, Form, Modal, Radio, ConfigProvider } from 'antd';
+import { Button, Card, Input, Space, Table, Form, Modal, Radio, ConfigProvider, message } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 import { useForm } from 'antd/es/form/Form';
@@ -110,7 +110,7 @@ const UserManage: React.FC = () => {
       }).then(res => {
         // res.data.code == 200
         if (res.data.message == "注册成功") {
-          alert('添加成功');
+          message.success('添加成功');
           datasource.push(value)
           // console.log(datasource)
           setDatasource([...datasource])
@@ -118,7 +118,7 @@ const UserManage: React.FC = () => {
           form1.resetFields()
         }
       }, error => {
-        alert('添加失败');
+        message.error('添加失败');
       })
 
     }
@@ -133,8 +133,8 @@ const UserManage: React.FC = () => {
         'phone': value.phone,
         'role': value.role
       }).then(res => {
-        alert(res.data.message);
         if (res.data.code == 200) {
+          message.success(res.data.message);
           setDatasource(
             datasource.map(p => p.key === rec.key ? {
               ...p,
@@ -147,7 +147,7 @@ const UserManage: React.FC = () => {
           setIsModal2Open(false);
         }
       }, error => {
-        alert('编辑失败');
+        message.error('编辑失败');
       })
     }
   }
@@ -159,13 +159,13 @@ const UserManage: React.FC = () => {
         'id': rec.key,
         'pwd': md5,
       }).then(res => {
-        alert(res.data.message);
         if (res.data.code == 200) {
+          message.success(res.data.message);
           setIsModal3Open(false);
           form3.resetFields()
         }
       }, error => {
-        alert('修改失败');
+        message.error('修改失败');
       })
     }
   }
@@ -330,13 +330,13 @@ const UserManage: React.FC = () => {
               axios.post('/admin/delete_user', {
                 'id': record.key,
               }).then(res => {
-                alert(res.data.message);
                 if (res.data.code == 200) {
+                  message.success(res.data.message);
                   setDatasource(res.data.userlist);
                   
                 }
               }, error => {
-                alert('删除失败');
+                message.error('删除失败');
               })
             }
           }} icon={<DeleteOutlined />}>删除用户</Button>

@@ -139,15 +139,15 @@ const ChargeManage: React.FC = () => {
         'img': value.img,
         'price': value.price
       }).then(res => {
-        alert(res.data.message)
         if (res.data.code == 200) {
+          message.success(res.data.message)
           datasource.push(value)
           setDatasource([...datasource])
           setIsModal1Open(false)
           form1.resetFields()
         }
       }, error => {
-        alert('添加失败');
+        message.error('添加失败');
       })
 
     }
@@ -162,8 +162,8 @@ const ChargeManage: React.FC = () => {
           'img': value.img,
           'price': value.price
       }).then(res => {
-        alert(res.data.message)
         if (res.data.code ==200) {
+          message.success(res.data.message)
           setDatasource(
             datasource.map(p => p.key === rec.key ? {
               ...p,
@@ -177,7 +177,7 @@ const ChargeManage: React.FC = () => {
           setIsModal2Open(false)
         }
       }, error => {
-        alert('修改失败');
+        message.error('修改失败');
       })
 
     }
@@ -349,14 +349,14 @@ const ChargeManage: React.FC = () => {
             setRec(record);
           }}>编辑项目</Button>
           <Button type="primary" style={{ backgroundColor: 'red' }} onClick={() => {
-            if (confirm("确定要删除这条用户数据吗")) {
+            if (confirm("确定要删除这条项目数据吗")) {
               axios.post('/admin/fee/delete/'+record.key).then(res => {
-                alert(res.data.message);
-                if (res.data.message == '删除成功') {
+                if (res.data.code ==200) {
+                  message.success(res.data.message)
                   setDatasource(res.data.feelist);
                 }
               }, error => {
-                alert('删除失败');
+                message.error('删除失败');
               })
               // console.log("删除");
               

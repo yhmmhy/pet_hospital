@@ -35,13 +35,13 @@ function Login() {
             'phone': value.phone,
             'mail': value.mail
         }).then(res => {
-            alert(res.data.message);
             if (res.data.code==200) {
+                message.success(res.data.message);
                 close();
                 form1.resetFields();
             }
         }, error => {
-            alert('注册失败');
+            message.error('注册失败');
         })
     }
 
@@ -64,8 +64,8 @@ function Login() {
             'role': value.role,
             'password': md5,
         }).then(res => {
-            alert(res.data.message)
             if (res.data.code == 200) {
+                message.success(res.data.message)
                 cookie.save('token', res.data.token, { path: '/' });
                 cookie.save('username', value.name, { path: '/' })
                 if (value.role == "实习生") {
@@ -76,7 +76,7 @@ function Login() {
             }
 
         }, error => {
-            alert('登录失败');
+            message.error('登录失败');
         })
 
     }
