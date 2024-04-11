@@ -119,12 +119,12 @@ const TestLayout = () => {
     const [selectkey, setselectkey] = useState('')
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:3007/testpaper/VD_Admin_TestPaperGet');
-            // console.log(response.data)
-            const parsedData = response.data.data.map(item => {
+            const response = await axios.get('http://47.102.142.153:5000/test-paper/get');
+            console.log(response)
+            const parsedData = response.data.exams.map(item => {
                 return {
                     ...item,
-                    selected: JSON.parse(item.selected)
+                    selected: item.selected
                 };
             });
             // console.log(parsedData)
@@ -139,6 +139,7 @@ const TestLayout = () => {
             setitems(newitems)
 
             setselectkey((prev) => parsedData[0].key)
+            settime((prev) => parsedData[0].time)
             // console.log(parsedData[0].key)
             // setData(parsedData)
             // data = parsedData
@@ -164,14 +165,21 @@ const TestLayout = () => {
         setisStart(true)
     }
     const handleClick = (e) => {
-        const clickedKey = e.key;
-        const selectedItem = outdata.find(item => item.key === clickedKey);
-        if (selectedItem) {
-            settime(selectedItem.time);
+        if (isStart) {
+            alert('考试进行中，离开先交卷')
         }
-        // console.log(time)
-        console.log(selectedItem.key)
-        setselectkey(prev => selectedItem.key)
+        else {
+
+
+            const clickedKey = e.key;
+            const selectedItem = outdata.find(item => item.key === clickedKey);
+            if (selectedItem) {
+                settime(selectedItem.time);
+            }
+            // console.log(time)
+            console.log(selectedItem.key)
+            setselectkey(prev => selectedItem.key)
+        }
     };
     const onFinish: CountdownProps['onFinish'] = () => {
         setcountEnd(true)
@@ -208,12 +216,14 @@ const TestLayout = () => {
                     >
                         <Menu
                             mode="inline"
+                            selectable={!isStart}
                             defaultSelectedKeys={['1']}
                             defaultOpenKeys={['sub1']}
                             style={{
                                 height: '100%',
                             }}
                             items={items}
+                            onClick={handleClick}
                         />
                     </Sider>
 
@@ -228,7 +238,7 @@ const TestLayout = () => {
                         <Header style={{ padding: 0, background: colorBgContainer, position: 'sticky', top: '0px', zIndex: 1 }}>
                             {isStart && (<Countdown title="Countdown" value={Date.now() + time * 60 * 1000} onFinish={onFinish} />)}
                         </Header>
-                        <TestContent data={data} pooldata={pooldata} countdownStart={countdownStart} countEnd={countEnd} changeisStart={changeisStart} selectekey={selectkey}></TestContent>
+                        <TestContent data={data} pooldata={pooldata} countdownStart={countdownStart} countEnd={countEnd} changeisStart={changeisStart} selectkey={selectkey}></TestContent>
                     </Content>
                 </Layout>
             </Content>

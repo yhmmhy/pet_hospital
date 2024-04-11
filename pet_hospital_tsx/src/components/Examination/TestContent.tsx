@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Question from './Question'
 import { Form, Modal, Button } from 'antd';
+import axios from 'axios';
 
 let data = [
     {
@@ -55,7 +56,8 @@ let data = [
 export default function TestContent(props) {
     // console.log(props.data)
     // console.log(props.pooldata)
-    const [form] = Form.useForm();
+    // const [form] = Form.useForm();
+    const [form, setForm] = useState(Form.useForm()[0]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [totalscore, settotalscore] = useState(0)
     const [userAnswers, setUserAnswers] = useState({});
@@ -64,8 +66,29 @@ export default function TestContent(props) {
     const [endVisible, setEndVisible] = useState(false);
     const [endFormVisible, setendFormVisible] = useState(false);
     useEffect(() => {
-        console.log(props.selectkey)
+        console.log(props.selectkey);
+        fetchData();
+        form.resetFields();
+        // // 更新状态中的 Form 实例
+        // setForm(newForm);
+        setIsModalOpen(false)
+        settotalscore(0)
+        setUserAnswers({})
+        setisEnd(false)
+        setStartVisible(true)
+        setEndVisible(false)
+        setendFormVisible(false)
     }, [props.selectkey]);
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`http://47.102.142.153:5000/user/test/${props.selectkey}/${props.selectkey}`)
+            console.log(response)
+            data = response.data.exam;
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -77,7 +100,7 @@ export default function TestContent(props) {
     }
     let sumscore = 0;
     for (let i = 0; i < data.length; i++) {
-        sumscore += data[i].score
+        sumscore += data[i].score * 1
     }
     // const handleOk = () => {
     //     let totalscore = 0
@@ -106,10 +129,25 @@ export default function TestContent(props) {
             }
             setUserAnswers(userAnswersCopy);
             settotalscore(totalscore);
+            let scorestring = totalscore.toString() + "/" + sumscore.toString();
+            console.log(scorestring)
+            const scoreobject = { "score": 20 }
+            console.log(scoreobject)
+            axios.post(`http://47.102.142.153:5000/user/test/1/1`, scoreobject)
+                .then(response => {
+                    // 处理请求成功的逻辑
+                    console.log(response)
+                })
+                .catch(error => {
+                    // 处理请求失败的逻辑
+                    console.log(error)
+                });
         });
+
         setIsModalOpen(false);
         setisEnd(true);
         props.changeisStart()
+
     };
 
     useEffect(() => {
