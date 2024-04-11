@@ -35,9 +35,8 @@ function Login() {
             'phone': value.phone,
             'mail': value.mail
         }).then(res => {
-            // res.data.code == 200
             alert(res.data.message);
-            if (res.data.message=="注册成功") {
+            if (res.data.code==200) {
                 close();
                 form1.resetFields();
             }
