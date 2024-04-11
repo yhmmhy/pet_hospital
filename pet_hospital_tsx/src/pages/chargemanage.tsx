@@ -578,7 +578,7 @@ const ChargeManage: React.FC = () => {
         }
         style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}
       >
-        <Table columns={columns} dataSource={datasource} pagination={{ defaultPageSize: 8 }} />
+        <Table columns={columns} dataSource={datasource} pagination={{ defaultPageSize: 3 }} />
       </Card>
     </div >
   );
