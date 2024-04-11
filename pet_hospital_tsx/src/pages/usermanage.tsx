@@ -92,6 +92,32 @@ const UserManage: React.FC = () => {
     }
     callback();
   }
+  const handleValidator3 = (rule, value, callback) => {
+    if (!value) {
+      callback();
+    }
+    const name = form1.getFieldValue('name')
+    var arr = datasource.filter(p => p.name === name);
+    let validateResult = arr.length // 自定义规则
+    if (validateResult!=0) {
+      callback('用户名重复');
+    }
+    callback();
+  }
+  const handleValidator4 = (rule, value, callback) => {
+    if (!value) {
+      callback();
+    }
+    const name = form2.getFieldValue('name')
+    const key = form2.getFieldValue('key')
+    var arr = datasource.filter(p => p.name === name&&p.key!=key);
+    let validateResult = arr.length // 自定义规则
+    if (validateResult!=0) {
+      callback('用户名重复');
+    }
+    callback();
+  }
+  
 
 
   const AddFormFinish = (value) => {
@@ -108,11 +134,9 @@ const UserManage: React.FC = () => {
           'phone': value.phone,
           'mail': value.mail
       }).then(res => {
-        // res.data.code == 200
-        if (res.data.message == "注册成功") {
+        if (res.data.code==200) {
           message.success('添加成功');
           datasource.push(value)
-          // console.log(datasource)
           setDatasource([...datasource])
           setIsModal1Open(false)
           form1.resetFields()
@@ -369,7 +393,7 @@ const UserManage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="name"
-            rules={[{ required: true, message: '请输入用户名' }, { pattern: new RegExp('^[a-zA-Z0-9_]{3,20}$', 'g'), message: '用户名长度为3-20位，允许使用字母，数字和下划线' }]}
+            rules={[{ required: true, message: '请输入用户名' }, { pattern: new RegExp('^[a-zA-Z0-9_]{3,20}$', 'g'), message: '用户名长度为3-20位，允许使用字母，数字和下划线' },{ validator: (rules, value, callback) => { handleValidator3(rules, value, callback) } }]}
           >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
           </Form.Item>
@@ -447,7 +471,7 @@ const UserManage: React.FC = () => {
         >
           <Form.Item
             name="name"
-            rules={[{ required: true, message: '请输入用户名' }, { pattern: new RegExp('^[a-zA-Z0-9_]{3,20}$', 'g'), message: '用户名长度为3-20位，允许使用字母，数字和下划线' }]}
+            rules={[{ required: true, message: '请输入用户名' }, { pattern: new RegExp('^[a-zA-Z0-9_]{3,20}$', 'g'), message: '用户名长度为3-20位，允许使用字母，数字和下划线' },{ validator: (rules, value, callback) => { handleValidator4(rules, value, callback) } }]}
           >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
           </Form.Item>

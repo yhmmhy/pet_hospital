@@ -46,7 +46,7 @@ const getBase64 = (img: FileType, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 const data: DataType[] = [
-  
+
 ];
 
 
@@ -68,12 +68,14 @@ const ChargeManage: React.FC = () => {
     price: 11.1
   })
   const [imageUrl, setImageUrl] = useState<string>();
+  const [oldImageUrl, setOldImageUrl] = useState<string>();
   axios.defaults.baseURL = 'http://47.102.142.153:5000';
   axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
   useEffect(() => {
     axios.get('/fee/get').then((res) => {
+      console.log(res.data.projectlist)
       setDatasource(res.data.projectlist)
     })
       .catch(error => {
@@ -128,11 +130,35 @@ const ChargeManage: React.FC = () => {
     setIsModal1Open(false);
     setIsModal2Open(false);
   };
+  const handleValidator = (rule, value, callback) => {
+    if (!value) {
+      callback();
+    }
+    const name = form1.getFieldValue('name')
+    var arr = datasource.filter(p => p.name === name);
+    let validateResult = arr.length // 自定义规则
+    if (validateResult!=0) {
+      callback('项目名重复');
+    }
+    callback();
+  }
+  const handleValidator2 = (rule, value, callback) => {
+    if (!value) {
+      callback();
+    }
+    const name = form2.getFieldValue('name')
+    const key = form2.getFieldValue('key')
+    var arr = datasource.filter(p => p.name === name && p.key!=key);
+    let validateResult = arr.length // 自定义规则
+    if (validateResult!=0) {
+      callback('项目名重复');
+    }
+    callback();
+  }
   const AddFormFinish = (value) => {
-    console.log(value.key)
     if (confirm("确定要添加这个收费项目吗") === true) {
       axios.post('/admin/fee/add', {
-        'key':value.key,
+        'key': value.key,
         'name': value.name,
         'type': value.type,
         'description': value.description,
@@ -155,14 +181,15 @@ const ChargeManage: React.FC = () => {
   }
   const ModifyFormFinish = (value) => {
     if (confirm("确定要将这个项目的信息修改成如下信息吗") === true) {
-      axios.post('/admin/fee/edit/'+value.key,{
-          'name': value.name,
-          'type': value.type,
-          'description': value.description,
-          'img': value.img,
-          'price': value.price
+      var image = value.img == oldImageUrl?'done':value.img
+      axios.post('/admin/fee/edit/' + value.key, {
+        'name': value.name,
+        'type': value.type,
+        'description': value.description,
+        'img': image,
+        'price': value.price
       }).then(res => {
-        if (res.data.code ==200) {
+        if (res.data.code == 200) {
           message.success(res.data.message)
           setDatasource(
             datasource.map(p => p.key === rec.key ? {
@@ -177,6 +204,7 @@ const ChargeManage: React.FC = () => {
           setIsModal2Open(false)
         }
       }, error => {
+        console.log(image)
         message.error('修改失败');
       })
 
@@ -346,20 +374,20 @@ const ChargeManage: React.FC = () => {
               'price': record.price,
             });
             setImageUrl(record.img)
+            setOldImageUrl(record.img)
             setRec(record);
           }}>编辑项目</Button>
           <Button type="primary" style={{ backgroundColor: 'red' }} onClick={() => {
             if (confirm("确定要删除这条项目数据吗")) {
-              axios.post('/admin/fee/delete/'+record.key).then(res => {
-                if (res.data.code ==200) {
+              axios.post('/admin/fee/delete/' + record.key).then(res => {
+                if (res.data.code == 200) {
                   message.success(res.data.message)
                   setDatasource(res.data.feelist);
                 }
               }, error => {
                 message.error('删除失败');
               })
-              // console.log("删除");
-              
+
             }
           }} icon={<DeleteOutlined />}>删除项目</Button>
         </Space>
@@ -388,7 +416,7 @@ const ChargeManage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="name"
-            rules={[{ required: true, message: '请输入项目名' }]}
+            rules={[{ required: true, message: '请输入项目名' }, { validator: (rules, value, callback) => { handleValidator(rules, value, callback) } }]}
           >
             <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={20} />
           </Form.Item>
@@ -472,7 +500,7 @@ const ChargeManage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="name"
-            rules={[{ required: true, message: '请输入项目名' }]}
+            rules={[{ required: true, message: '请输入项目名' }, { validator: (rules, value, callback) => { handleValidator2(rules, value, callback) } }]}
           >
             <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={20} />
           </Form.Item>
@@ -487,6 +515,7 @@ const ChargeManage: React.FC = () => {
                 { value: '药品', label: '药品' },
                 { value: '化验项目', label: '化验项目' },
                 { value: '疫苗', label: '疫苗' },
+                { value: '收费项目', label: '收费项目' },
               ]}
               placeholder='项目类型'
               menuItemSelectedIcon={<AlignLeftOutlined />}
@@ -543,7 +572,7 @@ const ChargeManage: React.FC = () => {
             <Button type="primary" style={{ float: 'right' }} icon={<PlusOutlined />} onClick={() => {
               setImageUrl('')
               setIsModal1Open(true);
-              form1.setFieldValue('key',datasource.length+1)
+              form1.setFieldValue('key', datasource.length + 1)
             }}>添加项目</Button>
           </>
         }
