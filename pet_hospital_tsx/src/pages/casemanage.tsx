@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Card, Button, Form, Input, Table, Modal, message, Space, Upload, Popconfirm, Tooltip } from 'antd'
+import { Card, Button, Form, Input, Table, Modal, message, Space, Upload, Popconfirm, Tooltip, Select } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined, UndoOutlined, ZoomInOutlined } from '@ant-design/icons';
 import MyUpload from "../components/MyUpload";
 import { delByIdAPI, insertAPI, insertAllAPI, loadDataAPI, loadDataByIdAPI, loadDataByNameAPI, updateByIdAPI } from "../services/caseManage";
@@ -122,7 +122,7 @@ function CaseManage() {
                                                 await loadDataByIdAPI(r.id).then((res) => {
                                                     console.log('当前病例get', res.case); // 输出模拟的数据
                                                     if (res.case.photo_0.length > 0) {
-                                                        
+
                                                         console.log('图片 URL 数组1:', res.case.photo_0);
                                                         setImageData1(res.case.photo_0);
                                                     }
@@ -158,7 +158,12 @@ function CaseManage() {
                                         </Tooltip>
                                         <Tooltip title="删除">
                                             <Popconfirm title='是否确认删除' onConfirm={async () => {
-                                                await delByIdAPI(r.id);
+                                                await delByIdAPI(r.id).then((res) => {
+                                                    if (res.message === '删除成功') {
+                                                        message.success('删除成功')
+                                                    }
+                                                    console.log('删除', res);
+                                                });
                                                 setQuery({});
                                             }}>
                                                 <Button type='primary' icon={<DeleteOutlined />} danger />
@@ -169,7 +174,7 @@ function CaseManage() {
                                 }
                             }
                         ]
-                    }/>
+                    } />
             </Card>
             <Modal
                 title="编辑"
@@ -202,47 +207,39 @@ function CaseManage() {
                             message.success('展示完毕');
                         }
                         else {
-                            // console.log('value',v.名称);
-                            // console.log('打印输出',imageData);
-                            // const formData = new FormData();
-                            // if (imageData.length > 0) {
-                            //     imageData.forEach((file, index) => {
-                            //       formData.append('files', file);
-                            //     });
-                            // };
-                            // submitData(formData);
+
                             if (currentId) {
                                 console.log('update', newData);
                                 await updateByIdAPI(currentId, newData)
-                                .then((res) => {
-                                    console.log(res);
-                                    setIsShow(false);
-                                    setImageData1([]);
-                                    setImageData2([]);
-                                    setVideoData([]);
-                                    setCurrentId('');
-                                    setQuery({});
-                                    message.success('修改成功');
-                                })
-                                .catch((error) => {
-                                    console.error("Error:", error);
-                                });
+                                    .then((res) => {
+                                        console.log(res);
+                                        setIsShow(false);
+                                        setImageData1([]);
+                                        setImageData2([]);
+                                        setVideoData([]);
+                                        setCurrentId('');
+                                        setQuery({});
+                                        message.success('修改成功');
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error:", error);
+                                    });
                             } else {
                                 console.log('发送信息', newData);
                                 await insertAllAPI(newData)
-                                .then((res) => {
-                                    console.log(res);
-                                    setIsShow(false);
-                                    setImageData1([]);
-                                    setImageData2([]);
-                                    setVideoData([]);
-                                    setCurrentId('');
-                                    setQuery({});
-                                    message.success('上传成功');
-                                })
-                                .catch((error) => {
-                                    console.error("Error:", error);
-                                });
+                                    .then((res) => {
+                                        console.log(res);
+                                        setIsShow(false);
+                                        setImageData1([]);
+                                        setImageData2([]);
+                                        setVideoData([]);
+                                        setCurrentId('');
+                                        setQuery({});
+                                        message.success('上传成功');
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error:", error);
+                                    });
                                 // await submitData(imageData,v);
                                 // message.success('上传成功');
                             }
@@ -266,6 +263,22 @@ function CaseManage() {
                         ]
                     }>
                         <Input placeholder="请输入病例名称" />
+                    </Form.Item>
+                    <Form.Item label='病例类型' name='case_type' rules={[
+                        {
+                            required: true,
+                            message: '请选择病例类型'
+                        }
+                    ]}>
+                        <Select placeholder="请选择病例类型">
+                            <Select.Option value="犬瘟热">犬瘟热</Select.Option>
+                            <Select.Option value="犬细小病毒">犬细小病毒</Select.Option>;
+                            <Select.Option value="犬传染性肝炎">犬传染性肝炎</Select.Option>
+                            <Select.Option value="犬冠状病毒">犬冠状病毒</Select.Option>
+                            <Select.Option value="猫泛白细胞减少症">猫泛白细胞减少症</Select.Option>
+                            <Select.Option value="猫病毒性病气管炎">猫病毒性病气管炎</Select.Option>
+                            <Select.Option value="皮肤真菌感染">皮肤真菌感染</Select.Option>
+                        </Select>
                     </Form.Item>
                     <Form.Item label='接诊' name='admission' rules={
                         [
