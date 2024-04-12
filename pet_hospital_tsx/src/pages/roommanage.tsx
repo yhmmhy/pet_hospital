@@ -201,7 +201,7 @@ function RoomManage() {
                                 }
                             }
                         ]
-                    } />
+                    }/>
             </Card>
             <Modal
                 title="编辑"

@@ -169,7 +169,7 @@ function CaseManage() {
                                 }
                             }
                         ]
-                    } />
+                    }/>
             </Card>
             <Modal
                 title="编辑"
