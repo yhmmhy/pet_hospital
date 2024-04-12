@@ -418,7 +418,7 @@ const ChargeManage: React.FC = () => {
             name="name"
             rules={[{ required: true, message: '请输入项目名' }, { validator: (rules, value, callback) => { handleValidator(rules, value, callback) } }]}
           >
-            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={20} />
+            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={100} />
           </Form.Item>
           <Form.Item
             name="type"
@@ -502,7 +502,7 @@ const ChargeManage: React.FC = () => {
             name="name"
             rules={[{ required: true, message: '请输入项目名' }, { validator: (rules, value, callback) => { handleValidator2(rules, value, callback) } }]}
           >
-            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={20} />
+            <Input prefix={<FileOutlined className="site-form-item-icon" />} placeholder="项目名" showCount maxLength={100} />
           </Form.Item>
           <Form.Item
             name="type"

@@ -53,7 +53,7 @@ const ForeLayout = ({children}: any) =>{
               label: '首页',
             },
             {
-              key: '/fore/view',
+              key: '/fore/BasicTable',
               icon: <CompassOutlined />,
               label: '医院导览',
             },

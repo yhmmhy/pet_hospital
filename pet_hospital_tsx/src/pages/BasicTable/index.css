@@ -1,0 +1,302 @@
+.photoImg{
+    width: 860px;
+    display: flex;
+
+    justify-content: center;
+    position: relative;
+
+    margin: 0 auto;
+   
+}
+
+.qiantai{
+    width: 150px;
+    height: 120px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 183px;
+    left: 75px;
+}
+
+
+.zhenshi{
+    width: 160px;
+    height: 100px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    bottom: 150px;
+    left: 0px;
+    
+}
+
+.dangan{
+    width: 180px;
+    height: 64px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 110px;
+    left: 120px;
+}
+
+.shoushu{
+    width: 150px;
+    height: 64px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    bottom: 180px;
+    left: 180px;
+    
+}
+.zhuyuan{
+    width: 150px;
+    height: 64px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 180px;
+    left: 240px;
+}
+.jiancha{
+    width: 150px;
+    height: 128px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 270px;
+    left: 240px;
+}
+.sszbs{
+    width: 280px;
+    height: 64px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 110px;
+    left: 340px;
+}
+.zhushe{
+    width: 80px;
+    height: 100px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 200px;
+    right: 190px;
+}
+.yaofang{
+    width: 100px;
+    height: 110px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    bottom: 200px;
+    right: 190px;
+}
+.huayan{
+    width: 100px;
+    height: 110px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    top:120px;
+    right: 60px;
+}
+.yingxiang{
+    width: 100px;
+    height: 70px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    top:250px;
+    right: 60px;
+}
+.chuzhi{
+    width: 100px;
+    height: 70px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    bottom:250px;
+    right: 60px;
+}
+.mianyi{
+    width: 100px;
+    height: 100px;
+    background:rgba(0, 0, 0, 0);
+    position: absolute;
+    bottom:140px;
+    right: 60px;
+}
+.one1{
+        
+    width: 180px;
+    background: black;
+    position: absolute;
+    top: -10px;
+    margin-left: 0px;
+    text-align: center;
+    color:  #21ebff;
+    z-index: 99;
+    line-height: 80px;
+    font-size: 16px
+}
+ .one1::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+  
+    width: 100%;
+    height: 100%;
+    border-left: 2px solid #21ebff;
+    border-top: 2px solid #21ebff;
+
+}
+.one1::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  
+    width: 100%;
+    height: 100%;
+    border-right: solid #21ebff;
+    border-bottom: solid #21ebff;
+
+}
+.one1:hover{
+    background: #21ebff;
+   
+    color: #111;
+    box-shadow: 0 0 50px #21ebff;
+}
+
+.two{
+        
+    width: 180px;
+    background: black;
+    position: absolute;
+    top: 0px;
+    left: 960px;
+    text-align: center;
+    color:  #21ebff;
+    z-index: 99;
+    line-height: 80px;
+    font-size: 16px
+}
+ .two::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+  
+    width: 100%;
+    height: 100%;
+    border-left: 2px solid #21ebff;
+    border-top: 2px solid #21ebff;
+
+}
+.two::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  
+    width: 100%;
+    height: 100%;
+    border-right: solid #21ebff;
+    border-bottom: solid #21ebff;
+
+}
+.two:hover{
+    background: #21ebff;
+   
+    color: #111;
+    box-shadow: 0 0 50px #21ebff;
+}
+.three{
+   
+    position: relative;
+  
+   z-index: 0;
+
+
+
+}
+
+.four{
+        
+    width: 180px;
+    background: rgb(194, 188, 188);
+    position: absolute;
+    top: 560px;
+    left: 658px;
+    text-align: center;
+    color:  white;
+    z-index: 99;
+    line-height: 80px;
+    font-size: 16px;
+    border-radius: 25%;
+}
+.b1{
+        
+    width: 160px;
+    background: rgb(194, 188, 188);
+    position: absolute;
+    top: 640px;
+    left: 658px;
+    text-align: center;
+    color:  white;
+    z-index: 99;
+    line-height: 80px;
+    font-size: 16px;
+    border-left: 3px solid black;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}.b2{
+        
+    width: 160px;
+    background: rgb(194, 188, 188);
+    position: absolute;
+    top: 640px;
+    left: 818px;
+    text-align: center;
+    color:  white;
+    z-index: 99;
+    line-height: 80px;
+    font-size: 16px;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}.b3{
+        
+    width: 160px;
+    background: rgb(194, 188, 188);
+    position: absolute;
+    top: 640px;
+    left: 978px;
+    text-align: center;
+    color:  white;
+    z-index: 99;
+    line-height: 80px;
+    font-size: 16px;
+    border-right: 3px solid black;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
+.icon{
+    width: 70px;
+    height: 70px;
+}
+
+.selectDiv{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    position: absolute;
+    left:-20%;
+    top: 560px;
+    z-index: 9999;
+  
+    color: black;
+}
+
+.selectChar{
+    background-color: white;
+    border: none;
+}
+.selectChar .option {
+    background-color: transparent;
+}

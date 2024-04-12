@@ -8,12 +8,14 @@ import CaseLearn from './pages/caselearn'
 import Examination from './pages/examination'
 import CaseList from './pages/caselist'
 import Show from './pages/show'
+import BasicTable from './pages/BasicTable'
 function App2() {
   return (
     <ForeLayout>
       <Routes>
         <Route path='' element={<Home />} />
         <Route path='view' element={<View />} />
+        <Route path='BasicTable' element={<BasicTable />} />
         <Route path='roleplay' element={<RolePlay />} />
         <Route path='examination' element={<Examination />} />
         <Route path='caselearn/*' element={<CaseLearn />} />
