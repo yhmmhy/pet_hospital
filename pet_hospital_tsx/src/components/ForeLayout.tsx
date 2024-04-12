@@ -11,6 +11,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Login from '../pages/login'
 import cookie from 'react-cookies'
+import Assist from '../pages/assist';
 const { Header, Content, Footer } = Layout;
 
 const ForeLayout = ({children}: any) =>{
@@ -90,9 +91,7 @@ const ForeLayout = ({children}: any) =>{
             // background: colorBgContainer,
             borderRadius: borderRadiusLG,}}>
         {children}
-        <Modal title="智能助教" open={modalOpen} onCancel={()=>{setModalOpen(false)}} footer={[]}>
-          这里是智能助教模块
-        </Modal>
+        <Assist modalOpen={modalOpen} setModalOpen={setModalOpen}/>
         <FloatButton icon={<QuestionCircleOutlined />} type="primary" style={{ right: 24 }} onClick={()=>{
           setModalOpen(true);
         }}/>
