@@ -1,28 +1,41 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Drawer } from 'antd';
 import { ProChat } from '@ant-design/pro-chat';
 import { useTheme } from 'antd-style';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://127.0.0.1:3007';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-const assist: React.FC<{ modalOpen, setModalOpen }> = ({ modalOpen, setModalOpen }) => {
+const assist: React.FC<{ open, setOpen }> = ({ open, setOpen }) => {
     const theme = useTheme();
-
     return (
         <>
-            <Modal title="智能助教" open={modalOpen} onCancel={() => { setModalOpen(false) }} footer={[]} style={{}}>
-                <div style={{ background: theme.colorBgLayout }}>
-                    <ProChat
-                        helloMessage={
-                            '欢迎使用 ProChat ，我是你的专属机器人，这是我们的 Github：[ProChat](https://github.com/ant-design/pro-chat)'
-                        }
-                        request={async (messages) => {
-                            const mockedData: string = `这是一段模拟的对话数据。本次会话传入了${messages.length}条消息`;
-                            return new Response(mockedData);
-                        }}
-                    />
-                </div>
-            </Modal>
+            <Drawer
+                title="智能助教"
+                onClose={()=>{setOpen(false)}}
+                open={open}
+                styles={{
+                    body: {
+                        padding: 0,
+                    },
+                }}
+            >
+                <ProChat
+                    style={{ background: theme.colorBgLayout }}
+                    helloMessage = "你好，这里是智能助教。"
+                    request={async (messages:Array<any>) => {
+                        const resp = await axios.post('/ai/aiResponse', {
+                            'messages':messages
+                        });
+                        console.log(messages)
+                        return new Response(resp.data.message);
+                    }}
+                    
+                />
+            </Drawer>
         </>
     );
 };
 
 export default assist;
+

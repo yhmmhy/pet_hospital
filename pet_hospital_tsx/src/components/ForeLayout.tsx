@@ -1,34 +1,42 @@
-import React,{Children, useState} from 'react';
-import { Breadcrumb, Layout, Menu, theme,Button,FloatButton, Modal } from 'antd';
+import React, { Children, useState } from 'react';
+import { Breadcrumb, Layout, Menu, theme, Button, FloatButton, Modal } from 'antd';
 import {
-    UserOutlined,
-    HomeOutlined,
-    ReadOutlined,
-    CompassOutlined,
-    SolutionOutlined,
-    QuestionCircleOutlined
-  } from '@ant-design/icons';
+  UserOutlined,
+  HomeOutlined,
+  ReadOutlined,
+  CompassOutlined,
+  SolutionOutlined,
+  QuestionCircleOutlined
+} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Login from '../pages/login'
 import cookie from 'react-cookies'
 import Assist from '../pages/assist';
+
+
 const { Header, Content, Footer } = Layout;
 
-const ForeLayout = ({children}: any) =>{
-  const [modalOpen,setModalOpen] = useState(false);
+const ForeLayout = ({ children }: any) => {
+
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const navigate = useNavigate()
-  const menuClick = (e:{key:string}) =>{
+  const menuClick = (e: { key: string }) => {
     navigate(e.key)
-}
-  if(!cookie.load('token')){
-    return <Login/> 
+  }
+  if (!cookie.load('token')) {
+    return <Login />
   }
   return (
-    <Layout style={{width: '100vw',height: '100vh'}}
-    id='layout'>
+    <Layout style={{ width: '100vw', height: '100vh' }}
+      id='layout'>
       <Header
         style={{
           position: 'sticky',
@@ -37,11 +45,11 @@ const ForeLayout = ({children}: any) =>{
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-        }} 
-        
+        }}
+
       >
-        <h1 style={{color:'white',fontSize:'20px',marginRight:'20px'}}>
-            虚拟宠物医院学习系统
+        <h1 style={{ color: 'white', fontSize: '20px', marginRight: '20px' }}>
+          虚拟宠物医院学习系统
         </h1>
         <Menu
           theme="dark"
@@ -77,24 +85,24 @@ const ForeLayout = ({children}: any) =>{
           style={{ flex: 1, minWidth: 0 }}
         />
         <Button style={{
-            float: 'right',
-          }} onClick={() => {
-            console.log(cookie.load('token'))
-            cookie.remove('token',{path:'/'})
-            navigate('/');
-          }}>
-            退出登录
-          </Button>
+          float: 'right',
+        }} onClick={() => {
+          console.log(cookie.load('token'))
+          cookie.remove('token', { path: '/' })
+          navigate('/');
+        }}>
+          退出登录
+        </Button>
       </Header>
-      <Content style={{ margin: '24px 48px',
-            minHeight: 750,
-            // background: colorBgContainer,
-            borderRadius: borderRadiusLG,}}>
+      <Content style={{
+        margin: '24px 48px',
+        minHeight: 750,
+        // background: colorBgContainer,
+        borderRadius: borderRadiusLG,
+      }}>
         {children}
-        <Assist modalOpen={modalOpen} setModalOpen={setModalOpen}/>
-        <FloatButton icon={<QuestionCircleOutlined />} type="primary" style={{ right: 24 }} onClick={()=>{
-          setModalOpen(true);
-        }}/>
+        <FloatButton icon={<QuestionCircleOutlined />} type="primary" onClick={showDrawer} />
+        <Assist open={open} setOpen={setOpen}/>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
         ECNU SEI ©{new Date().getFullYear()}
