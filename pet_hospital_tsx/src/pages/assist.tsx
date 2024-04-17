@@ -22,7 +22,7 @@ const assist: React.FC<{ open, setOpen, id }> = ({ open, setOpen, id }) => {
             >
                 <ProChat
                     style={{ background: theme.colorBgLayout }}
-                    helloMessage={id}
+                    helloMessage='您好，我是您的智能助教'
                     request={async (messages: Array<any>) => {
                         const resp = await axios.post('https://api.fastgpt.in/api/v1/chat/completions', {
                             "chatId": id,
