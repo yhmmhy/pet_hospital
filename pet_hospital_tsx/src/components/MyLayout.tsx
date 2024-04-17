@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -8,8 +8,11 @@ import {
   HomeOutlined,
   PayCircleOutlined,
   UnorderedListOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme, Dropdown, message } from 'antd';
+import { Layout, Menu, Button, theme, Dropdown, message, FloatButton } from 'antd';
+import { Divider, Space, Tour } from 'antd';
+import type { TourProps } from 'antd';
 import logo from '../assets/1.ico'
 import '../index.css'
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +31,31 @@ const MyLayout = ({ children }: any) => {
 
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate()
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
+  const ref3 = useRef(null);
+  const [tourOpen, setTourOpen] = useState<boolean>(false);
+  useEffect(() => {
+    console.log(ref1)
+  }, [ref1])
+  const steps: TourProps['steps'] = [
+    {
+      title: '管理菜单栏',
+      description: '包括用户管理等多种数据的管理，可以进行对相应数据的增删改查',
+      placement: 'right',
+      target: () => ref1.current.menu.list,
+    },
+    {
+      title: '退出登录',
+      description: '登出当前用户',
+      target: () => ref2.current,
+    },
+    {
+      title: '功能导航',
+      description: '想要再次浏览页面功能导航，可以点击此按钮',
+      target: () => ref3.current,
+    },
+  ];
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -35,9 +63,9 @@ const MyLayout = ({ children }: any) => {
     message.error('登录后才能访问哦')
     return <Login />
   }
-  if(cookie.load('role')=='实习生'){
+  if (cookie.load('role') == '实习生') {
     message.error('权限不足，请登录管理员账号后尝试');
-    return <App2/>
+    return <App2 />
   }
   return (
     <Layout style={{ width: '100vw', height: '100vh' }}
@@ -53,6 +81,7 @@ const MyLayout = ({ children }: any) => {
           onClick={({ key }) => {
             navigate(key);
           }}
+          ref={ref1}
           items={[
             {
               key: '/index/',
@@ -105,7 +134,7 @@ const MyLayout = ({ children }: any) => {
             }}
           />
           <span className='app-title'>虚拟宠物医院后台管理系统</span>
-          <Button style={{
+          <Button ref={ref2} style={{
             float: 'right',
             marginTop: '16px',
             marginRight: '50px',
@@ -135,6 +164,8 @@ const MyLayout = ({ children }: any) => {
           }}
         >
           {children}
+          <FloatButton icon={<FileTextOutlined />} onClick={() => { setTourOpen(true) }} ref={ref3} />
+          <Tour open={tourOpen} onClose={() => setTourOpen(false)} steps={steps} />
         </Content>
       </Layout>
     </Layout>
