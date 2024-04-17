@@ -5,7 +5,7 @@ import { Button, Input, Space, Table, message } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 import { Navigate, useNavigate ,useLocation} from 'react-router-dom';
-import { loadDataByNameAPI } from '../services/caseManage';
+import { loadDataByNameAPI, loadDataByTypeAPI } from '../services/caseManage';
 type InputRef = GetRef<typeof Input>;
 
 interface DataType {
@@ -35,7 +35,7 @@ const CaseList = () => {
     console.log('get caseItem',caseItem);
     // Filter the data based on the caseItem
     if(caseItem!==null){
-      loadDataByNameAPI(caseItem).then((res) => {
+      loadDataByTypeAPI(caseItem).then((res) => {
         console.log(res);
         if (res.message === '读取病例记录成功') {
           setData(res.cases);

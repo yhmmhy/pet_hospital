@@ -4,6 +4,8 @@ export const loadDataAPI = (query:any ={}) => get('/case/get',query);//返回所
 
 export const loadDataByNameAPI = (name:string) => get('/case/get/name='+name);//根据病例名称返回纯文字数据的病例数组
 
+export const loadDataByTypeAPI = (case_type:string) => get('/case/get/type='+case_type);//根据病例类别返回纯文字数据的病例数组
+
 export const loadDataByIdAPI = (id:string) => get(`/case/get/id=${id}`);//返回单个病例全部数据
 
 export const updateByIdAPI =(id:string,data:any) =>post('/admin/case/edit/'+id,data);//更新单个病例的全部信息
