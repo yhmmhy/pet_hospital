@@ -197,7 +197,7 @@ function CaseManage() {
                                 }
                             }
                         ]
-                    } />
+                    } pagination={{defaultPageSize:8}}/>
             </Card>
             <Modal
                 title="编辑"

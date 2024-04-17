@@ -110,7 +110,7 @@ function RoomManage() {
                                 }
                             }
                         ]
-                    }/>
+                    } pagination={{defaultPageSize:7}}/>
             </Card>
             <Modal
                 title="编辑"

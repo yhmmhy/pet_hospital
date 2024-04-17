@@ -14,7 +14,6 @@ function App2() {
     <ForeLayout>
       <Routes>
         <Route path='' element={<Home />} />
-        <Route path='view' element={<View />} />
         <Route path='BasicTable' element={<BasicTable />} />
         <Route path='roleplay' element={<RolePlay />} />
         <Route path='examination' element={<Examination />} />
