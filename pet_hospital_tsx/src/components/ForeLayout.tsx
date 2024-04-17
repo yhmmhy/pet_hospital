@@ -1,5 +1,5 @@
 import React, { Children, useState } from 'react';
-import { Breadcrumb, Layout, Menu, theme, Button, FloatButton, Modal } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, Button, FloatButton, Modal, message } from 'antd';
 import {
   UserOutlined,
   HomeOutlined,
@@ -15,7 +15,12 @@ import Assist from '../pages/assist';
 
 
 const { Header, Content, Footer } = Layout;
-
+function randomString(length, chars) {
+  var result = '';
+  for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+  return result;
+}
+const id = randomString(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 const ForeLayout = ({ children }: any) => {
 
   const [open, setOpen] = useState(false);
@@ -32,8 +37,11 @@ const ForeLayout = ({ children }: any) => {
     navigate(e.key)
   }
   if (!cookie.load('token')) {
+    message.error('登录后才能访问哦')
     return <Login />
+
   }
+
   return (
     <Layout style={{ width: '100vw', height: '100vh' }}
       id='layout'>
@@ -89,6 +97,8 @@ const ForeLayout = ({ children }: any) => {
         }} onClick={() => {
           console.log(cookie.load('token'))
           cookie.remove('token', { path: '/' })
+          cookie.remove('username', { path: '/' })
+          cookie.remove('role', { path: '/' })
           navigate('/');
         }}>
           退出登录
@@ -102,7 +112,7 @@ const ForeLayout = ({ children }: any) => {
       }}>
         {children}
         <FloatButton icon={<QuestionCircleOutlined />} type="primary" onClick={showDrawer} />
-        <Assist open={open} setOpen={setOpen}/>
+        <Assist open={open} setOpen={setOpen}id ={id} />
       </Content>
       <Footer style={{ textAlign: 'center' }}>
         ECNU SEI ©{new Date().getFullYear()}

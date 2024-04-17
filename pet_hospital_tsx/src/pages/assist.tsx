@@ -3,16 +3,16 @@ import { Button, Drawer } from 'antd';
 import { ProChat } from '@ant-design/pro-chat';
 import { useTheme } from 'antd-style';
 import axios from 'axios';
-axios.defaults.baseURL = 'http://127.0.0.1:3007';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Authorization'] = 'Bearer fastgpt-7ABK8zeleOPA8abak7PvwMo6o6SiCDVdpQycq8cMRMAOZVTTKAkgZcz9BaZzH58';
 
-const assist: React.FC<{ open, setOpen }> = ({ open, setOpen }) => {
+const assist: React.FC<{ open, setOpen, id }> = ({ open, setOpen, id }) => {
     const theme = useTheme();
+
     return (
         <>
             <Drawer
                 title="智能助教"
-                onClose={()=>{setOpen(false)}}
+                onClose={() => { setOpen(false) }}
                 open={open}
                 styles={{
                     body: {
@@ -22,15 +22,23 @@ const assist: React.FC<{ open, setOpen }> = ({ open, setOpen }) => {
             >
                 <ProChat
                     style={{ background: theme.colorBgLayout }}
-                    helloMessage = "你好，这里是智能助教。"
-                    request={async (messages:Array<any>) => {
-                        const resp = await axios.post('/ai/aiResponse', {
-                            'messages':messages
+                    helloMessage={id}
+                    request={async (messages: Array<any>) => {
+                        const resp = await axios.post('https://api.fastgpt.in/api/v1/chat/completions', {
+                            "chatId": id,
+                            "stream": false,
+                            "detail": false,
+                            'messages': [
+                                {
+                                    'content': messages[messages.length - 1].content,
+                                    'role': messages[messages.length - 1].role
+                                }
+                            ]
                         });
-                        console.log(messages)
-                        return new Response(resp.data.message);
+                        const ans = resp.data.choices[0].message.content
+                        return new Response(ans);
                     }}
-                    
+
                 />
             </Drawer>
         </>

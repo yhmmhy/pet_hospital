@@ -67,7 +67,8 @@ function Login() {
             if (res.data.code == 200) {
                 message.success(res.data.message)
                 cookie.save('token', res.data.token, { path: '/' });
-                cookie.save('username', value.name, { path: '/' })
+                cookie.save('username', value.name, { path: '/' });
+                cookie.save('role', value.role, { path: '/' })
                 if (value.role == "实习生") {
                     navigate('/fore')
                 } else if (value.page == '前台') {

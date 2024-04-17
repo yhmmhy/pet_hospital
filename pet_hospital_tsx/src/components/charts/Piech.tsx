@@ -4,7 +4,7 @@ import { Pie } from '@ant-design/plots';
 import axios from "axios";
 interface DataType {
   role: string,
-  sold: number,
+  percent: number,
 }
 
 const Piech = () => {
@@ -14,8 +14,8 @@ const Piech = () => {
   useEffect(() => {
     axios.get('/admin').then((res) => {
       const source = [
-        { role: '实习生', sold: res.data.stunum / res.data.usernum },
-        { role: '管理员', sold: res.data.adminnum / res.data.usernum },
+        { role: '实习生', percent: res.data.stunum / res.data.usernum },
+        { role: '管理员', percent: res.data.adminnum / res.data.usernum },
       ]
       setDatasource(source)
 
@@ -26,12 +26,12 @@ const Piech = () => {
   }, [])
   const config = {
     data: datasource,
-    angleField: 'sold',
+    angleField: 'percent',
     colorField: 'role',
     legend: false,
     label: {
-      text: ({ role, sold }) => {
-        return `${role}: ${parseInt(sold * 100)}%`;
+      text: ({ role, percent }) => {
+        return `${role}: ${parseInt(percent * 100)}%`;
       },
       fill: '#fff',
       fontSize: 18,

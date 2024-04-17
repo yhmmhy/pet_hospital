@@ -5,7 +5,7 @@ import axios from "axios";
 
 interface DataType {
   labelName: string,
-  value: number,
+  sum: number,
 }
 
 const Barch = () => {
@@ -17,19 +17,19 @@ const Barch = () => {
       const source = [
         {
           labelName: '用户',
-          value: res.data.usernum,
+          sum: res.data.usernum,
         },
         {
           labelName: '病例',
-          value: res.data.casenum,
+          sum: res.data.casenum,
         },
         {
           labelName: '题库',
-          value: res.data.quesnum,
+          sum: res.data.quesnum,
         },
         {
           labelName: '试卷',
-          value: res.data.papernum,
+          sum: res.data.papernum,
         },
       ]
       setDatasource(source)
@@ -41,7 +41,7 @@ const Barch = () => {
   const config = {
     data:datasource,
     xField: 'labelName',
-    yField: 'value',
+    yField: 'sum',
     paddingRight: 80,
     height:400,
     width:400,
@@ -51,7 +51,7 @@ const Barch = () => {
     markBackground: {
       label: {
         text: ({ originData }) => {
-          return `${originData.value}`;
+          return `${originData.sum}`;
         },
         position: 'right',
         dx: 80,
