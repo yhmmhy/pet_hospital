@@ -9,7 +9,7 @@ function RoomManage() {
     const [myForm] = Form.useForm();//获取表单元素实例
     const [myInfoForm] = Form.useForm();//获取表单元素实例
     const [query, setQuery] = useState({});
-    const [data, setData] = useState(updatedRoomData);
+    const [data, setData] = useState([]);
     const [currentId, setCurrentId] = useState('');
     const [isInfoShow, setIsInfoShow] = useState(false);
     const [imageData, setImageData] = useState([]);
@@ -181,10 +181,10 @@ function RoomManage() {
                         <Input placeholder="科室信息" />
                     </Form.Item>
                     <Form.Item label='科室图片' name='picture'>
-                        <MyUpload handleFileData={setImageData} initialImageList={imageData} />
+                        <MyUpload handleFileData={setImageData} initialImageList={imageData} isShow={false}/>
                     </Form.Item>
                     <Form.Item label='科室视频' name='video'>
-                        <VideoUpload handleFileData={setVideoData} initialImageList={videoData} />
+                        <VideoUpload handleFileData={setVideoData} initialImageList={videoData} isShow={false}/>
                     </Form.Item>
                 </Form>
             </Modal>
@@ -202,7 +202,10 @@ function RoomManage() {
                 <Form
                     preserve={false}
                     onFinish={() =>{
-                             
+                        setIsInfoShow(false);
+                        setImageData([]);
+                        setVideoData([]);
+                        setCurrentId('');
                     }
                     }
                     form={myInfoForm}
@@ -221,10 +224,10 @@ function RoomManage() {
                         <Input placeholder="科室信息" />
                     </Form.Item>
                     <Form.Item label='科室图片' name='picture'>
-                        <MyUpload handleFileData={setImageData} initialImageList={imageData} />
+                        <MyUpload handleFileData={setImageData} initialImageList={imageData} isShow={true}/>
                     </Form.Item>
                     <Form.Item label='科室视频' name='video'>
-                        <VideoUpload handleFileData={setVideoData} initialImageList={videoData} />
+                        <VideoUpload handleFileData={setVideoData} initialImageList={videoData} isShow={true}/>
                     </Form.Item>
                 </Form>
             </Modal>
