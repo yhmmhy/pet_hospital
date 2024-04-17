@@ -12,7 +12,7 @@ const getBase64 = (file: FileType, p0: (url: any) => void): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
  // @ts-ignore
-const VideoUpload = ({ handleFileData,initialImageList}) => {
+const VideoUpload = ({ handleFileData,initialImageList,isShow}) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -102,9 +102,10 @@ const VideoUpload = ({ handleFileData,initialImageList}) => {
         onPreview={handlePreview}
         onChange={handleChange}
         beforeUpload={beforeUpload} // 添加 beforeUpload 函数
+        showUploadList={{ showRemoveIcon: !isShow }}
         // data={data} // 添加 data 属性
       >
-        {fileList.length >= 8 ? null : uploadButton}
+        {(fileList.length >= 8 || isShow === true) ? null : uploadButton}
       </Upload>
       <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
         <video style={{ width: '100%' }} controls>

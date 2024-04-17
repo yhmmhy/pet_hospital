@@ -314,7 +314,7 @@ function CaseManage() {
                         <Input.TextArea placeholder="接诊" autoSize={{ minRows: 1, maxRows: 9 }}/>
                     </Form.Item>
                     <Form.Item label='接诊照片' name='接诊照片' >
-                        <MyUpload handleFileData={setImageData1} initialImageList={imageData1} />
+                        <MyUpload handleFileData={setImageData1} initialImageList={imageData1} isShow={false}/>
                     </Form.Item>
                     <Form.Item label='病例检查' name='examination' rules={
                         [
@@ -327,7 +327,7 @@ function CaseManage() {
                         <Input.TextArea placeholder="请输入病例检查" autoSize={{ minRows: 1, maxRows: 9 }}/>
                     </Form.Item>
                     <Form.Item label='病例检查照片' name='病理检查照片'>
-                        <MyUpload handleFileData={setImageData2} initialImageList={imageData2} />
+                        <MyUpload handleFileData={setImageData2} initialImageList={imageData2} isShow={false}/>
                     </Form.Item>
                     <Form.Item label='诊断结果' name='diagnosis' rules={
                         [
@@ -350,7 +350,7 @@ function CaseManage() {
                         <Input.TextArea placeholder="请输入治疗方案" autoSize={{ minRows: 1, maxRows: 9 }}/>
                     </Form.Item>
                     <Form.Item label='治疗方案视频' name='治疗方案视频'>
-                        <VideoUpload handleFileData={setVideoData} initialImageList={videoData}></VideoUpload>
+                        <VideoUpload handleFileData={setVideoData} initialImageList={videoData} isShow={false}></VideoUpload>
 
                     </Form.Item>
                 </Form>
@@ -418,14 +418,14 @@ function CaseManage() {
                         <Input.TextArea placeholder="接诊" autoSize={{ minRows: 1, maxRows: 9 }}/>
                     </Form.Item>
                     <Form.Item label='接诊照片' name='接诊照片' >
-                        {/* <MyUpload handleFileData={setImageData1} initialImageList={imageData1} /> */}
-                        {imageData1.length > 0 && (
+                        <MyUpload handleFileData={setImageData1} initialImageList={imageData1} isShow={true}/>
+                        {/* {imageData1.length > 0 && (
                             <div>
                                 {imageData1.map((url, index) => (
                                     <img key={index} src={url} alt={`接诊照片${index + 1}`} style={{ maxWidth: '100%', marginTop: '10px' }} />
                                 ))}
                             </div>
-                        )}
+                        )} */}
                     </Form.Item>
                     <Form.Item label='病例检查' name='examination' rules={
                         [
@@ -438,14 +438,14 @@ function CaseManage() {
                         <Input.TextArea placeholder="请输入病例检查" autoSize={{ minRows: 1, maxRows: 9 }}/>
                     </Form.Item>
                     <Form.Item label='病例检查照片' name='病理检查照片'>
-                        {/* <MyUpload handleFileData={setImageData2} initialImageList={imageData2} /> */}
-                        {imageData2.length > 0 && (
+                        <MyUpload handleFileData={setImageData2} initialImageList={imageData2} isShow={true}/>
+                        {/* {imageData2.length > 0 && (
                             <div>
                                 {imageData2.map((url, index) => (
                                     <img key={index} src={url} alt={`接诊照片${index + 1}`} style={{ maxWidth: '100%', marginTop: '10px' }} />
                                 ))}
                             </div>
-                        )}
+                        )} */}
                     </Form.Item>
                     <Form.Item label='诊断结果' name='diagnosis' rules={
                         [
@@ -468,14 +468,14 @@ function CaseManage() {
                         <Input.TextArea placeholder="请输入治疗方案" autoSize={{ minRows: 1, maxRows: 9 }}/>
                     </Form.Item>
                     <Form.Item label='治疗方案视频' name='治疗方案视频'>
-                        {/* <VideoUpload handleFileData={setVideoData} initialImageList={videoData}></VideoUpload> */}
-                        {videoData.length > 0 && (
+                        <VideoUpload handleFileData={setVideoData} initialImageList={videoData} isShow={true}></VideoUpload>
+                        {/* {videoData.length > 0 && (
                             <div>
                                 {videoData.map((url, index) => (
                                     <ReactPlayer key={index} url={url} controls={true} style={{ marginTop: '10px', maxWidth: '100%' }}/>
                                 ))}
                             </div>
-                        )}
+                        )} */}
                     </Form.Item>
                 </Form>
             </Modal>
