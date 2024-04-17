@@ -368,6 +368,10 @@ function CaseManage() {
                 }}
                 destroyOnClose
                 onOk={() => {
+                    setImageData1([]);
+                    setImageData2([]);
+                    setVideoData([]);
+                    setCurrentId('');
                     setIsInfoShow(false);
                 }}
             >
