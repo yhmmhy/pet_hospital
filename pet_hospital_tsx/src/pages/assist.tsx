@@ -36,6 +36,7 @@ const assist: React.FC<{ open, setOpen, id }> = ({ open, setOpen, id }) => {
                             ]
                         });
                         const ans = resp.data.choices[0].message.content
+                        console.log(id)
                         return new Response(ans);
                     }}
 

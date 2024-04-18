@@ -1,12 +1,16 @@
-import React, { Children, useState } from 'react';
-import { Breadcrumb, Layout, Menu, theme, Button, FloatButton, Modal, message } from 'antd';
+import React, { Children, useState, useRef, Ref ,useEffect} from 'react';
+import { Breadcrumb, Layout, Menu, theme, FloatButton, Modal, message } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons';
+import { Button, Divider, Space, Tour } from 'antd';
+import type { TourProps,MenuRef } from 'antd';
 import {
   UserOutlined,
   HomeOutlined,
   ReadOutlined,
   CompassOutlined,
   SolutionOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
+  FileTextOutlined
 } from '@ant-design/icons';
 import { useLocation,useNavigate } from 'react-router-dom';
 import Login from '../pages/login'
@@ -25,7 +29,33 @@ const ForeLayout = ({ children }: any) => {
   const location = useLocation();
   
   const [open, setOpen] = useState(false);
-
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
+  const ref3 = useRef(null);
+  const ref4 = useRef(null);
+  const [tourOpen, setTourOpen] = useState<boolean>(false);
+  const steps: TourProps['steps'] = [
+    {
+      title: '功能菜单栏',
+      description: '包括医院导览，角色扮演，病例学习和测试功能，可以学习宠物医生相关知识',
+      target: () => ref1.current.menu.list,
+    },
+    {
+      title: '智能助教',
+      description: '智能助教功能，可以根据本虚拟宠物医院学习系统内的数据回答您的问题',
+      target: () => ref2.current,
+    },
+    {
+      title: '退出登录',
+      description: '登出当前用户',
+      target: () => ref3.current,
+    },
+    {
+      title: '功能导航',
+      description: '想要再次浏览页面功能导航，可以点击此按钮',
+      target: () => ref4.current,
+    },
+  ];
   const showDrawer = () => {
     setOpen(true);
   };
@@ -65,6 +95,7 @@ const ForeLayout = ({ children }: any) => {
           mode="horizontal"
           onClick={menuClick}
           selectedKeys={[location.pathname]}
+          ref={ref1}
           items={[
             {
               key: '/fore/',
@@ -94,7 +125,7 @@ const ForeLayout = ({ children }: any) => {
           ]}
           style={{ flex: 1, minWidth: 0 }}
         />
-        <Button style={{
+        <Button ref={ref3} style={{
           float: 'right',
         }} onClick={() => {
           console.log(cookie.load('token'))
@@ -113,8 +144,13 @@ const ForeLayout = ({ children }: any) => {
         borderRadius: borderRadiusLG,
       }}>
         {children}
-        <FloatButton icon={<QuestionCircleOutlined />} type="primary" onClick={showDrawer} />
-        <Assist open={open} setOpen={setOpen}id ={id} />
+        <FloatButton.Group shape="circle" style={{ right: 24 }}>
+        <FloatButton icon={<QuestionCircleOutlined />} type="primary" onClick={showDrawer} ref={ref2} />
+        <FloatButton icon={<FileTextOutlined />} onClick={()=>{setTourOpen(true)}} ref={ref4}/>
+        </FloatButton.Group>
+        
+        <Assist open={open} setOpen={setOpen} id={id} />
+        <Tour open={tourOpen} onClose={()=>setTourOpen(false)} steps={steps} />
       </Content>
       <Footer style={{ textAlign: 'center' }}>
         ECNU SEI ©{new Date().getFullYear()}
