@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
-import { Table, Tag, Space } from 'antd';
+import  { Component } from 'react'
+import { Table } from 'antd';
+import { Link } from 'react-router-dom';
 
-var style={
-  width:"180px"
-}
+
 const columns = [
   {
     title: '角色',
@@ -29,7 +28,7 @@ const columns = [
     title: '操作',
     dataIndex: '操作',
     key: '操作',
-    render:(text:any) => <a href={`/#/fore/BasicTable?params=${text}`}>进入科室</a>,
+    render:(text:any) => <Link to={`/fore/BasicTable?params=${text}`}>进入科室</Link>,
   },
 
  
