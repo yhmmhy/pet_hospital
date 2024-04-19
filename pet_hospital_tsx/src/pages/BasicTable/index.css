@@ -13,7 +13,7 @@
     position: absolute;
 }
 
-canvas{
+.App canvas{
     width: 1244px !important;
     height: 665px !important;
 }
