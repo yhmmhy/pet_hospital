@@ -204,53 +204,60 @@ function ExamManage() {
     };
     const handleOk = () => {
         if (!(selectedAddRowKeys.length === 0)) {
+
             form.validateFields().then(values => {
-                const totalScore = selected.reduce((accumulator, currentValue) => {
-                    return accumulator + currentValue.score * 1;
-                }, 0);
-                // const newkey = data.length >= 1 ? (data[length - 1].key + 1) : 1
-                const newData = {
-                    key: String(totaldatalength + 1),
-                    id: String(totaldatalength + 1),
-                    name: values.name,
-                    time: values.time,
-                    grade: totalScore,
-                    // selected: JSON.stringify(selected),
-                    selected: selected,
-                };
-                // const nextData = [...data, newData]
-                // console.log(nextData)
-                // setData(nextData);
-                // console.log(data)
-                // 将对象转换为 x-www-form-urlencoded 格式的字符串
-                // const formData = querystring.stringify(newData);
+                const isTimeValid = Number.isInteger(Number(values.time)) && Number(values.time) > 0;
+                if (isTimeValid === true) {
+                    const totalScore = selected.reduce((accumulator, currentValue) => {
+                        return accumulator + currentValue.score * 1;
+                    }, 0);
+                    // const newkey = data.length >= 1 ? (data[length - 1].key + 1) : 1
+                    const newData = {
+                        key: String(totaldatalength + 1),
+                        id: String(totaldatalength + 1),
+                        name: values.name,
+                        time: values.time,
+                        grade: totalScore,
+                        // selected: JSON.stringify(selected),
+                        selected: selected,
+                    };
+                    // const nextData = [...data, newData]
+                    // console.log(nextData)
+                    // setData(nextData);
+                    // console.log(data)
+                    // 将对象转换为 x-www-form-urlencoded 格式的字符串
+                    // const formData = querystring.stringify(newData);
 
-                // 设置请求头
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                };
-                console.log(newData)
-                axios.post('http://47.102.142.153:5000/admin/test-paper/add', newData)
-                    .then(response => {
-                        fetchData();
-                        // 请求成功的处理逻辑
-                        // console.log('Post request successful');
-                        // console.log(response)
-                        // 可以在这里处理请求成功后的逻辑
-                    })
-                    .catch(error => {
-                        // 请求失败的处理逻辑
-                        console.error('Error while making POST request:', error);
-                        // 可以在这里处理请求失败后的逻辑
-                    });
-                // data.push(newData);
+                    // 设置请求头
+                    const config = {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    };
+                    console.log(newData)
+                    axios.post('http://47.102.142.153:5000/admin/test-paper/add', newData)
+                        .then(response => {
+                            fetchData();
+                            // 请求成功的处理逻辑
+                            // console.log('Post request successful');
+                            // console.log(response)
+                            // 可以在这里处理请求成功后的逻辑
+                        })
+                        .catch(error => {
+                            // 请求失败的处理逻辑
+                            console.error('Error while making POST request:', error);
+                            // 可以在这里处理请求失败后的逻辑
+                        });
+                    // data.push(newData);
 
-                onSearch(searchvalue);
-                form.resetFields();
-                setIsModalVisible(false);
-                // Do something when form is submitted
+                    onSearch(searchvalue);
+                    form.resetFields();
+                    setIsModalVisible(false);
+                    // Do something when form is submitted
+                }
+                else {
+                    alert('考试时间应为正整数')
+                }
             })
         }
         else {
@@ -431,10 +438,11 @@ function ExamManage() {
         // newdata = newdata.map(item => { item.id = id++; return item; });
         // data = [...newdata];
         // setTableData(tableData.filter(item => !selectedDelRowKeys.includes(item.key)));
-
-        for (let i = 0; i < selectedDelRowKeys.length; i++) {
-            // console.log(selectedDelRowKeys[i])
-            deleteRow(selectedDelRowKeys[i])
+        if (confirm("确定要删除这道试题吗")) {
+            for (let i = 0; i < selectedDelRowKeys.length; i++) {
+                // console.log(selectedDelRowKeys[i])
+                deleteRow(selectedDelRowKeys[i])
+            }
         }
     }
     const searchInputValue = (key) => {
@@ -526,7 +534,7 @@ function ExamManage() {
                 <Space size="middle">
 
                     {/* <Button type="primary" size='small' onClick={() => showEditModal(record)}><EditOutlined /></Button> */}
-                    <Button type="primary" size='small' danger onClick={() => deleteRow(record.key)}><DeleteOutlined /></Button>
+                    <Button type="primary" size='small' danger onClick={() => { if (confirm("确定要删除这道试题吗")) { deleteRow(record.key) } }}><DeleteOutlined /></Button>
 
                 </Space>
 
