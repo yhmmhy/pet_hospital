@@ -3,7 +3,8 @@ import { Button, Drawer } from 'antd';
 import { ProChat } from '@ant-design/pro-chat';
 import { useTheme } from 'antd-style';
 import axios from 'axios';
-axios.defaults.headers.common['Authorization'] = 'Bearer fastgpt-7ABK8zeleOPA8abak7PvwMo6o6SiCDVdpQycq8cMRMAOZVTTKAkgZcz9BaZzH58';
+axios.defaults.baseURL = 'http://47.102.142.153:5000';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const assist: React.FC<{ open, setOpen, id }> = ({ open, setOpen, id }) => {
     const theme = useTheme();
@@ -24,19 +25,16 @@ const assist: React.FC<{ open, setOpen, id }> = ({ open, setOpen, id }) => {
                     style={{ background: theme.colorBgLayout }}
                     helloMessage='您好，我是您的智能助教'
                     request={async (messages: Array<any>) => {
-                        const resp = await axios.post('https://api.fastgpt.in/api/v1/chat/completions', {
-                            "chatId": id,
-                            "stream": false,
-                            "detail": false,
-                            'messages': [
-                                {
-                                    'content': messages[messages.length - 1].content,
-                                    'role': messages[messages.length - 1].role
-                                }
-                            ]
+                        var ans = '消息回复失败，请重新生成'
+                        const resp = await axios.post('/assist', {
+                            "id": id,
+                            'query':messages[messages.length - 1].content,
                         });
-                        const ans = resp.data.choices[0].message.content
-                        console.log(id)
+                        if(resp.data.code==200){
+                            ans = resp.data.message
+                        }
+                        // console.log(id)
+                        // console.log(ans)
                         return new Response(ans);
                     }}
 
