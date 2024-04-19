@@ -389,7 +389,7 @@ function CaseManage() {
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="请输入病例名称" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="请输入病例名称" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='病例类型' name='type' rules={[
                         {

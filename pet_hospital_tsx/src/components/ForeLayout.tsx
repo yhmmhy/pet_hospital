@@ -12,7 +12,7 @@ import {
   QuestionCircleOutlined,
   FileTextOutlined
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 import Login from '../pages/login'
 import cookie from 'react-cookies'
 import Assist from '../pages/assist';
@@ -26,7 +26,8 @@ function randomString(length, chars) {
 }
 const id = randomString(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 const ForeLayout = ({ children }: any) => {
-
+  const location = useLocation();
+  
   const [open, setOpen] = useState(false);
   const ref1 = useRef(null);
   const ref2 = useRef(null);
@@ -93,6 +94,7 @@ const ForeLayout = ({ children }: any) => {
           theme="dark"
           mode="horizontal"
           onClick={menuClick}
+          selectedKeys={[location.pathname]}
           ref={ref1}
           items={[
             {

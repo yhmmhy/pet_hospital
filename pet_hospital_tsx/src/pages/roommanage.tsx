@@ -189,7 +189,7 @@ function RoomManage() {
                 </Form>
             </Modal>
             <Modal
-                title="编辑"
+                title="查看详情"
                 open={isInfoShow}
                 maskClosable={false}
                 onCancel={() => setIsInfoShow(false)}
