@@ -232,6 +232,7 @@ function PoolManage() {
                 // 可以在这里处理请求失败后的逻辑
             });
 
+
         // let newdata = data.filter(item => item.key !== key);
         // let id = 1;
         // newdata = newdata.map(item => { item.id = id++; return item; });
@@ -245,9 +246,12 @@ function PoolManage() {
         // newdata = newdata.map(item => { item.id = id++; return item; });
         // data = [...newdata];
         // setTableData(tableData.filter(item => !selectedDelRowKeys.includes(item.key)));
-        for (let i = 0; i < selectedDelRowKeys.length; i++) {
-            deleteRow(selectedDelRowKeys[i])
+        if (confirm("确定要删除吗")) {
+            for (let i = 0; i < selectedDelRowKeys.length; i++) {
+                deleteRow(selectedDelRowKeys[i])
+            }
         }
+
     }
     const showEditModal = (record) => {
         setIsrowModalVisible(true);
@@ -376,7 +380,7 @@ function PoolManage() {
                     <Space size="middle">
 
                         <Button type="primary" size='small' onClick={() => showEditModal(record)}><EditOutlined /></Button>
-                        <Button type="primary" size='small' danger onClick={() => deleteRow(record.key)}><DeleteOutlined /></Button>
+                        <Button type="primary" size='small' danger onClick={() => { if (confirm("确定要删除这道试题吗")) { deleteRow(record.key) } }}><DeleteOutlined /></Button>
 
                     </Space>)}
                 >

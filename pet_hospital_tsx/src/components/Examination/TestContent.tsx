@@ -65,6 +65,7 @@ export default function TestContent(props) {
     const [startVisible, setStartVisible] = useState(true);
     const [endVisible, setEndVisible] = useState(false);
     const [endFormVisible, setendFormVisible] = useState(false);
+    const [iscomplete, setiscomplete] = useState(false);
     useEffect(() => {
         console.log(props.selectkey);
         fetchData();
@@ -78,6 +79,7 @@ export default function TestContent(props) {
         setStartVisible(true)
         setEndVisible(false)
         setendFormVisible(false)
+        setiscomplete(false)
     }, [props.selectkey]);
     const fetchData = async () => {
         try {
@@ -90,7 +92,20 @@ export default function TestContent(props) {
         }
     };
     const showModal = () => {
-        setIsModalOpen(true);
+        var iscompleteflag = true
+        form.validateFields().then(values => {
+            for (let i = 0; i < data.length; i++) {
+                if (values[data[i].key] === undefined) {
+                    iscompleteflag = false
+                    break;
+                }
+            }
+            if (iscompleteflag === true) {
+                setiscomplete(true);
+            }
+            setIsModalOpen(true);
+        })
+
     };
     const testStart = () => {
         props.countdownStart()
@@ -117,8 +132,15 @@ export default function TestContent(props) {
     //     setIsModalOpen(false);
     // };
     const handleOk = () => {
+        setEndVisible(false)
         let totalscore = 0;
         form.validateFields().then(values => {
+            // for (let i = 0; i < data.length; i++) {
+            //     if(values[data[i].key]===undefined)
+            //     {
+
+            //     }
+            // }
             // console.log(values);
             let userAnswersCopy = { ...userAnswers };
             for (let i = 0; i < data.length; i++) {
@@ -179,7 +201,7 @@ export default function TestContent(props) {
                 结束考试
             </Button>)}
 
-            <Modal title="是否结束考试？" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title={iscomplete ? "是否结束考试？" : "有试题尚未完成，是否结束考试？"} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             </Modal>
 
         </div>
