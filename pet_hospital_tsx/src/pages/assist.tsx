@@ -1,0 +1,48 @@
+import React, { useState } from 'react';
+import { Button, Drawer } from 'antd';
+import { ProChat } from '@ant-design/pro-chat';
+import { useTheme } from 'antd-style';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://47.102.142.153:5000';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+const assist: React.FC<{ open, setOpen, id }> = ({ open, setOpen, id }) => {
+    const theme = useTheme();
+
+    return (
+        <>
+            <Drawer
+                title="智能助教"
+                onClose={() => { setOpen(false) }}
+                open={open}
+                styles={{
+                    body: {
+                        padding: 0,
+                    },
+                }}
+            >
+                <ProChat
+                    style={{ background: theme.colorBgLayout }}
+                    helloMessage='您好，我是您的智能助教'
+                    request={async (messages: Array<any>) => {
+                        var ans = '消息回复失败，请重新生成'
+                        const resp = await axios.post('/assist', {
+                            "id": id,
+                            'query':messages[messages.length - 1].content,
+                        });
+                        if(resp.data.code==200){
+                            ans = resp.data.message
+                        }
+                        // console.log(id)
+                        // console.log(ans)
+                        return new Response(ans);
+                    }}
+
+                />
+            </Drawer>
+        </>
+    );
+};
+
+export default assist;
+
