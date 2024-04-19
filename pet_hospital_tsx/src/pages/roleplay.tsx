@@ -164,7 +164,7 @@ const data = [
 export default class Roleplay extends Component {
   render() {
     return (
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data} pagination={{defaultPageSize:9}}/>
     )
   }
 }

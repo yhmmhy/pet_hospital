@@ -1,4 +1,4 @@
-import { Row, Col, Card, Form, Button, message, Input, Radio, Modal,Alert } from 'antd'
+import { Row, Col, Card, Form, Button, message, Input, Radio, Modal, Alert, Layout, theme } from 'antd'
 import React, { useEffect, useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import logo from '../assets/1.ico'
@@ -8,7 +8,7 @@ import { UserOutlined, LockOutlined, PhoneOutlined, MailOutlined } from '@ant-de
 import axios from 'axios'
 import { Md5 } from 'ts-md5'
 import cookie from 'react-cookies'
-
+const { Header, Content, Footer } = Layout;
 function Login() {
     const navigate = useNavigate();
     const [Radiovalue, setRadioValue] = useState("实习生");
@@ -20,12 +20,14 @@ function Login() {
     const [radioStyle, setRadioStyle] = useState('none')
     axios.defaults.baseURL = 'http://47.102.142.153:5000';
     axios.defaults.headers.post['Content-Type'] = 'application/json';
+    const {
+        token: { colorBgContainer, borderRadiusLG },
+    } = theme.useToken();
 
-    
     const AddFormFinish = (value) => {
         const md5 = Md5.hashStr(value.pwd);
         var is_admin = 0;
-        if(value.role == '管理员'){
+        if (value.role == '管理员') {
             is_admin = 1;
         }
         axios.post('/register', {
@@ -35,7 +37,7 @@ function Login() {
             'phone': value.phone,
             'mail': value.mail
         }).then(res => {
-            if (res.data.code==200) {
+            if (res.data.code == 200) {
                 message.success(res.data.message);
                 close();
                 form1.resetFields();
@@ -104,165 +106,194 @@ function Login() {
         form1.setFieldsValue({ "role": e.target.value });
     };
     return (
-        <Row>
-            <Col
-                md={{
-                    span: 8,
-                    push: 8,
+        <Layout style={{ width: '100vw', height: '100vh' }}
+            id='layout'>
+            <Header
+                style={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1,
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
                 }}
-                xs={{
-                    span: 22,
-                    push: 8,
-                }}
-            >
-                <img src={logo} style={{
-                    display: 'block',
-                    margin: '20px auto',
-                    borderRadius: '16px',
-                    width: '200px',
-                }} />
-                <Modal title="注册用户" open={isModal1Open} onCancel={close} footer={[]}>
-                    <Form
-                        style={{ marginTop: '30px' }}
-                        labelCol={{
-                            md: {
-                                span: 4,
-                            },
-                        }}
-                        form={form1}
-                        onFinish={AddFormFinish}
-                        initialValues={{
-                            'role': '实习生'
-                        }}
-                    >
-                        <Form.Item
-                            name="name"
-                            rules={[{ required: true, message: '请输入用户名' }, { pattern: new RegExp('^[a-zA-Z0-9_]{3,20}$', 'g'), message: '用户名长度为3-20位，允许使用字母，数字和下划线' }]}
-                        >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
-                        </Form.Item>
-                        <Form.Item
-                            name="pwd"
-                            rules={[{ required: true, message: '请输入密码' }, { pattern: new RegExp('^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$'), message: '密码必须包含字母和数字，不能使用特殊字符，长度在 6-20 之间' }]}
-                        >
-                            <Input.Password
-                                prefix={<LockOutlined className="site-form-item-icon" />}
-                                type="password"
-                                placeholder="密码"
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            name="pwd2"
-                            rules={[{ required: true, message: '请再次输入密码' }, { validator: (rules, value, callback) => { handleValidator(rules, value, callback) } }]}
-                        >
-                            <Input.Password
-                                prefix={<LockOutlined className="site-form-item-icon" />}
-                                type="password"
-                                placeholder="确认密码"
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            name="mail"
-                            rules={[{ required: true, message: '请输入邮箱' }, {
-                                pattern: new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, 'g'
-                                ), message: '请输入正确的邮箱地址'
-                            }]}
-                        >
-                            <Input
-                                prefix={<MailOutlined className="site-form-item-icon" />}
-                                type="email"
-                                placeholder="邮箱"
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            name="phone"
-                            rules={[{ required: true, message: '请输入手机号码' }, {
-                                pattern: new RegExp(/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/, 'g'
-                                ), message: '请输入正确的手机号码'
-                            }]}
-                        >
-                            <Input
-                                prefix={<PhoneOutlined className="site-form-item-icon" />}
-                                type="tel"
-                                placeholder="手机号码"
-                            />
-                        </Form.Item>
-                        <Form.Item wrapperCol={{ offset: 8, span: 16 }} name="role">
-                            <Radio.Group defaultValue="实习生" onChange={RadioChange1} value={radioValue1}>
-                                <Radio.Button value="实习生">实习生</Radio.Button>
-                                <Radio.Button value="管理员">管理员</Radio.Button>
-                            </Radio.Group>
-                        </Form.Item>
-                        <Form.Item>
-                            <Button htmlType='submit' type='primary' style={{
-                                display: 'block',
-                                margin: '8px auto',
-                                width: '20vw',
-                            }}>注册</Button>
-                        </Form.Item>
-                    </Form>
-                </Modal>
-                <Card title='虚拟宠物医院学习系统'>
-                    <Form
-                        labelCol={{
-                            md: {
-                                span: 4,
-                            },
-                        }}
-                        initialValues={{
-                            'role': '实习生',
-                            'page': '后台'
-                        }}
-                        onFinish={LoginFormFinish}
-                    >
-                        <Form.Item
-                            name="name"
-                            rules={[{ required: true, message: '请输入用户名' }]}
-                        >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
-                        </Form.Item>
-                        <Form.Item
-                            name="pwd"
-                            rules={[{ required: true, message: '请输入密码' }]}
-                        >
-                            <Input.Password
-                                prefix={<LockOutlined className="site-form-item-icon" />}
-                                type="password"
-                                placeholder="密码"
-                            />
-                        </Form.Item>
-                        <Form.Item wrapperCol={{ offset: 8, span: 16 }} name='role'>
-                            <Radio.Group defaultValue="实习生" onChange={onChange} value={Radiovalue}>
-                                <Radio.Button value="实习生">实习生</Radio.Button>
-                                <Radio.Button value="管理员">管理员</Radio.Button>
-                            </Radio.Group>
-                        </Form.Item>
-                        <Form.Item wrapperCol={{ offset: 6, span: 16 }} name='page' style={{ display: radioStyle }}>
-                            <Radio.Group defaultValue="后台" onChange={pageChange} value={pageRadio}>
-                                <Radio.Button value="前台">前台学习系统</Radio.Button>
-                                <Radio.Button value="后台">后台管理系统</Radio.Button>
-                            </Radio.Group>
-                        </Form.Item>
-                        <Button type='primary' style={{
-                            display: 'block',
-                            margin: '8px auto',
-                            width: '20vw',
-                        }}
-                            onClick={() => {
-                                setIsModal1Open(true)
-                            }}>没有账号？点此注册</Button>
-                        <Form.Item>
-                            <Button htmlType='submit' type='primary' style={{
-                                display: 'block',
-                                margin: '8px auto',
-                                width: '20vw',
-                            }}>登录</Button>
-                        </Form.Item>
-                    </Form>
-                </Card>
 
-            </Col>
-        </Row>
+            >
+                <h1 style={{ color: 'white', fontSize: '20px', marginRight: '20px' }}>
+                    虚拟宠物医院学习系统
+                </h1>
+            </Header>
+            <Content style={{
+                margin: '24px 48px',
+                minHeight: 750,
+                // background: colorBgContainer,
+                borderRadius: borderRadiusLG,
+            }}>
+                <Row>
+                    <Col
+                        md={{
+                            span: 8,
+                            push: 8,
+                        }}
+                        xs={{
+                            span: 22,
+                            push: 8,
+                        }}
+                    >
+                        <img src={logo} style={{
+                            display: 'block',
+                            margin: '20px auto',
+                            borderRadius: '16px',
+                            width: '200px',
+                        }} />
+                        <Modal title="注册用户" open={isModal1Open} onCancel={close} footer={[]}>
+                            <Form
+                                style={{ marginTop: '30px' }}
+                                labelCol={{
+                                    md: {
+                                        span: 4,
+                                    },
+                                }}
+                                form={form1}
+                                onFinish={AddFormFinish}
+                                initialValues={{
+                                    'role': '实习生'
+                                }}
+                            >
+                                <Form.Item
+                                    name="name"
+                                    rules={[{ required: true, message: '请输入用户名' }, { pattern: new RegExp('^[a-zA-Z0-9_]{3,20}$', 'g'), message: '用户名长度为3-20位，允许使用字母，数字和下划线' }]}
+                                >
+                                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="pwd"
+                                    rules={[{ required: true, message: '请输入密码' }, { pattern: new RegExp('^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$'), message: '密码必须包含字母和数字，不能使用特殊字符，长度在 6-20 之间' }]}
+                                >
+                                    <Input.Password
+                                        prefix={<LockOutlined className="site-form-item-icon" />}
+                                        type="password"
+                                        placeholder="密码"
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    name="pwd2"
+                                    rules={[{ required: true, message: '请再次输入密码' }, { validator: (rules, value, callback) => { handleValidator(rules, value, callback) } }]}
+                                >
+                                    <Input.Password
+                                        prefix={<LockOutlined className="site-form-item-icon" />}
+                                        type="password"
+                                        placeholder="确认密码"
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    name="mail"
+                                    rules={[{ required: true, message: '请输入邮箱' }, {
+                                        pattern: new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, 'g'
+                                        ), message: '请输入正确的邮箱地址'
+                                    }]}
+                                >
+                                    <Input
+                                        prefix={<MailOutlined className="site-form-item-icon" />}
+                                        type="email"
+                                        placeholder="邮箱"
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    name="phone"
+                                    rules={[{ required: true, message: '请输入手机号码' }, {
+                                        pattern: new RegExp(/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/, 'g'
+                                        ), message: '请输入正确的手机号码'
+                                    }]}
+                                >
+                                    <Input
+                                        prefix={<PhoneOutlined className="site-form-item-icon" />}
+                                        type="tel"
+                                        placeholder="手机号码"
+                                    />
+                                </Form.Item>
+                                <Form.Item wrapperCol={{ offset: 8, span: 16 }} name="role">
+                                    <Radio.Group defaultValue="实习生" onChange={RadioChange1} value={radioValue1}>
+                                        <Radio.Button value="实习生">实习生</Radio.Button>
+                                        <Radio.Button value="管理员">管理员</Radio.Button>
+                                    </Radio.Group>
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button htmlType='submit' type='primary' style={{
+                                        display: 'block',
+                                        margin: '8px auto',
+                                        width: '20vw',
+                                    }}>注册</Button>
+                                </Form.Item>
+                            </Form>
+                        </Modal>
+                        <Card title='虚拟宠物医院学习系统'>
+                            <Form
+                                labelCol={{
+                                    md: {
+                                        span: 4,
+                                    },
+                                }}
+                                initialValues={{
+                                    'role': '实习生',
+                                    'page': '后台'
+                                }}
+                                onFinish={LoginFormFinish}
+                            >
+                                <Form.Item
+                                    name="name"
+                                    rules={[{ required: true, message: '请输入用户名' }]}
+                                >
+                                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="pwd"
+                                    rules={[{ required: true, message: '请输入密码' }]}
+                                >
+                                    <Input.Password
+                                        prefix={<LockOutlined className="site-form-item-icon" />}
+                                        type="password"
+                                        placeholder="密码"
+                                    />
+                                </Form.Item>
+                                <Form.Item wrapperCol={{ offset: 8, span: 16 }} name='role'>
+                                    <Radio.Group defaultValue="实习生" onChange={onChange} value={Radiovalue}>
+                                        <Radio.Button value="实习生">实习生</Radio.Button>
+                                        <Radio.Button value="管理员">管理员</Radio.Button>
+                                    </Radio.Group>
+                                </Form.Item>
+                                <Form.Item wrapperCol={{ offset: 6, span: 16 }} name='page' style={{ display: radioStyle }}>
+                                    <Radio.Group defaultValue="后台" onChange={pageChange} value={pageRadio}>
+                                        <Radio.Button value="前台">前台学习系统</Radio.Button>
+                                        <Radio.Button value="后台">后台管理系统</Radio.Button>
+                                    </Radio.Group>
+                                </Form.Item>
+                                <Button type='primary' style={{
+                                    display: 'block',
+                                    margin: '8px auto',
+                                    width: '20vw',
+                                }}
+                                    onClick={() => {
+                                        setIsModal1Open(true)
+                                    }}>没有账号？点此注册</Button>
+                                <Form.Item>
+                                    <Button htmlType='submit' type='primary' style={{
+                                        display: 'block',
+                                        margin: '8px auto',
+                                        width: '20vw',
+                                    }}>登录</Button>
+                                </Form.Item>
+                            </Form>
+                        </Card>
+
+                    </Col>
+                </Row>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>
+                ECNU SEI ©{new Date().getFullYear()}
+            </Footer>
+        </Layout>
+
     )
 }
 export default Login
