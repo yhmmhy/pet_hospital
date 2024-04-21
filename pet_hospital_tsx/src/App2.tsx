@@ -1,6 +1,5 @@
 import React from 'react'
 import {Route,Routes} from 'react-router-dom'
-import View from './pages/view'
 import RolePlay from './pages/roleplay'
 import ForeLayout from './components/ForeLayout'
 import Home from './pages/home'
@@ -8,7 +7,7 @@ import CaseLearn from './pages/caselearn'
 import Examination from './pages/examination'
 import CaseList from './pages/caselist'
 import Show from './pages/show'
-import BasicTable from './pages/BasicTable'
+import BasicTable from './pages/BasicTable/index'
 function App2() {
   return (
     <ForeLayout>
