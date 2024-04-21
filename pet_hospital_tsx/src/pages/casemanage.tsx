@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { Card, Button, Form, Input, Table, Modal, message, Space, Upload, Popconfirm, Tooltip, Select } from 'antd'
+import { Card, Button, Form, Input, Table, Modal, message, Space, Upload, Popconfirm, Tooltip, Select, Spin } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined, UndoOutlined, ZoomInOutlined } from '@ant-design/icons';
 import MyUpload from "../components/MyUpload";
 import { delByIdAPI, insertAPI, insertAllAPI, loadDataAPI, loadDataByIdAPI, loadDataByNameAPI, updateByIdAPI } from "../services/caseManage";
+import {  setLoadingInterceptor } from '../utils/request';
 import VideoUpload from "../components/VideoUpload";
 import ReactPlayer from "react-player";
 function CaseManage() {
@@ -17,87 +18,87 @@ function CaseManage() {
     const [imageData1, setImageData1] = useState([]);
     const [imageData2, setImageData2] = useState([]);
     const [videoData, setVideoData] = useState([]);
-    
-const caseData = [
-    {
-      category: '传染病',
-      cases: [
-        '犬瘟热',
-        '犬细小病毒',
-        '犬传染性肝炎',
-        '犬冠状病毒',
-        '猫泛白细胞减少症',
-        '猫病毒性病气管炎',
-        '皮肤真菌感染',
-      ],
-    },
-    {
-      category: '寄生虫病',
-      cases: [
-        '蛔虫病',
-        '钩虫病',
-        '绦虫病',
-        '球虫病',
-        '疥螨虫病',
-        '蚤病',
-      ],
-    },
-    {
-      category: '内科',
-      cases: [
-        '口炎',
-        '肠炎',
-        '肠便秘',
-        '胰腺炎',
-        '肝炎',
-        '腹膜炎',
-        '肛门腺炎',
-        '感冒',
-        '鼻炎',
-        '气管支气管炎',
-        '肺炎',
-        '心力衰竭',
-        '尿道感染',
-        '尿结石',
-        '膀胱炎',
-        '肾炎',
-        '佝偻病',
-        '有机磷中毒',
-        '糖尿病',
-        '耳血肿',
-        '中耳炎',
-        '眼睑内翻',
-        '结膜炎',
-        '角膜炎',
-      ],
-    },
-    {
-      category: '外产科疾病',
-      cases: [
-        '外伤',
-        '外科感染',
-        '骨折',
-        '关节脱位',
-        '湿疹',
-        '皮炎',
-        '脓皮病',
-        '脱毛症',
-        '趾间囊肿',
-        '疝',
-        '阴道炎',
-        '阴道脱出',
-        '子宫蓄脓',
-        '难产',
-        '乳房炎',
-      ],
-    },
-  ];
-  
-  const selectOptions = caseData.flatMap(({ cases }) =>
-    cases.map((caseName) => (
-      <Select.Option value={caseName} key={caseName}>{caseName}</Select.Option>
-    ))
-  );
+    const [loading, setLoading] = useState(false);
+    const caseData = [
+        {
+            category: '传染病',
+            cases: [
+                '犬瘟热',
+                '犬细小病毒',
+                '犬传染性肝炎',
+                '犬冠状病毒',
+                '猫泛白细胞减少症',
+                '猫病毒性病气管炎',
+                '皮肤真菌感染',
+            ],
+        },
+        {
+            category: '寄生虫病',
+            cases: [
+                '蛔虫病',
+                '钩虫病',
+                '绦虫病',
+                '球虫病',
+                '疥螨虫病',
+                '蚤病',
+            ],
+        },
+        {
+            category: '内科',
+            cases: [
+                '口炎',
+                '肠炎',
+                '肠便秘',
+                '胰腺炎',
+                '肝炎',
+                '腹膜炎',
+                '肛门腺炎',
+                '感冒',
+                '鼻炎',
+                '气管支气管炎',
+                '肺炎',
+                '心力衰竭',
+                '尿道感染',
+                '尿结石',
+                '膀胱炎',
+                '肾炎',
+                '佝偻病',
+                '有机磷中毒',
+                '糖尿病',
+                '耳血肿',
+                '中耳炎',
+                '眼睑内翻',
+                '结膜炎',
+                '角膜炎',
+            ],
+        },
+        {
+            category: '外产科疾病',
+            cases: [
+                '外伤',
+                '外科感染',
+                '骨折',
+                '关节脱位',
+                '湿疹',
+                '皮炎',
+                '脓皮病',
+                '脱毛症',
+                '趾间囊肿',
+                '疝',
+                '阴道炎',
+                '阴道脱出',
+                '子宫蓄脓',
+                '难产',
+                '乳房炎',
+            ],
+        },
+    ];
+
+    const selectOptions = caseData.flatMap(({ cases }) =>
+        cases.map((caseName) => (
+            <Select.Option value={caseName} key={caseName}>{caseName}</Select.Option>
+        ))
+    );
     // const submitData = async (fileData,value) => {
     //     const formData = new FormData();
     //     console.log('图片信息',fileData);
@@ -107,6 +108,10 @@ const caseData = [
     //     console.log('我的formData',formData);
     //     await insertAllAPI(fileData);
     // };
+    useEffect(() => {
+        // 在组件加载时设置拦截器
+        setLoadingInterceptor(setLoading);
+      }, []);
     useEffect(() => {
         loadDataAPI(query)
             .then((res) => {
@@ -124,6 +129,7 @@ const caseData = [
     }, [isShow])
     return (
         <>
+
             <Card
                 title='病例管理'
                 extra={
@@ -278,8 +284,9 @@ const caseData = [
                                 }
                             }
                         ]
-                    } pagination={{defaultPageSize:8}}/>
+                    } pagination={{ defaultPageSize: 8 }} />
             </Card>
+
             <Modal
                 title="编辑"
                 open={isShow}
@@ -314,10 +321,13 @@ const caseData = [
 
                             if (currentId) {
                                 console.log('update', newData);
+                                // setLoading(true);
+                                setIsShow(false);
                                 await updateByIdAPI(currentId, newData)
                                     .then((res) => {
+                                        // setLoading(false);
                                         console.log(res);
-                                        setIsShow(false);
+                                        // setIsShow(false);
                                         setImageData1([]);
                                         setImageData2([]);
                                         setVideoData([]);
@@ -330,10 +340,12 @@ const caseData = [
                                     });
                             } else {
                                 console.log('发送信息', newData);
+                                setIsShow(false);
+                                // setLoading(true);
                                 await insertAllAPI(newData)
                                     .then((res) => {
+                                        // setLoading(false);
                                         console.log(res);
-                                        setIsShow(false);
                                         setImageData1([]);
                                         setImageData2([]);
                                         setVideoData([]);
@@ -342,6 +354,7 @@ const caseData = [
                                         message.success('上传成功');
                                     })
                                     .catch((error) => {
+                                        setLoading(false);
                                         console.error("Error:", error);
                                     });
                                 // await submitData(imageData,v);
@@ -366,7 +379,7 @@ const caseData = [
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="请输入病例名称" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="请输入病例名称" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='病例类型' name='type' rules={[
                         {
@@ -393,10 +406,10 @@ const caseData = [
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="接诊" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="接诊" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='接诊照片' name='接诊照片' >
-                        <MyUpload handleFileData={setImageData1} initialImageList={imageData1} isShow={false}/>
+                        <MyUpload handleFileData={setImageData1} initialImageList={imageData1} isShow={false} />
                     </Form.Item>
                     <Form.Item label='病例检查' name='examination' rules={
                         [
@@ -406,10 +419,10 @@ const caseData = [
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="请输入病例检查" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="请输入病例检查" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='病例检查照片' name='病理检查照片'>
-                        <MyUpload handleFileData={setImageData2} initialImageList={imageData2} isShow={false}/>
+                        <MyUpload handleFileData={setImageData2} initialImageList={imageData2} isShow={false} />
                     </Form.Item>
                     <Form.Item label='诊断结果' name='diagnosis' rules={
                         [
@@ -419,7 +432,7 @@ const caseData = [
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="请输入诊断结果" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="请输入诊断结果" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='治疗方案' name='treatment_plan' rules={
                         [
@@ -429,7 +442,7 @@ const caseData = [
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="请输入治疗方案" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="请输入治疗方案" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='治疗方案视频' name='治疗方案视频'>
                         <VideoUpload handleFileData={setVideoData} initialImageList={videoData} isShow={false}></VideoUpload>
@@ -437,6 +450,7 @@ const caseData = [
                     </Form.Item>
                 </Form>
             </Modal>
+
             <Modal
                 title="查看详情"
                 open={isInfoShow}
@@ -497,10 +511,10 @@ const caseData = [
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="接诊" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="接诊" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='接诊照片' name='接诊照片' >
-                        <MyUpload handleFileData={setImageData1} initialImageList={imageData1} isShow={true}/>
+                        <MyUpload handleFileData={setImageData1} initialImageList={imageData1} isShow={true} />
                         {/* {imageData1.length > 0 && (
                             <div>
                                 {imageData1.map((url, index) => (
@@ -517,10 +531,10 @@ const caseData = [
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="请输入病例检查" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="请输入病例检查" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='病例检查照片' name='病理检查照片'>
-                        <MyUpload handleFileData={setImageData2} initialImageList={imageData2} isShow={true}/>
+                        <MyUpload handleFileData={setImageData2} initialImageList={imageData2} isShow={true} />
                         {/* {imageData2.length > 0 && (
                             <div>
                                 {imageData2.map((url, index) => (
@@ -537,7 +551,7 @@ const caseData = [
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="请输入诊断结果" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="请输入诊断结果" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='治疗方案' name='treatment_plan' rules={
                         [
@@ -547,7 +561,7 @@ const caseData = [
                             }
                         ]
                     }>
-                        <Input.TextArea placeholder="请输入治疗方案" autoSize={{ minRows: 1, maxRows: 9 }}/>
+                        <Input.TextArea placeholder="请输入治疗方案" autoSize={{ minRows: 1, maxRows: 9 }} />
                     </Form.Item>
                     <Form.Item label='治疗方案视频' name='治疗方案视频'>
                         <VideoUpload handleFileData={setVideoData} initialImageList={videoData} isShow={true}></VideoUpload>
@@ -561,6 +575,7 @@ const caseData = [
                     </Form.Item>
                 </Form>
             </Modal>
+            <Spin spinning={loading} fullscreen />
         </>
 
 

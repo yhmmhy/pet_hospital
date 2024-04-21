@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { Modal, Upload } from 'antd';
+import { Modal, Upload, message } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
@@ -11,12 +11,12 @@ const getBase64 = (file: FileType, p0: (url: any) => void): Promise<string> =>
     reader.onload = () => resolve(reader.result as string);
     reader.onerror = (error) => reject(error);
   });
- // @ts-ignore
-const MyUpload = ({ handleFileData,initialImageList,isShow}) => {
+// @ts-ignore
+const MyUpload = ({ handleFileData, initialImageList, isShow }) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileUrl,setFileUrl] = useState('');
+  const [fileUrl, setFileUrl] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   useEffect(() => {
     console.log(fileList);
@@ -27,7 +27,7 @@ const MyUpload = ({ handleFileData,initialImageList,isShow}) => {
     status: 'done',
     url: url,
   });
-  
+
   // 更新文件列表状态
   const updateFileList = (urls: string[]) => {
     const newFileList = urls.map(urlToFile);
@@ -36,7 +36,7 @@ const MyUpload = ({ handleFileData,initialImageList,isShow}) => {
   };
   useEffect(() => {
     // 在组件加载时，将初始图片URL转换为fileList格式
-    if(initialImageList.length > 0){
+    if (initialImageList.length > 0) {
       updateFileList(initialImageList);
     }
 
@@ -47,14 +47,17 @@ const MyUpload = ({ handleFileData,initialImageList,isShow}) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as FileType);
     }
-    console.log('file.url',file.url);
+    console.log('file.url', file.url);
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
 
-  const handleChange: UploadProps['onChange'] =({ fileList: newFileList }) => {
-    const updatedFileList = newFileList.map((file) => {
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    const validFiles = newFileList.filter(file => {
+      return isImage(file);
+   });
+    const updatedFileList = validFiles.map((file) => {
       if (!file.url) {
         // 如果文件没有url，则解析并添加url字段
         getBase64(file.originFileObj as FileType).then((url) => {
@@ -69,8 +72,17 @@ const MyUpload = ({ handleFileData,initialImageList,isShow}) => {
     console.log(updatedFileList);
     handleFileData(updatedFileList);
   };
+  const isImage = (file: File) => {
+    // 根据文件类型判断是否为图片文件
+    return file.status === 'done' || file.type.startsWith('image/');
+  };
+
   // 添加beforeUpload函数，以便上传文件之前的钩子
-  const beforeUpload: UploadProps['beforeUpload'] = async(file, fileList) => {
+  const beforeUpload: UploadProps['beforeUpload'] = async (file, fileList) => {
+    const isImageFile = isImage(file as File);
+    if (!isImageFile) {
+      message.error('请上传图片文件');
+    }
     return false; // 返回 true 开始上传，返回 false 停止上传
   };
 

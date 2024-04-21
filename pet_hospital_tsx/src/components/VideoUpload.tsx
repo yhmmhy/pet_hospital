@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { Modal, Upload } from 'antd';
+import { Modal, Upload, message } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
@@ -80,8 +80,8 @@ const VideoUpload = ({ handleFileData,initialImageList,isShow}) => {
   const beforeUpload: UploadProps['beforeUpload'] = (file: FileType) => {
     const isVideoFile = isVideo(file as File);
     if (!isVideoFile) {
-
-      console.log('请仅上传视频文件。');
+      message.error('请仅上传视频文件')
+      console.log('请仅上传视频文件');
     }
     return false;
   };

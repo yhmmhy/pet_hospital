@@ -3,10 +3,11 @@ import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken, serverUrl } from './tools'
+import { message } from 'antd'
 
 const instance =axios.create({
     baseURL: serverUrl,
-    timeout: 100000,
+    timeout: 10000,
 })
 
 // Add a request interceptor
@@ -34,8 +35,36 @@ instance.interceptors.response.use(function (response) {
     return Promise.reject(error);
   });
 
+  const setLoadingInterceptor = (setLoading) => {
+    instance.interceptors.request.use(
+      function (config) {
+        config.headers.token = getToken();
+        NProgress.start();
+        setLoading(true); // 设置 loading 为 true
+        return config;
+      },
+      function (error) {
+        return Promise.reject(error);
+      }
+    );
+  
+    instance.interceptors.response.use(
+      function (response) {
+        NProgress.done();
+        setLoading(false); // 设置 loading 为 false
+        return response;
+      },
+      function (error) {
+        NProgress.done();
+        message.error('请求超时');
+        setLoading(false); // 设置 loading 为 false
+        return Promise.reject(error);
+      }
+    );
+  };
 export const get =(url: string,params:any={}) =>instance.get(url,{params}).then((res)=>res.data);
 export const post =(url: string,data:any={}) =>instance.post(url,data).then((res)=>res.data);
 export const put =(url: string,data:any={}) =>instance.put(url,data).then((res)=>res.data);
 export const patch =(url: string,data:any={}) =>instance.patch(url,data).then((res)=>res.data);
 export const del =(url:string) => instance.delete(url).then((res)=>res.data);
+export { setLoadingInterceptor };
