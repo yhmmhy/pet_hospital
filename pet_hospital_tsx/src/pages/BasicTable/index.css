@@ -17,10 +17,6 @@
     width: 1244px !important;
     height: 665px !important;
 }
-/* canvas{
-    width: 1244px ;
-    height: 665px ;
-} */
 .quanjingtu1{
     z-index: 9998;
 }
@@ -62,117 +58,117 @@
     margin-left: 10px;
 }
 .qiantai {
-    min-width: 150px;
-    min-height: 120px;
-    background: rgba(243, 4, 4, 0);
+    min-width: 100px;
+    min-height: 480px;
+    background: blue;
     position: absolute;
-    top: 183px;
-    left: 75px;
+    top: 203px;
+    left: 520px;
     z-index: 9999; 
-    background-color: blue;
+    background: rgba(0, 0, 0, 0);
   }
 
 
 .zhenshi{
-    width: 160px;
-    height: 100px;
+    width: 120px;
+    height: 70px;
     background:rgba(0, 0, 0, 0);
     position: absolute;
-    bottom: 150px;
-    left: 0px;
+    bottom: 370px;
+    left: 630px;
     z-index: 9999; 
-    background-color: blue;
+    background: rgba(0, 0, 0, 0);
 }
 
 .dangan{
-    width: 180px;
+    width: 120px;
     height: 64px;
     background:rgba(0, 0, 0, 0);
     position: absolute;
-    top: 110px;
-    left: 120px;
+    top: 340px;
+    left: 620px;
 }
 
 .shoushu{
-    width: 150px;
-    height: 64px;
+    width: 120px;
+    height: 100px;
     position: absolute;
-    bottom: 180px;
-    left: 180px;
-    background-color: #21ebff;
+    top: 120px;
+    left: 930px;
+    background:rgba(0, 0, 0, 0);
     
 }
 .zhuyuan{
     width: 150px;
-    height: 64px;
+    height: 664px;
     background:rgba(0, 0, 0, 0);
     position: absolute;
-    top: 180px;
-    left: 240px;
+    top: 100px;
+    left: 1240px;
 }
 .jiancha{
     width: 150px;
     height: 128px;
     background:rgba(0, 0, 0, 0);
     position: absolute;
-    top: 270px;
-    left: 240px;
+    bottom: 70px;
+    right: 740px;
 }
 .sszbs{
     width: 280px;
-    height: 64px;
+    height: 104px;
     background:rgba(0, 0, 0, 0);
     position: absolute;
     top: 110px;
-    left: 340px;
+    left: 640px;
 }
 .zhushe{
     width: 80px;
     height: 100px;
     background:rgba(0, 0, 0, 0);
     position: absolute;
-    top: 200px;
-    right: 190px;
+    top: 100px;
+    left: 510px;
 }
 .yaofang{
     width: 100px;
     height: 110px;
     background:rgba(0, 0, 0, 0);
     position: absolute;
-    bottom: 200px;
-    right: 190px;
+    bottom: 550px;
+    left: 650px;
 }
 .huayan{
     width: 100px;
     height: 110px;
     background:rgba(0, 0, 0, 0);
     position: absolute;
-    top:120px;
-    right: 60px;
+   bottom:80px;
+    right: 960px;
 }
 .yingxiang{
     width: 100px;
-    height: 70px;
-    background-color: #21ebff;
+    height: 370px;
+    background: rgba(0, 0, 0, 0);
     position: absolute;
     top:250px;
-    right: 60px;
+    right: 810px;
 }
 .chuzhi{
     width: 100px;
     height: 70px;
-    background-color: #21ebff;
+    background: rgba(0, 0, 0, 0);
     position: absolute;
-    bottom:250px;
-    right: 60px;
+    bottom:280px;
+    left: 640px;
 }
 .mianyi{
     width: 100px;
     height: 100px;
     background:rgba(0, 0, 0, 0);
     position: absolute;
-    bottom:140px;
-    right: 60px;
+    bottom:70px;
+    left: 520px;
 }
 
 

@@ -65,6 +65,16 @@ export default function TestContent(props) {
     const [startVisible, setStartVisible] = useState(true);
     const [endVisible, setEndVisible] = useState(false);
     const [endFormVisible, setendFormVisible] = useState(false);
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`http://47.102.142.153:5000/user/test/${props.selectkey}/${props.selectkey}`)
+            console.log(response)
+            data = response.data.exam;
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
     useEffect(() => {
         console.log(props.selectkey);
         fetchData();
@@ -79,16 +89,7 @@ export default function TestContent(props) {
         setEndVisible(false)
         setendFormVisible(false)
     }, [props.selectkey]);
-    const fetchData = async () => {
-        try {
-            const response = await axios.get(`http://47.102.142.153:5000/user/test/${props.selectkey}/${props.selectkey}`)
-            console.log(response)
-            data = response.data.exam;
-
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+   
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -133,15 +134,15 @@ export default function TestContent(props) {
             console.log(scorestring)
             const scoreobject = { "score": 20 }
             console.log(scoreobject)
-            axios.post(`http://47.102.142.153:5000/user/test/1/1`, scoreobject)
-                .then(response => {
-                    // 处理请求成功的逻辑
-                    console.log(response)
-                })
-                .catch(error => {
-                    // 处理请求失败的逻辑
-                    console.log(error)
-                });
+            // axios.post(`http://47.102.142.153:5000/user/test/1/1`, scoreobject)
+            //     .then(response => {
+            //         // 处理请求成功的逻辑
+            //         console.log(response)
+            //     })
+            //     .catch(error => {
+            //         // 处理请求失败的逻辑
+            //         console.log(error)
+            //     });
         });
 
         setIsModalOpen(false);

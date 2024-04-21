@@ -116,7 +116,7 @@ const TestLayout = () => {
     const [isStart, setisStart] = useState(false)
     const [countEnd, setcountEnd] = useState(false)
     const [items, setitems] = useState([])
-    const [selectkey, setselectkey] = useState('')
+    const [selectkey, setselectkey] = useState('1')
     const fetchData = async () => {
         try {
             const response = await axios.get('http://47.102.142.153:5000/test-paper/get');
