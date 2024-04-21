@@ -17,6 +17,87 @@ function CaseManage() {
     const [imageData1, setImageData1] = useState([]);
     const [imageData2, setImageData2] = useState([]);
     const [videoData, setVideoData] = useState([]);
+    
+const caseData = [
+    {
+      category: '传染病',
+      cases: [
+        '犬瘟热',
+        '犬细小病毒',
+        '犬传染性肝炎',
+        '犬冠状病毒',
+        '猫泛白细胞减少症',
+        '猫病毒性病气管炎',
+        '皮肤真菌感染',
+      ],
+    },
+    {
+      category: '寄生虫病',
+      cases: [
+        '蛔虫病',
+        '钩虫病',
+        '绦虫病',
+        '球虫病',
+        '疥螨虫病',
+        '蚤病',
+      ],
+    },
+    {
+      category: '内科',
+      cases: [
+        '口炎',
+        '肠炎',
+        '肠便秘',
+        '胰腺炎',
+        '肝炎',
+        '腹膜炎',
+        '肛门腺炎',
+        '感冒',
+        '鼻炎',
+        '气管支气管炎',
+        '肺炎',
+        '心力衰竭',
+        '尿道感染',
+        '尿结石',
+        '膀胱炎',
+        '肾炎',
+        '佝偻病',
+        '有机磷中毒',
+        '糖尿病',
+        '耳血肿',
+        '中耳炎',
+        '眼睑内翻',
+        '结膜炎',
+        '角膜炎',
+      ],
+    },
+    {
+      category: '外产科疾病',
+      cases: [
+        '外伤',
+        '外科感染',
+        '骨折',
+        '关节脱位',
+        '湿疹',
+        '皮炎',
+        '脓皮病',
+        '脱毛症',
+        '趾间囊肿',
+        '疝',
+        '阴道炎',
+        '阴道脱出',
+        '子宫蓄脓',
+        '难产',
+        '乳房炎',
+      ],
+    },
+  ];
+  
+  const selectOptions = caseData.flatMap(({ cases }) =>
+    cases.map((caseName) => (
+      <Select.Option value={caseName} key={caseName}>{caseName}</Select.Option>
+    ))
+  );
     // const submitData = async (fileData,value) => {
     //     const formData = new FormData();
     //     console.log('图片信息',fileData);
@@ -294,13 +375,14 @@ function CaseManage() {
                         }
                     ]}>
                         <Select placeholder="请选择病例类型">
-                            <Select.Option value="犬瘟热">犬瘟热</Select.Option>
+                            {/* <Select.Option value="犬瘟热">犬瘟热</Select.Option>
                             <Select.Option value="犬细小病毒">犬细小病毒</Select.Option>;
                             <Select.Option value="犬传染性肝炎">犬传染性肝炎</Select.Option>
                             <Select.Option value="犬冠状病毒">犬冠状病毒</Select.Option>
                             <Select.Option value="猫泛白细胞减少症">猫泛白细胞减少症</Select.Option>
                             <Select.Option value="猫病毒性病气管炎">猫病毒性病气管炎</Select.Option>
-                            <Select.Option value="皮肤真菌感染">皮肤真菌感染</Select.Option>
+                            <Select.Option value="皮肤真菌感染">皮肤真菌感染</Select.Option> */}
+                            {selectOptions}
                         </Select>
                     </Form.Item>
                     <Form.Item label='接诊' name='admission' rules={

@@ -36,6 +36,8 @@ npm i react-router-dom axios nprogress antd @ant-design/icons
 ```
 ##启动项目
 ```bash
+git clone git@github.com:yhmmhy/pet_hospital.git
+npm install
 npm run dev
 ```
 =======

@@ -13,10 +13,14 @@
     position: absolute;
 }
 
-canvas{
+.App canvas{
     width: 1244px !important;
     height: 665px !important;
 }
+/* canvas{
+    width: 1244px ;
+    height: 665px ;
+} */
 .quanjingtu1{
     z-index: 9998;
 }
