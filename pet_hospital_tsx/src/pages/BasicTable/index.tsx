@@ -169,15 +169,61 @@ export default class BasicTable extends Component<{},MyComponentState>  {
     }
   }
 
-  clickModal(modelType:any,type:any){
-    this.KeShiInfoItem = this.KeShiInfo[type+1]
-    console.log(this.KeShiInfoItem)
-    this.setState({
-      openGL : modelType == 0 ? true : false,
+   clickModal(modelType:any,type:number){
+      console.log(this.KeShiInfo)
+      // this.KeShiInfoItem = this.KeShiInfo[type+1]
+     // console.log(this.KeShiInfoItem)
+    switch(type){
+     case 0:
+     //传入的type是this.nowNum,根据nowNum确定科室，然后从console.log(this.KeShiInfo)打印的找到对应的数组用[]来选择就行
+     this.KeShiInfoItem = this.KeShiInfo[0]
+     break
+     case 1:
+      this.KeShiInfoItem = this.KeShiInfo[2]
+
+     break
+     case 2:
+      this.KeShiInfoItem = this.KeShiInfo[10]
+      break
+    case 3:
+      this.KeShiInfoItem = this.KeShiInfo[11]
+      break
+      case 4:
+      this.KeShiInfoItem = this.KeShiInfo[6]
+      break
+      case 5:
+        this.KeShiInfoItem = this.KeShiInfo[12]
+        break
+      case 6:
+      this.KeShiInfoItem = this.KeShiInfo[1]
+      break
+      case 7:
+      this.KeShiInfoItem = this.KeShiInfo[9]
+      break
+      case 8:
+      this.KeShiInfoItem = this.KeShiInfo[8]
+      break
+      case 9:
+      this.KeShiInfoItem = this.KeShiInfo[4]
+      break
+      case 10:
+      this.KeShiInfoItem = this.KeShiInfo[5]
+      break
+      case 11:
+      this.KeShiInfoItem = this.KeShiInfo[7]
+      break
+      case 12:
+      this.KeShiInfoItem = this.KeShiInfo[3]
+      break
+   
+        
+     }
+     this.setState({
+     openGL : modelType == 0 ? true : false,
       openLC : modelType == 1 ? true : false,
       openDH : modelType == 2 ? true : false
-    });
-  }
+     });
+     }
 
   handleClick(type:any){
     switch(type){
@@ -335,10 +381,10 @@ export default class BasicTable extends Component<{},MyComponentState>  {
             <div className='czt'>
               <div className='labelCZT'>操作台</div>
               <div className='buttons-bottom'>
-                <div className='buttonsItem' onClick={() => this.clickModal(0,this.targetNum)}>功能说明</div>
-                <div className='buttonsItem'onClick={() => this.clickModal(1,this.targetNum)}>操作流程</div>
-                <div className='buttonsItem'onClick={() => this.clickModal(2,this.targetNum)}>演示动画</div>
-              </div>
+              <div className='buttonsItem' onClick={() => this.clickModal(0,this.nowNum)}>功能说明</div>
+              <div className='buttonsItem'onClick={() => this.clickModal(1,this.nowNum)}>操作流程</div>
+              <div className='buttonsItem'onClick={() => this.clickModal(2,this.nowNum)}>演示动画</div>
+             </div>
             </div>
           </div>
         }

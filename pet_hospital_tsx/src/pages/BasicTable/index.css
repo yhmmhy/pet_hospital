@@ -2,9 +2,11 @@
     width: 860px;
     display: flex;
     justify-content: center;
-    position: relative;
+    position: absolute;
+    top:12.5%;
+    left:26.5%;
+
     margin: 0 auto;
-    margin-left: 450px;
 }
 
 .quanjingtu{
@@ -59,117 +61,117 @@
     margin-left: 10px;
 }
 .qiantai {
-    min-width: 100px;
-    min-height: 480px;
-    background: blue;
+    min-width: 5%;
+    min-height: 53%;
+    
     position: absolute;
-    top: 203px;
-    left: 520px;
+    top: 23%;
+    left: 28%;
     z-index: 9999; 
-    background: rgba(0, 0, 0, 0);
+    background: rgba(0,0,0,0);
   }
 
 
 .zhenshi{
-    width: 120px;
-    height: 70px;
-    background:rgba(0, 0, 0, 0);
+    width: 6%;
+    height: 8%;
+    
     position: absolute;
-    top: 440px;
-    left: 630px;
+    top: 50%;
+    left: 34%;
     z-index: 9999; 
-    background: rgba(0, 0, 0, 0);
+    background: rgba(0,0,0,0);
 }
 
 .dangan{
-    width: 120px;
-    height: 64px;
-    background:rgba(0, 0, 0, 0);
+    width: 6%;
+    height: 8%;
+    background:rgba(0,0,0,0);
     position: absolute;
-    top: 340px;
-    left: 620px;
+    top: 38%;
+    left: 34%;
 }
 
 .shoushu{
-    width: 120px;
-    height: 100px;
+    width: 7%;
+    height: 10%;
     position: absolute;
-    top: 120px;
-    left: 930px;
-    background:rgba(0, 0, 0, 0);
+    top: 15%;
+    left: 50%;
+    background:rgba(0,0,0,0);
     
 }
 .zhuyuan{
-    width: 150px;
-    height: 664px;
-    background:rgba(0, 0, 0, 0);
+    width: 6%;
+    height: 80%;
+    background:rgba(0,0,0,0);
     position: absolute;
-    top: 100px;
-    left: 1240px;
+    top: 11%;
+    left: 67%;
 }
 .jiancha{
-    width: 150px;
-    height: 128px;
-    background:rgba(0, 0, 0, 0);
+    width:11%;
+    height: 13%;
+    background:rgba(0,0,0,0);
     position: absolute;
-    top: 700px;
-    left: 940px;
+    top: 80%;
+    left: 50%;
 }
 .sszbs{
-    width: 280px;
-    height: 104px;
-    background:rgba(0, 0, 0, 0);
+    width: 15%;
+    height: 10%;
+    background:rgba(0,0,0,0);
     position: absolute;
-    top: 110px;
-    left: 640px;
+    top: 13%;
+    left: 34%;
 }
 .zhushe{
-    width: 80px;
-    height: 100px;
-    background:rgba(0, 0, 0, 0);
+    width: 5%;
+    height: 12%;
+    background:rgba(0,0,0,0);
     position: absolute;
-    top: 100px;
-    left: 510px;
+    top: 11%;
+    left: 27%;
 }
 .yaofang{
-    width: 100px;
-    height: 110px;
-    background:rgba(0, 0, 0, 0);
+    width: 6%;
+    height: 12%;
+    background:rgba(0,0,0,0);
     position: absolute;
-    top:220px;
-    left: 650px;
+    top: 25%;
+    left: 34%;
 }
 .huayan{
-    width: 100px;
-    height: 110px;
-    background:rgba(0, 0, 0, 0);
+    width: 7%;
+    height: 12%;
+    background:rgba(0,0,0,0);
     position: absolute;
-    top:700px;
-    left: 760px;
+   top:80%;
+    left: 42%;
 }
 .yingxiang{
-    width: 100px;
-    height: 370px;
-    background: rgba(0, 0, 0, 0);
+    width: 5%;
+    height: 43%;
+    background: rgba(0,0,0,0);
     position: absolute;
-    top:250px;
-    left: 950px;
+    top:28%;
+    left: 51%;
 }
 .chuzhi{
-    width: 100px;
-    height: 70px;
-    background: rgba(0, 0, 0, 0);
+    width: 5%;
+    height: 9%;
+    background: rgba(0,0,0,0);
     position: absolute;
-    top:520px;
-    left: 640px;
+    top:59%;
+    left: 34.5%;
 }
 .mianyi{
-    width: 100px;
-    height: 100px;
-    background:rgba(0, 0, 0, 0);
+    width: 6%;
+    height: 12%;
+    background:rgba(0,0,0,0);
     position: absolute;
-    top:700px;
-    left: 520px;
+    top:80%;
+    left: 28%;
 }
 
 
