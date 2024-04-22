@@ -22,7 +22,7 @@ import "./index.css"
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js"
 import * as THREE from "three"
 import { loadRoomDataAPI } from '../../services/caseManage'
-import { Modal } from 'antd'
+import { Modal,Image } from 'antd'
 
 interface MyComponentState {
   imgShow:boolean;
@@ -396,7 +396,7 @@ export default class BasicTable extends Component<{},MyComponentState>  {
         <Modal  title="操作流程" open={this.state.openLC} zIndex={9999} footer={null} onCancel={() => this.handleCancel()} width={750}>
           <div className='imgContainer'>
               {this.KeShiInfoItem.picture.map(pic => (
-                <img src={pic} className='imgLC' />
+                <Image src={pic} className='imgLC' />
               ))}
           </div>
         </Modal>
