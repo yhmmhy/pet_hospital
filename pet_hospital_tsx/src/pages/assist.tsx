@@ -27,13 +27,12 @@ const assist: React.FC<{ open, setOpen, id }> = ({ open, setOpen, id }) => {
                     request={async (messages: Array<any>) => {
                         var ans = '消息回复失败，请重新生成'
                         const resp = await axios.post('/assist', {
-                            "id": id,
-                            'query':messages[messages.length - 1].content,
+                            'messages':messages
                         });
                         if(resp.data.code==200){
                             ans = resp.data.message
                         }
-                        // console.log(id)
+                        // console.log(resp)
                         // console.log(ans)
                         return new Response(ans);
                     }}
