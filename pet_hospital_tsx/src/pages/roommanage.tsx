@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { Card, Button, Form, Input, Table, Modal, message, Space, Upload, Popconfirm, Tooltip } from 'antd'
+import { Card, Button, Form, Input, Table, Modal, message, Space, Upload, Popconfirm, Tooltip, Spin } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined, UndoOutlined, ZoomInOutlined } from '@ant-design/icons';
 import MyUpload from "../components/MyUpload";
 import { loadRoomDataAPI, loadRoomDataByIdAPI, updateRoomByIdAPI } from "../services/caseManage";
 import VideoUpload from "../components/VideoUpload";
+import {  setLoadingInterceptor } from '../utils/request';
 function RoomManage() {
     const [isShow, setIsShow] = useState(false);//控制添加病例的modal
     const [myForm] = Form.useForm();//获取表单元素实例
@@ -14,6 +15,11 @@ function RoomManage() {
     const [isInfoShow, setIsInfoShow] = useState(false);
     const [imageData, setImageData] = useState([]);
     const [videoData, setVideoData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    // useEffect(() => {
+    //     // 在组件加载时设置拦截器
+    //     setLoadingInterceptor(setLoading);
+    //   }, []);
     useEffect(() => {
         loadRoomDataAPI().then((res) => {
             console.log(res);
@@ -144,10 +150,13 @@ function RoomManage() {
                         else {
                             if (currentId) {
                                 // setInitialImageList(imageData)
+                                setLoading(true);
+                                setIsShow(false);
                                 await updateRoomByIdAPI(currentId, v)
                                     .then((res) => {
                                         console.log(res);
-                                        setIsShow(false);
+                                        setLoading(false);
+                                        // setIsShow(false);
                                         setImageData([]);
                                         setVideoData([]);
                                         setCurrentId('');
@@ -155,6 +164,8 @@ function RoomManage() {
                                         message.success('修改成功');
                                     })
                                     .catch((error) => {
+                                        message.error('上传失败')
+                                        setLoading(false);
                                         console.error("Error:", error);
                                     });
 
@@ -231,6 +242,7 @@ function RoomManage() {
                     </Form.Item>
                 </Form>
             </Modal>
+            <Spin spinning={loading} fullscreen />
         </>
         
 

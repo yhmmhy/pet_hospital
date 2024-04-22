@@ -7,7 +7,7 @@ import { message } from 'antd'
 
 const instance =axios.create({
     baseURL: serverUrl,
-    timeout: 10000,
+    timeout: 30000,
 })
 
 // Add a request interceptor
@@ -56,7 +56,7 @@ instance.interceptors.response.use(function (response) {
       },
       function (error) {
         NProgress.done();
-        message.error('请求超时');
+        message.error('请求失败');
         setLoading(false); // 设置 loading 为 false
         return Promise.reject(error);
       }

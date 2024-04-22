@@ -108,10 +108,10 @@ function CaseManage() {
     //     console.log('我的formData',formData);
     //     await insertAllAPI(fileData);
     // };
-    useEffect(() => {
-        // 在组件加载时设置拦截器
-        setLoadingInterceptor(setLoading);
-      }, []);
+    // useEffect(() => {
+    //     // 在组件加载时设置拦截器
+    //     setLoadingInterceptor(setLoading);
+    //   }, []);
     useEffect(() => {
         loadDataAPI(query)
             .then((res) => {
@@ -321,11 +321,11 @@ function CaseManage() {
 
                             if (currentId) {
                                 console.log('update', newData);
-                                // setLoading(true);
+                                setLoading(true);
                                 setIsShow(false);
                                 await updateByIdAPI(currentId, newData)
                                     .then((res) => {
-                                        // setLoading(false);
+                                        setLoading(false);
                                         console.log(res);
                                         // setIsShow(false);
                                         setImageData1([]);
@@ -336,15 +336,16 @@ function CaseManage() {
                                         message.success('修改成功');
                                     })
                                     .catch((error) => {
+                                        setLoading(false);
                                         console.error("Error:", error);
                                     });
                             } else {
                                 console.log('发送信息', newData);
                                 setIsShow(false);
-                                // setLoading(true);
+                                setLoading(true);
                                 await insertAllAPI(newData)
                                     .then((res) => {
-                                        // setLoading(false);
+                                        setLoading(false);
                                         console.log(res);
                                         setImageData1([]);
                                         setImageData2([]);
