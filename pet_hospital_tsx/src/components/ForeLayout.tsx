@@ -18,8 +18,8 @@ import cookie from 'react-cookies'
 const Assist = React.lazy(() => import('../pages/assist'));
 
 const { Header, Content, Footer } = Layout;
-  // @ts-ignore
-function randomString(length, chars) {
+
+function randomString(length:any, chars:any) {
   var result = '';
   for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
   return result;
@@ -129,7 +129,6 @@ const ForeLayout = ({ children }: any) => {
         <Button ref={ref3} style={{
           float: 'right',
         }} onClick={() => {
-          console.log(cookie.load('token'))
           cookie.remove('token', { path: '/' })
           cookie.remove('username', { path: '/' })
           cookie.remove('role', { path: '/' })

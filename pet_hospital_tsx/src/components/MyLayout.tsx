@@ -1,4 +1,4 @@
-import  { useState, useRef, useEffect } from 'react';
+import  { useState, useRef  } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -34,9 +34,6 @@ const MyLayout = ({ children }: any) => {
   const ref2 = useRef(null);
   const ref3 = useRef(null);
   const [tourOpen, setTourOpen] = useState<boolean>(false);
-  useEffect(() => {
-    console.log(ref1)
-  }, [ref1])
   const steps: TourProps['steps'] = [
     {
       title: '管理菜单栏',
@@ -147,7 +144,7 @@ const MyLayout = ({ children }: any) => {
                 navigate('/');
               }
             }, error => {
-              console.log('错误', error.message)
+              message.error('错误', error.message)
             })
 
           }}>
