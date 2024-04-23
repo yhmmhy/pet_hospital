@@ -9,7 +9,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
   // @ts-ignore
-const assist: React.FC<{ open, setOpen, id }> = ({ open, setOpen, id }) => {
+const assist: React.FC<{ open, setOpen }> = ({ open, setOpen }) => {
     const theme = useTheme();
 
     return (

@@ -1,102 +1,62 @@
-
-import {useEffect,useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from "axios";
-import Loadable from 'react-loadable';
+import ReactEcharts from 'echarts-for-react'
 
-const Bar = Loadable({
-  loader: async () => {
-    const bar = await import('@ant-design/plots/lib/components/bar');
-    return bar;
+axios.defaults.baseURL = 'http://47.102.142.153:5000';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+const option = {
+  title: {
+    text: '数据量柱状图',
   },
-  loading: () => <div>Loading...</div>,
-});
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [120, 200, 150, 80, 70, 110, 130],
+      type: 'bar'
+    }
+  ]
+};
 
 
-interface DataType {
-  labelName: string,
-  sum: number,
-}
 
-const Barch = () => {
-  axios.defaults.baseURL = 'http://47.102.142.153:5000';
-  axios.defaults.headers.post['Content-Type'] = 'application/json';
-  const [datasource, setDatasource] = useState<DataType[]>()
+const Barch: React.FC = () => {
+  const [options, setOptions] = useState(option);
   useEffect(() => {
     axios.get('/admin').then((res) => {
-      const source = [
-        {
-          labelName: '用户',
-          sum: res.data.usernum,
+      const option = {
+        title: {
+          text: '数据量柱状图',
         },
-        {
-          labelName: '病例',
-          sum: res.data.casenum,
+        xAxis: {
+          type: 'category',
+          data: ["用户", "病例", "题目", "试卷"],
         },
-        {
-          labelName: '题库',
-          sum: res.data.quesnum,
+        yAxis: {
+          type: 'value'
         },
-        {
-          labelName: '试卷',
-          sum: res.data.papernum,
-        },
-      ]
-      setDatasource(source)
+        series: [
+          {
+            data: [res.data.usernum, res.data.casenum, res.data.quesnum, res.data.papernum],
+            type: 'bar'
+          }
+        ]
+      };
+      setOptions(option)
     })
       .catch(error => {
         console.log(error);
       });
-  }, [])
-  const config = {
-    data:datasource,
-    xField: 'labelName',
-    yField: 'sum',
-    paddingRight: 80,
-    height:400,
-    width:400,
-    style: {
-      maxWidth: 25,
-    },
-    markBackground: {
-      label: {
-          // @ts-ignore
-        text: ({ originData }) => {
-          return `${originData.sum}`;
-        },
-        position: 'right',
-        dx: 80,
-        style: {
-          fill: '#aaa',
-          fillOpacity: 1,
-          fontSize: 14,
-        },
-      },
-      style: {
-        fill: '#eee',
-      },
-    },
-    scale: {
-      y: {
-        domain: [0, 100],
-      },
-    },
-    axis: {
-      x: {
-        tick: false,
-        title: false,
-      },
-      y: {
-        grid: false,
-        tick: false,
-        label: false,
-        title: false,
-      },
-    },
-    interaction: {
-      elementHighlightByColor: false,
-    },
-  };
-  return <Bar {...config} />;
-};
+  }, []);
+  return <ReactEcharts option={options} notMerge={true}
+    lazyUpdate={true}
+    style={{ width: '50%', height: '500px' }} />
+}
+
 
 export default Barch;

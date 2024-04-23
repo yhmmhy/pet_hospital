@@ -1,4 +1,3 @@
-import './App.css'
 import MyLayout from './components/MyLayout'
 import {Route,Routes} from 'react-router-dom'
 import CaseManage from './pages/casemanage'

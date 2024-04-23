@@ -18,13 +18,13 @@ import cookie from 'react-cookies'
 const Assist = React.lazy(() => import('../pages/assist'));
 
 const { Header, Content, Footer } = Layout;
-  // @ts-ignore
-function randomString(length, chars) {
-  var result = '';
-  for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-  return result;
-}
-const id = randomString(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
+// function randomString(length:any, chars:any) {
+//   var result = '';
+//   for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+//   return result;
+// }
+// const id = randomString(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 const ForeLayout = ({ children }: any) => {
   const location = useLocation();
 
@@ -129,7 +129,6 @@ const ForeLayout = ({ children }: any) => {
         <Button ref={ref3} style={{
           float: 'right',
         }} onClick={() => {
-          console.log(cookie.load('token'))
           cookie.remove('token', { path: '/' })
           cookie.remove('username', { path: '/' })
           cookie.remove('role', { path: '/' })
@@ -150,7 +149,7 @@ const ForeLayout = ({ children }: any) => {
           <FloatButton icon={<FileTextOutlined />} onClick={() => { setTourOpen(true) }} ref={ref4} />
         </FloatButton.Group>
         <Suspense fallback={<div>Loading...</div>}>
-          <Assist open={open} setOpen={setOpen} id={id} />
+          <Assist open={open} setOpen={setOpen}  />
         </Suspense>
 
         <Tour open={tourOpen} onClose={() => setTourOpen(false)} steps={steps} />
