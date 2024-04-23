@@ -1,4 +1,4 @@
-  // @ts-nocheck
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { Space, Table, Button, Input, Form, Modal, Select } from 'antd';
 import { EditOutlined, DeleteOutlined, FileAddOutlined } from '@ant-design/icons';
@@ -439,7 +439,7 @@ function ExamManage() {
         // newdata = newdata.map(item => { item.id = id++; return item; });
         // data = [...newdata];
         // setTableData(tableData.filter(item => !selectedDelRowKeys.includes(item.key)));
-        if (confirm("确定要删除这道试题吗")) {
+        if (confirm("确定要删除这张试卷吗")) {
             for (let i = 0; i < selectedDelRowKeys.length; i++) {
                 // console.log(selectedDelRowKeys[i])
                 deleteRow(selectedDelRowKeys[i])
@@ -535,7 +535,7 @@ function ExamManage() {
                 <Space size="middle">
 
                     {/* <Button type="primary" size='small' onClick={() => showEditModal(record)}><EditOutlined /></Button> */}
-                    <Button type="primary" size='small' danger onClick={() => { if (confirm("确定要删除这道试题吗")) { deleteRow(record.key) } }}><DeleteOutlined /></Button>
+                    <Button type="primary" size='small' danger onClick={() => { if (confirm("确定要删除这张试卷吗")) { deleteRow(record.key) } }}><DeleteOutlined /></Button>
 
                 </Space>
 
