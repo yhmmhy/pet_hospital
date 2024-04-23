@@ -95,7 +95,7 @@ const Piech:React.FC = () =>{
               }
             },
             data: [
-              { value: res.data.usernum, name: '实习生' },
+              { value: res.data.stunum, name: '实习生' },
               { value: res.data.adminnum, name: '管理员' },
             ],
             itemStyle: {
