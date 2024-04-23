@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, Button, Form, Input, Table, Modal, message, Space,  Popconfirm, Tooltip, Select, Spin } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined, UndoOutlined, ZoomInOutlined } from '@ant-design/icons';
 import MyUpload from "../components/MyUpload";
@@ -138,7 +138,7 @@ function CaseManage() {
             >
                 <Form layout="inline" onFinish={async (v) => {
                     console.log('我的', v);
-
+                      // @ts-ignore
                     const filteredData = data.filter(item => item.name.includes(v.name));
                     setData(filteredData);
                     if (filteredData.length > 0) {
@@ -203,6 +203,7 @@ function CaseManage() {
                                 title: '操作',
                                 align: 'center',
                                 width: 100,
+                                  // @ts-ignore
                                 render(v, r: any) {
                                     return <Space>
                                         <Tooltip title="编辑">
@@ -472,6 +473,7 @@ function CaseManage() {
             >
                 <Form
                     preserve={false}
+                      // @ts-ignore
                     onFinish={(v) => {
                     }}
                     form={myInfoForm}

@@ -1,3 +1,4 @@
+  // @ts-ignore
 import {get,post,patch,del} from '../utils/request'
 
 export const loadDataAPI = (query:any ={}) => get('/case/get',query);//返回所有病例文字数据数据

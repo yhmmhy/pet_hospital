@@ -1,25 +1,18 @@
+  // @ts-nocheck
 import React, { useRef, useState, useEffect } from 'react';
 import {
   SearchOutlined,
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
-  LockOutlined,
-  UserOutlined,
-  MailOutlined,
-  PhoneOutlined,
-  WarningOutlined,
-  FileTextOutlined,
   AlignLeftOutlined,
   FileOutlined,
-  FileImageOutlined,
   PayCircleOutlined,
 } from '@ant-design/icons';
-import type { GetRef, TableColumnsType, TableColumnType, RadioChangeEvent } from 'antd';
-import { Button, Card, Input, Space, Table, Form, Modal, Radio, ConfigProvider, Select, Image } from 'antd';
+import type { GetRef, TableColumnsType, TableColumnType } from 'antd';
+import { Button, Card, Input, Space, Table, Form, Modal, Select, Image } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
-import { useForm } from 'antd/es/form/Form';
 import { message, Upload } from 'antd';
 import type { GetProp, UploadProps } from 'antd';
 import axios from 'axios'

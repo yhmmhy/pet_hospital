@@ -1,4 +1,3 @@
-import React from 'react'
 import {Route,Routes} from 'react-router-dom'
 import RolePlay from './pages/roleplay'
 import ForeLayout from './components/ForeLayout'

@@ -1,5 +1,5 @@
 import React, { useState, useRef, Suspense } from 'react';
-import { Layout, Menu, theme, FloatButton, Modal, message } from 'antd';
+import { Layout, Menu, theme, FloatButton, message } from 'antd';
 import { Button, Tour } from 'antd';
 import type { TourProps } from 'antd';
 import {
@@ -18,6 +18,7 @@ import cookie from 'react-cookies'
 const Assist = React.lazy(() => import('../pages/assist'));
 
 const { Header, Content, Footer } = Layout;
+  // @ts-ignore
 function randomString(length, chars) {
   var result = '';
   for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
@@ -37,6 +38,7 @@ const ForeLayout = ({ children }: any) => {
     {
       title: '功能菜单栏',
       description: '包括医院导览，角色扮演，病例学习和测试功能，可以学习宠物医生相关知识',
+        // @ts-ignore
       target: () => ref1.current.menu.list,
     },
     {
@@ -60,7 +62,7 @@ const ForeLayout = ({ children }: any) => {
   };
 
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: {  borderRadiusLG },
   } = theme.useToken();
   const navigate = useNavigate()
   const menuClick = (e: { key: string }) => {

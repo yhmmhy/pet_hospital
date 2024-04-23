@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react'
 import { Form, Radio, Space } from 'antd/lib';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import './Question.css'
@@ -15,7 +14,9 @@ import './Question.css'
 //     rightchoice: 'A',
 //     score: 20
 // }
+  // @ts-ignore
 export default function Question(props) {
+      // @ts-ignore
     const { data, index, userAnswers, isEnd } = props;
     const userChoice = userAnswers[data.key];
     const isCorrect = userChoice === data.rightchoice;

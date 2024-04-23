@@ -1,5 +1,5 @@
 import React,{Suspense} from "react";
-import { Card, ConfigProvider, Flex } from "antd";
+import { Card, ConfigProvider } from "antd";
 
 
 const Barch = React.lazy(() => import('../components/charts/Barch'));

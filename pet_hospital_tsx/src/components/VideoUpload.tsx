@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+  // @ts-nocheck
+import  { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload, message } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';

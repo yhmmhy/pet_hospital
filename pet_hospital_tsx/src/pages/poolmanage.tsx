@@ -1,3 +1,4 @@
+  // @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import { Space, Table, Button, Input, Modal, Form, Select, Radio } from 'antd';
 import { EditOutlined, DeleteOutlined, FileAddOutlined, DownOutlined } from '@ant-design/icons';

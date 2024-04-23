@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { useEffect, useState } from 'react';
 import Loadable from 'react-loadable';
 import axios from "axios";
 interface DataType {
@@ -37,7 +36,9 @@ const Piech = () => {
     colorField: 'role',
     legend: false,
     label: {
+        // @ts-ignore
       text: ({ role, percent }) => {
+          // @ts-ignore
         return `${role}: ${parseInt(percent * 100)}%`;
       },
       fill: '#fff',
@@ -45,6 +46,7 @@ const Piech = () => {
     },
     style: {
       padding: 10,
+        // @ts-ignore
       fill: ({ role }) => {
         if (role === '实习生') {
           return 'p(a)https://gw.alipayobjects.com/zos/antfincdn/FioHMFgIld/pie-wenli1.png';

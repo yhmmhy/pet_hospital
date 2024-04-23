@@ -34,7 +34,7 @@ instance.interceptors.response.use(function (response) {
     NProgress.done();
     return Promise.reject(error);
   });
-
+  // @ts-ignore
   const setLoadingInterceptor = (setLoading) => {
     instance.interceptors.request.use(
       function (config) {

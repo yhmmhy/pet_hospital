@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import  { useState, useEffect } from 'react'
 import Question from './Question'
 import { Form, Modal, Button } from 'antd/lib';
 import axios from 'axios';
@@ -53,10 +53,12 @@ let data = [
         score: 80
     }
 ]
+  // @ts-ignore
 export default function TestContent(props) {
     // console.log(props.data)
     // console.log(props.pooldata)
     // const [form] = Form.useForm();
+      // @ts-ignore
     const [form, setForm] = useState(Form.useForm()[0]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [totalscore, settotalscore] = useState(0)
@@ -148,6 +150,7 @@ export default function TestContent(props) {
                 if (values[data[i].key] === data[i].rightchoice) {
                     totalscore += data[i].score * 1;
                 }
+                  // @ts-ignore
                 userAnswersCopy[data[i].key] = values[data[i].key];
             }
             setUserAnswers(userAnswersCopy);

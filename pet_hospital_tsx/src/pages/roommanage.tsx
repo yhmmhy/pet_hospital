@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { Card, Button, Form, Input, Table, Modal, message, Space, Upload, Popconfirm, Tooltip, Spin } from 'antd'
+import { useEffect, useState } from "react"
+import { Card, Button, Form, Input, Table, Modal, message, Space,Tooltip, Spin } from 'antd'
 import {  EditOutlined,  SearchOutlined, UndoOutlined, ZoomInOutlined } from '@ant-design/icons';
 import MyUpload from "../components/MyUpload";
 import { loadRoomDataAPI,  updateRoomByIdAPI } from "../services/caseManage";
@@ -44,6 +44,7 @@ function RoomManage() {
             // }
             >
                 <Form layout="inline" onFinish={ (v) => {
+                      // @ts-ignore
                     const filtered = data.filter(item => item.name.includes(v.name));
                     console.log('Filtered data:', filtered);
                     setData(filtered);
@@ -83,6 +84,7 @@ function RoomManage() {
                                 title: '操作',
                                 align: 'center',
                                 width: 100,
+                                  // @ts-ignore
                                 render(v, r: any) {
                                     return <Space>
                                         <Button type='primary' icon={<EditOutlined />} onClick={async () => {

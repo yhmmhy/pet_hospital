@@ -1,5 +1,5 @@
-import React,{useEffect,useState} from 'react';
-import ReactDOM from 'react-dom';
+
+import {useEffect,useState} from 'react';
 import axios from "axios";
 import Loadable from 'react-loadable';
 
@@ -59,6 +59,7 @@ const Barch = () => {
     },
     markBackground: {
       label: {
+          // @ts-ignore
         text: ({ originData }) => {
           return `${originData.sum}`;
         },

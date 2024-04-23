@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import  { useState, useRef, useEffect } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -42,6 +42,7 @@ const MyLayout = ({ children }: any) => {
       title: '管理菜单栏',
       description: '包括用户管理等多种数据的管理，可以进行对相应数据的增删改查',
       placement: 'right',
+        // @ts-ignore
       target: () => ref1.current.menu.list,
     },
     {

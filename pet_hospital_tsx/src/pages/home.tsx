@@ -1,5 +1,5 @@
 import React from "react";
-import { Carousel, Slider } from 'antd';
+import { Carousel} from 'antd';
 import img1 from '../assets/i8EEHJBYzr.jpg'
 import img2 from '../assets/FrEDX2cVJB.jpg'
 import img3 from '../assets/PI46xkbvuU.jpg'

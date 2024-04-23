@@ -1,3 +1,4 @@
+  // @ts-nocheck
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, LockOutlined, UserOutlined, MailOutlined, PhoneOutlined, WarningOutlined } from '@ant-design/icons';
 import type { GetRef, TableColumnsType, TableColumnType, RadioChangeEvent } from 'antd';

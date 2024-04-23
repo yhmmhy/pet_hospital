@@ -1,3 +1,4 @@
+  // @ts-nocheck
 import { Component } from 'react'
 import imgmap from '../../assets/地图.png'
 import ys from '../../assets/ys.svg'

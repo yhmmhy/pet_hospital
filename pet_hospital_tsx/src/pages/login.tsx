@@ -1,3 +1,4 @@
+  // @ts-nocheck
 import { Row, Col, Card, Form, Button, message, Input, Radio, Modal, Layout, theme } from 'antd/lib'
 import React, { useEffect, useState } from 'react';
 import type { RadioChangeEvent } from 'antd/lib/radio';

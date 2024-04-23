@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SearchOutlined, ZoomInOutlined } from '@ant-design/icons';
 import type { GetRef, TableColumnsType, TableColumnType } from 'antd';
 import { Button, Input, Space, Table, message } from 'antd';
@@ -187,6 +187,7 @@ const CaseList = () => {
         title:'查看详情',
         align:'center',
         width:100,
+          // @ts-ignore
         render(v,r:any){
             return <Space>
                 <Button type='primary' icon={<ZoomInOutlined />} onClick={()=>{

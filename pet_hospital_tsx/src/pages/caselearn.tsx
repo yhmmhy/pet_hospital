@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Card, Button, Space ,Tabs} from 'antd';
-import { Navigate ,useNavigate} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 const { TabPane } = Tabs;
 
 const caseData = [
