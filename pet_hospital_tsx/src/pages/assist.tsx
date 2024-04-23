@@ -23,9 +23,10 @@ const assist: React.FC<{ open, setOpen }> = ({ open, setOpen }) => {
                         padding: 0,
                     },
                 }}
+                zIndex={99999}
             >
                 <ProChat
-                    style={{ background: theme.colorBgLayout }}
+                    style={{ background: theme.colorBgLayout,}}
                     helloMessage='您好，我是您的智能助教'
                     request={async (messages: Array<any>) => {
                         var ans = '消息回复失败，请重新生成'
