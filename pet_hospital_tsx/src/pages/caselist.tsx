@@ -4,8 +4,8 @@ import type { GetRef, TableColumnsType, TableColumnType } from 'antd';
 import { Button, Input, Space, Table, message } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
-import { Navigate, useNavigate ,useLocation} from 'react-router-dom';
-import { loadDataByNameAPI, loadDataByTypeAPI } from '../services/caseManage';
+import {  useNavigate ,useLocation} from 'react-router-dom';
+import {  loadDataByTypeAPI } from '../services/caseManage';
 type InputRef = GetRef<typeof Input>;
 
 interface DataType {

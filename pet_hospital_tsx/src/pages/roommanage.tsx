@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { Card, Button, Form, Input, Table, Modal, message, Space, Upload, Popconfirm, Tooltip, Spin } from 'antd'
-import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined, UndoOutlined, ZoomInOutlined } from '@ant-design/icons';
+import {  EditOutlined,  SearchOutlined, UndoOutlined, ZoomInOutlined } from '@ant-design/icons';
 import MyUpload from "../components/MyUpload";
-import { loadRoomDataAPI, loadRoomDataByIdAPI, updateRoomByIdAPI } from "../services/caseManage";
+import { loadRoomDataAPI,  updateRoomByIdAPI } from "../services/caseManage";
 import VideoUpload from "../components/VideoUpload";
-import {  setLoadingInterceptor } from '../utils/request';
 function RoomManage() {
     const [isShow, setIsShow] = useState(false);//控制添加病例的modal
     const [myForm] = Form.useForm();//获取表单元素实例
