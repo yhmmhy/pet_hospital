@@ -283,7 +283,7 @@ function CaseManage() {
                                 }
                             }
                         ]
-                    } pagination={{ defaultPageSize: 8 }} />
+                    } pagination={{ defaultPageSize: 6 }} />
             </Card>
 
             <Modal

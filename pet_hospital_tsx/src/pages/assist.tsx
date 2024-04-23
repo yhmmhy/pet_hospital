@@ -23,7 +23,6 @@ const assist: React.FC<{ open, setOpen }> = ({ open, setOpen }) => {
                         padding: 0,
                     },
                 }}
-                zIndex={99999}
             >
                 <ProChat
                     style={{ background: theme.colorBgLayout,}}
