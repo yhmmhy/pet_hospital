@@ -1,7 +1,16 @@
-import { Bar } from '@ant-design/plots';
 import React,{useEffect,useState} from 'react';
 import ReactDOM from 'react-dom';
 import axios from "axios";
+import Loadable from 'react-loadable';
+
+const Bar = Loadable({
+  loader: async () => {
+    const bar = await import('@ant-design/plots/lib/components/bar');
+    return bar;
+  },
+  loading: () => <div>Loading...</div>,
+});
+
 
 interface DataType {
   labelName: string,

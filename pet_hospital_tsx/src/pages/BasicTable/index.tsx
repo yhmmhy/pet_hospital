@@ -22,7 +22,7 @@ import "./index.css"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 import * as THREE from "three"
 import { loadRoomDataAPI } from '../../services/caseManage'
-import { Modal,Image } from 'antd'
+import { Modal, Image } from 'antd'
 
 interface MyComponentState {
   imgShow: boolean;
@@ -77,10 +77,9 @@ export default class BasicTable extends Component<{}, MyComponentState> {
     video: [],
   }
   //1代表可以访问，0代表不可以访问
-  RoleQt:Array<number> = [1, 0, 0, 0, 0, 0, 1, 0, 0,0,0,0]
-  RoleYs:Array<number> = [0, 1, 1, 1, 1, 1, 0, 1, 1,1,0,1]
-  RoleZs:Array<number> = [0, 0, 1, 0, 0, 1, 0, 1, 1,1,1,1]
-
+  RoleQt: Array<number> = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+  RoleYs: Array<number> = [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1]
+  RoleZs: Array<number> = [0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1]
 
   componentDidMount() {
     let selectElement: any = document.getElementById('characters');
@@ -401,14 +400,13 @@ export default class BasicTable extends Component<{}, MyComponentState> {
             ))}
           </div>
         </Modal>
-
         <Modal title="演示动画" open={this.state.openDH} zIndex={9999} footer={null} onCancel={() => this.handleCancel()}>
           <div className='imgContainer'>
-              {this.KeShiInfoItem.video.map((vid, index) => (
-                <video key={vid} width="480" height="320" controls>
-                  <source src={vid} type="video/mp4" />
-                </video>
-              ))}
+            {this.KeShiInfoItem.video.map((vid, index) => (
+              <video key={vid} width="480" height="320" controls>
+                <source src={vid} type="video/mp4" />
+              </video>
+            ))}
           </div>
         </Modal>
 

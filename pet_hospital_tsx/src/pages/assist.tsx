@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Drawer } from 'antd';
-import { ProChat } from '@ant-design/pro-chat';
 import { useTheme } from 'antd-style';
+import Loadable from 'react-loadable';
 import axios from 'axios';
+import { ProChat } from '@ant-design/pro-chat/es/ProChat';
+
 axios.defaults.baseURL = 'http://47.102.142.153:5000';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+
 
 const assist: React.FC<{ open, setOpen, id }> = ({ open, setOpen, id }) => {
     const theme = useTheme();
