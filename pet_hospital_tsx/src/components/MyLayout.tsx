@@ -10,12 +10,11 @@ import {
   UnorderedListOutlined,
   FileTextOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme, Dropdown, message, FloatButton } from 'antd';
-import { Divider, Space, Tour } from 'antd';
+import { Layout, Menu, Button, theme, message, FloatButton,Tour } from 'antd/lib';
 import type { TourProps } from 'antd';
 import logo from '../assets/1.ico'
 import '../index.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom/dist';
 import Login from '../pages/login'
 import cookie from 'react-cookies'
 import axios from 'axios'

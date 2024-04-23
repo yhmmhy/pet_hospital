@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Radio, Space } from 'antd';
+import { Form, Radio, Space } from 'antd/lib';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import './Question.css'
 // let data =

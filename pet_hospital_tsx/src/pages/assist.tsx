@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Drawer } from 'antd';
 import { useTheme } from 'antd-style';
-import Loadable from 'react-loadable';
 import axios from 'axios';
 import { ProChat } from '@ant-design/pro-chat/es/ProChat';
 

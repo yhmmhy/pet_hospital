@@ -1,7 +1,10 @@
-import React from "react";
+import React,{Suspense} from "react";
 import { Card, ConfigProvider, Flex } from "antd";
-import Barch from '../components/charts/Barch'
-import Piech from "../components/charts/Piech";
+
+
+const Barch = React.lazy(() => import('../components/charts/Barch'));
+const Piech = React.lazy(() => import('../components/charts/Piech'));
+
 const AdminHome: React.FC = () => {
     return (
         <ConfigProvider
@@ -19,8 +22,11 @@ const AdminHome: React.FC = () => {
                 style={{ textAlign: "center" }}
             >
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Barch />
-                    <Piech />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Barch />
+                        <Piech />
+                    </Suspense>
+
                 </div>
             </Card>
         </ConfigProvider>

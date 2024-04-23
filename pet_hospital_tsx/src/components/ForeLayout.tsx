@@ -1,8 +1,7 @@
-import React, { Children, useState, useRef, Ref ,useEffect} from 'react';
-import { Breadcrumb, Layout, Menu, theme, FloatButton, Modal, message } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
-import { Button, Divider, Space, Tour } from 'antd';
-import type { TourProps,MenuRef } from 'antd';
+import React, { useState, useRef, Suspense } from 'react';
+import { Layout, Menu, theme, FloatButton, Modal, message } from 'antd';
+import { Button, Tour } from 'antd';
+import type { TourProps } from 'antd';
 import {
   UserOutlined,
   HomeOutlined,
@@ -12,11 +11,11 @@ import {
   QuestionCircleOutlined,
   FileTextOutlined
 } from '@ant-design/icons';
-import { useLocation,useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Login from '../pages/login'
 import cookie from 'react-cookies'
-import Assist from '../pages/assist';
 
+const Assist = React.lazy(() => import('../pages/assist'));
 
 const { Header, Content, Footer } = Layout;
 function randomString(length, chars) {
@@ -27,7 +26,7 @@ function randomString(length, chars) {
 const id = randomString(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 const ForeLayout = ({ children }: any) => {
   const location = useLocation();
-  
+
   const [open, setOpen] = useState(false);
   const ref1 = useRef(null);
   const ref2 = useRef(null);
@@ -145,12 +144,14 @@ const ForeLayout = ({ children }: any) => {
       }}>
         {children}
         <FloatButton.Group shape="circle" style={{ right: 24 }}>
-        <FloatButton icon={<QuestionCircleOutlined />} type="primary" onClick={showDrawer} ref={ref2} />
-        <FloatButton icon={<FileTextOutlined />} onClick={()=>{setTourOpen(true)}} ref={ref4}/>
+          <FloatButton icon={<QuestionCircleOutlined />} type="primary" onClick={showDrawer} ref={ref2} />
+          <FloatButton icon={<FileTextOutlined />} onClick={() => { setTourOpen(true) }} ref={ref4} />
         </FloatButton.Group>
-        
-        <Assist open={open} setOpen={setOpen} id={id} />
-        <Tour open={tourOpen} onClose={()=>setTourOpen(false)} steps={steps} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Assist open={open} setOpen={setOpen} id={id} />
+        </Suspense>
+
+        <Tour open={tourOpen} onClose={() => setTourOpen(false)} steps={steps} />
       </Content>
       <Footer style={{ textAlign: 'center' }}>
         ECNU SEI ©{new Date().getFullYear()}

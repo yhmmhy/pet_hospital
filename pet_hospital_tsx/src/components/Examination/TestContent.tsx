@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Question from './Question'
-import { Form, Modal, Button } from 'antd';
+import { Form, Modal, Button } from 'antd/lib';
 import axios from 'axios';
 
 let data = [

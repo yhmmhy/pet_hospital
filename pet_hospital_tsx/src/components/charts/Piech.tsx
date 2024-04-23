@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Pie } from '@ant-design/plots';
+import Loadable from 'react-loadable';
 import axios from "axios";
 interface DataType {
   role: string,
   percent: number,
 }
+const Pie = Loadable({
+  loader: async () => {
+    const  pie= await import('@ant-design/plots/lib/components/pie');
+    return pie;
+  },
+  loading: () => <div>Loading...</div>,
+});
 
 const Piech = () => {
   axios.defaults.baseURL = 'http://47.102.142.153:5000';

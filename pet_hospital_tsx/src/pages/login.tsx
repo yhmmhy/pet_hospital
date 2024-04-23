@@ -1,12 +1,14 @@
-import { Row, Col, Card, Form, Button, message, Input, Radio, Modal, Alert, Layout, theme } from 'antd'
+import { Row, Col, Card, Form, Button, message, Input, Radio, Modal, Layout, theme } from 'antd/lib'
 import React, { useEffect, useState } from 'react';
-import type { RadioChangeEvent } from 'antd';
+import type { RadioChangeEvent } from 'antd/lib/radio';
 import logo from '../assets/1.ico'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { loginAPI } from '../services/auth';
-import { UserOutlined, LockOutlined, PhoneOutlined, MailOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom'
+import  UserOutlined  from '@ant-design/icons/UserOutlined';
+import  LockOutlined  from '@ant-design/icons/LockOutlined';
+import  PhoneOutlined  from '@ant-design/icons/PhoneOutlined';
+import  MailOutlined  from '@ant-design/icons/MailOutlined';
 import axios from 'axios'
-import { Md5 } from 'ts-md5'
+import { Md5 } from 'ts-md5/src/md5'
 import cookie from 'react-cookies'
 const { Header, Content, Footer } = Layout;
 function Login() {

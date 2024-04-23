@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import App2 from './App2.tsx'
 import zhCN from 'antd/lib/locale/zh_CN'
-import {ConfigProvider} from 'antd'
-import {HashRouter as Router,Route,Routes} from'react-router-dom'
-import Login from './pages/login.tsx'
+import ConfigProvider from 'antd/lib/config-provider'
+import {HashRouter as Router,Route,Routes} from'react-router-dom/dist'
+
+
+const Login = React.lazy(() => import('./pages/login.tsx'));
+const App = React.lazy(() => import('./App.tsx'));
+const App2 = React.lazy(() => import('./App2.tsx'));
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <Router>
