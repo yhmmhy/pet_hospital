@@ -25,7 +25,7 @@ const assist: React.FC<{ open, setOpen }> = ({ open, setOpen }) => {
                 }}
             >
                 <ProChat
-                    style={{ background: theme.colorBgLayout }}
+                    style={{ background: theme.colorBgLayout,}}
                     helloMessage='您好，我是您的智能助教'
                     request={async (messages: Array<any>) => {
                         var ans = '消息回复失败，请重新生成'

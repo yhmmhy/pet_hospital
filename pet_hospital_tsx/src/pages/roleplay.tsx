@@ -8,14 +8,12 @@ const columns = [
     title: '角色',
     dataIndex: '角色',
     key: '角色',
-    render: (text:any )=> <a>{text}</a>,
   },
 
   {
     title: '科室',
     dataIndex: '科室',
     key: '科室',
-    render: (text:any )=> <a>{text}</a>,
   },
   
   {

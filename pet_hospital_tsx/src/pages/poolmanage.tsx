@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
-import { Space, Table, Button, Input, Modal, Form, Select, Radio } from 'antd';
+import { Space, Table, Button, Input, Modal, Form, Select, Radio, message } from 'antd';
 import { EditOutlined, DeleteOutlined, FileAddOutlined, DownOutlined } from '@ant-design/icons';
 const { Column, ColumnGroup } = Table;
 const { Option } = Select;
@@ -120,6 +120,7 @@ function PoolManage() {
                 .then(response => {
                     console.log(response);
                     fetchData();
+                    message.success('添加成功')
                     // 请求成功的处理逻辑
                     // console.log('Post request successful');
                     // console.log(response)
@@ -127,6 +128,7 @@ function PoolManage() {
                 })
                 .catch(error => {
                     // 请求失败的处理逻辑
+                    message.error('重名添加失败')
                     console.error('Error while making POST request:', error);
                     // 可以在这里处理请求失败后的逻辑
                 });
@@ -165,6 +167,7 @@ function PoolManage() {
             axios.post('http://47.102.142.153:5000/admin/question/edit', newData)
                 .then(response => {
                     fetchData();
+                    message.success('修改成功')
                     // 请求成功的处理逻辑
                     // console.log('Post request successful');
                     // console.log(response)
@@ -226,9 +229,11 @@ function PoolManage() {
                 // console.log('Post request successful');
                 // console.log(response)
                 // 可以在这里处理请求成功后的逻辑
+                message.success('删除成功')
             })
             .catch(error => {
                 // 请求失败的处理逻辑
+                alert('有关联试卷，无法删除')
                 console.error('Error while making POST request:', error);
                 // 可以在这里处理请求失败后的逻辑
             });
