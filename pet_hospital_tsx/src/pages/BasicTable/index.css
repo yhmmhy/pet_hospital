@@ -187,7 +187,7 @@
     position: absolute;
     left:8%;
     top: 60%;
-    z-index: 9999;
+    z-index: 9999 ;
     font-size: large;
     color: white;
 }
