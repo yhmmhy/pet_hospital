@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react';
-import { Space, Table, Button, Input, Form, Modal, Select } from 'antd';
+import { Space, Table, Button, Input, Form, Modal, Select, message } from 'antd';
 import { EditOutlined, DeleteOutlined, FileAddOutlined } from '@ant-design/icons';
 const { Option } = Select;
 const { Column, ColumnGroup } = Table;
@@ -238,6 +238,7 @@ function ExamManage() {
                     console.log(newData)
                     axios.post('http://47.102.142.153:5000/admin/test-paper/add', newData)
                         .then(response => {
+                            message.success('添加成功')
                             fetchData();
                             // 请求成功的处理逻辑
                             // console.log('Post request successful');
@@ -246,6 +247,7 @@ function ExamManage() {
                         })
                         .catch(error => {
                             // 请求失败的处理逻辑
+                            message.error('重名添加失败')
                             console.error('Error while making POST request:', error);
                             // 可以在这里处理请求失败后的逻辑
                         });
@@ -420,6 +422,7 @@ function ExamManage() {
         axios.get(`http://47.102.142.153:5000/admin/test-paper/delete/${key}`)
             .then(response => {
                 fetchData();
+                message.success('删除成功')
                 // 请求成功的处理逻辑
                 // console.log('Post request successful');
                 // console.log(response)
